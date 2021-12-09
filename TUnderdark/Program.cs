@@ -6,7 +6,9 @@ namespace TUnderdark
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Welcome to Underdark!");
+
+            Console.ReadLine();
         }
     }
 }
