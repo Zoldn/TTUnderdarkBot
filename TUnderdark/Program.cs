@@ -34,6 +34,8 @@ namespace TUnderdark
 
             var board = new Board();
 
+            BoardInitializer.Initialize(board);
+
             TTSSaveParser.Read(json, board);
 
             Console.ReadLine();
