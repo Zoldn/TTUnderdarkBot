@@ -41,4 +41,10 @@ namespace TUnderdark.Model
         GUILE,
         INSANE,
     }
+
+    internal enum Race
+    {
+        DROW, 
+        DOPPELGANGER,
+    };
 }

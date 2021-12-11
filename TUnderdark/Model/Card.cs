@@ -1,26 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TUnderdark.AI;
 
 namespace TUnderdark.Model
 {
-    internal class CardAction
+    internal abstract class Card
     {
-
-    }
-
-    internal class Card
-    {
-        public int ManaCost { get; set; }
-        public int VP { get; set; }
-        public int PromoteVP { get; set; }
-        public CardType CardType { get; set; }
-        public string Name { get; set; }
-        public string ShortName { get; set; }
-        public List<CardAction> Actions { get; set; }
+        public abstract Race Race { get; }
+        public abstract int ManaCost { get; }
+        public abstract int VP { get; }
+        public abstract int PromoteVP { get; }
+        public abstract CardType CardType { get; }
+        public abstract string Name { get; }
+        public abstract string ShortName { get; }
+        public virtual bool IsPurchasable => true;
+        public List<CardAction> Actions { get; }
         public Card()
         {
             Actions = new();
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}";
         }
     }
 }

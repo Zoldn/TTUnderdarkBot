@@ -63,6 +63,9 @@ namespace TUnderdark.Model
 
             NeighboorIds = new List<LocationId>();
         }
+
+        
+
         public bool HasTroops(Color color) => Troops[color] > 0;
 
         public bool IsPresence(Color color) => Spies[color] 
@@ -139,6 +142,16 @@ namespace TUnderdark.Model
             }
 
             return candidate;
+        }
+
+        public bool IsOtherPlayerTroops(Player player)
+        {
+            return Troops.Any(kv => kv.Key != Color.WHITE && kv.Key != player.Color && kv.Value > 0);
+        }
+
+        internal bool IsOtherTroops(Player player)
+        {
+            return Troops.Any(kv => kv.Key != player.Color && kv.Value > 0);
         }
 
         public override string ToString()

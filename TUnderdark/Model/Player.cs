@@ -27,6 +27,7 @@ namespace TUnderdark.Model
 
         public int CurrentDeckSize => Deck.Count + Hand.Count + Discard.Count;
         public bool IsFirstPlayer { get; set; }
+        public bool IsReturnableSpies => Spies < 5;
 
         public Player(Color color)
         {
