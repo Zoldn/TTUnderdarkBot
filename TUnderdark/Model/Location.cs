@@ -7,7 +7,7 @@ namespace TUnderdark.Model
 {
     internal class Location
     {
-        public static Location MakeTunnel(LocationId id, string name)
+        public static Location MakeTunnel(LocationId id, string name, LocationId from, LocationId to)
         {
             return new Location(id)
             {
@@ -18,6 +18,7 @@ namespace TUnderdark.Model
                 BonusMana = 0,
                 ControlVPs = 0,
                 Id = id,
+                NeighboorIds = new List<LocationId>() { from, to },
             };
         }
 
@@ -35,6 +36,7 @@ namespace TUnderdark.Model
         public bool HasControlMarker => BonusMana > 0;
         public int BonusMana { get; set; }
         public HashSet<Location> Neighboors { get; set; }
+        public List<LocationId> NeighboorIds { get; set; }
         public int BonusVP { get; set; }
 
         public Location(LocationId id)
@@ -57,6 +59,8 @@ namespace TUnderdark.Model
             BonusVP = 0;
             Neighboors = new();
             IsStart = false;
+
+            NeighboorIds = new List<LocationId>();
         }
         public bool HasTroops(Color color) => Troops[color] > 0;
 

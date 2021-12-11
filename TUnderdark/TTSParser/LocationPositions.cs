@@ -80,7 +80,7 @@ namespace TUnderdark.TTSParser
                 { LocationId.Phaerlin2Yathchol, (19.0d, 20.0d, -19.0d, -18.0d) },
                 { LocationId.Yathchol, (13.0d, 17.0d, -21.0d, -15.0d) },
                 { LocationId.Yathchol2Legion, (14.0d, 15.0d, -14.0d, -13.0d) },
-                { LocationId.Yathchol2ChadNasad, (10.0d, 11.0d, -16.0d, -15.0d) },
+                { LocationId.Yathchol2ChedNasad, (10.0d, 11.0d, -16.0d, -15.0d) },
                 { LocationId.Yathchol2OldYathchol, (11.0d, 12.0d, -18.0d, -17.0d) },
                 { LocationId.OldYathchol, (9.0d, 13.0d, -25.0d, -18.5d) },
                 { LocationId.OldYathchol2Phaerlin, (14.0d, 15.0d, -23.0d, -22.0d) },
