@@ -26,6 +26,7 @@ namespace TUnderdark.Model
         public int Size { get; set; }
         public string Name { get; set; }
         public Dictionary<Color, int> Troops { get; set; }
+        public int TotalTroops => Troops.Sum(kv => kv.Value);
         public Dictionary<Color, bool> Spies { get; set; }
         public int ControlVPs { get; set; }
         public int TotalControlVPs => ControlVPs + (IsSite ? 2 : 0);
@@ -84,6 +85,11 @@ namespace TUnderdark.Model
 
         public Color? GetControlPlayer()
         {
+            if (!IsSite)
+            {
+                return null;
+            }
+
             int maxPresence = Troops.Max(kv => kv.Value);
 
             var candidates = Troops.Where(kv => kv.Value == maxPresence).ToList();
@@ -105,6 +111,11 @@ namespace TUnderdark.Model
 
         public Color? GetFullControl()
         {
+            if (!IsSite)
+            {
+                return null;
+            }
+
             var candidates = Troops
                 .Where(kv => kv.Value == Size)
                 .Select(kv => kv.Key)
@@ -128,6 +139,79 @@ namespace TUnderdark.Model
             }
 
             return candidate;
+        }
+
+        public override string ToString()
+        {
+            string troopString = "";
+            Dictionary<Color, string> unitStrings = new Dictionary<Color, string>()
+            {
+                { Color.WHITE, "W" },
+                { Color.RED, "R" },
+                { Color.YELLOW, "Y" },
+                { Color.GREEN, "G" },
+                { Color.BLUE, "B" },
+            };
+
+            foreach (var (color, count) in Troops)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    troopString = troopString + unitStrings[color];
+                }
+            }
+
+            if (TotalTroops < Size)
+            {
+                for (int i = 0; i < Size - TotalTroops; i++)
+                {
+                    troopString = troopString + "-";
+                }
+            }
+
+            if (TotalTroops > Size)
+            {
+                troopString = troopString + "OVERCROWD!";
+            }
+
+            string spyString = "";
+
+            if (IsSite)
+            {
+                spyString += "(";
+
+                foreach (var (color, isSpy) in Spies)
+                {
+                    if (isSpy)
+                    {
+                        spyString = spyString + unitStrings[color];
+                    }
+                }
+
+                spyString += ")";
+            }
+
+            
+
+            string fullControlString = "";
+
+            var fullController = GetFullControl();
+
+            if (fullController.HasValue)
+            {
+                fullControlString = $"FULL CONTROL {fullController.Value}";
+            }
+            else
+            {
+                var controller = GetControlPlayer();
+
+                if (controller.HasValue)
+                {
+                    fullControlString = $"CONTROL {controller.Value}";
+                }
+            }
+
+            return $"{Name} ({Size}/{ControlVPs}) [{troopString}] {spyString} {fullControlString}";
         }
     }
 }

@@ -44,21 +44,63 @@ namespace TUnderdark.Model
 
             foreach (var location in Locations)
             {
+                if (!location.IsSite)
+                {
+                    continue;
+                }
+
                 var controller = location.GetControlPlayer();
 
                 if (controller.HasValue)
                 {
                     controlVPs[controller.Value] += location.ControlVPs;
-                }
 
-                controller = location.GetFullControl();
+                    controller = location.GetFullControl();
 
-                if (controller.HasValue)
-                {
-                    controlVPs[controller.Value] += location.TotalControlVPs;
+                    if (controller.HasValue)
+                    {
+                        totalControlVPs[controller.Value] += 2;
+                    }
                 }
             }
 
+            Console.WriteLine("\nRESULTS:\n");
+
+            if (false)
+            {
+                Console.WriteLine("PLAYER\t|Trophy\t|Deck\t|Promote|Control|Total\t|RESULT\t|");
+
+                foreach (var (color, player) in Players)
+                {
+                    int result = player.TrophyHallVP + player.DeckVP + player.PromoteVP + controlVPs[color] + totalControlVPs[color];
+
+                    Console.WriteLine($"{color}\t|{player.TrophyHallVP}\t|" +
+                        $"{player.DeckVP}\t|" +
+                        $"{player.PromoteVP}\t|" +
+                        $"{controlVPs[color]}\t|" +
+                        $"{totalControlVPs[color]}\t|" +
+                        $"{result}\t|");
+                }
+            }
+            else
+            {
+                foreach (var (color, player) in Players)
+                {
+                    int result = player.TrophyHallVP + player.DeckVP + player.PromoteVP + controlVPs[color] + totalControlVPs[color];
+
+                    Console.WriteLine($"{color}: {player.TrophyHallVP} + " +
+                        $"{player.DeckVP} + " +
+                        $"{player.PromoteVP} + " +
+                        $"{controlVPs[color]} + " +
+                        $"{totalControlVPs[color]} = " +
+                        $"{result}");
+                }
+            }
+            
+
+
+
+            /*
             foreach (var (color, player) in Players)
             {
                 Console.WriteLine($"{color}: Trophy hall = {player.TrophyHallVP}," +
@@ -66,6 +108,21 @@ namespace TUnderdark.Model
                     $"Inner Circle = {player.PromoteVP}, " +
                     $"Controls {controlVPs[color]}, " +
                     $"Total {totalControlVPs[color]}");
+            }
+            */
+        }
+
+        public void PrintAllLocationWithColorUnits(Color color)
+        {
+            foreach (var location in Locations)
+            {
+                bool isPrint = (location.Troops[color] > 0) ||
+                    (color != Color.WHITE && location.Spies[color]);
+
+                if (isPrint)
+                {
+                    Console.WriteLine($"{location}");
+                }
             }
         }
     }

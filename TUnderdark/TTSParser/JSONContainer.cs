@@ -28,6 +28,11 @@ namespace TUnderdark.TTSParser
             ContainedObjects = new();
         }
 
+        public override string ToString()
+        {
+            return $"{GUID}, {Nickname}, {CardId}";
+        }
+
         public bool IsPositionIn(double x1, double x2, double z1, double z2)
         {
             return x1 <= Transform.posX && Transform.posX <= x2

@@ -12,9 +12,41 @@ namespace TUnderdark
         {
             Console.WriteLine("Welcome to Underdark!");
 
-            string targetDirectory = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\";
+            var board = BoardInitializer.Initialize(isWithChecks: false);
 
-            string[] fileEntries = Directory.GetFiles(targetDirectory);
+            string json = GetJson(isLastSave: false);
+
+            TTSSaveParser.Read(json, board);
+
+            board.PrintResults();
+
+            Console.ReadLine();
+        }
+
+        private static string GetJson(bool isLastSave = true)
+        {
+            if (isLastSave)
+            {
+                string targetDirectory = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\";
+
+                return GetNewestSaveFileInFolder(targetDirectory);
+            }
+            else
+            {
+                string targerSave = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\TS_Save_16.json";
+
+                return GetSaveFile(targerSave);
+            }
+        }
+
+        private static string GetSaveFile(string filePath)
+        {
+            return File.ReadAllText(filePath);
+        }
+
+        private static string GetNewestSaveFileInFolder(string folder)
+        {
+            string[] fileEntries = Directory.GetFiles(folder);
 
             var newestFilePath = fileEntries
                 .Where(f => f.Contains("TS") && f.EndsWith(".json"))
@@ -32,13 +64,7 @@ namespace TUnderdark
 
             string json = File.ReadAllText(newestFilePath);
 
-            var board = new Board();
-
-            BoardInitializer.Initialize(board);
-
-            TTSSaveParser.Read(json, board);
-
-            Console.ReadLine();
+            return json;
         }
     }
 }

@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Folder Include="AI\" />
-    <Folder Include="Interaction\" />
     <Folder Include="Model\Cards\" />
   </ItemGroup>
 

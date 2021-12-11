@@ -808,13 +808,24 @@ namespace TUnderdark.Model
             }
         }
 
-        public static void Initialize(Board board)
+        public static Board Initialize(bool isWithChecks = false)
         {
+            Console.WriteLine("Creating virtual board...");
+
+            var board = new Board();
+
             CreateLocations(board);
 
             LinkLocations(board);
 
-            TestBoardInitialization.CheckBoardCreation(board);
+            if (isWithChecks)
+            {
+                TestBoardInitialization.CheckBoardCreation(board);
+            }
+
+            Console.WriteLine("Board has created");
+
+            return board;
         }
     }
 }
