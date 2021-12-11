@@ -110,6 +110,13 @@ namespace TUnderdark.Model
         /// Перенести колоду в дискард
         /// </summary>
         public virtual bool IsMoveDeckToDiscard => false;
-
+        /// <summary>
+        /// Сожрать карту на рынке
+        /// </summary>
+        public virtual int DevoureMarket => 0;
+        /// <summary>
+        /// Дополнительные победные очки
+        /// </summary>
+        public virtual int BonusVP => 0;
     }
 }

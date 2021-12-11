@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
+using TUnderdark.Model.Cards.Dragons;
 using TUnderdark.Model.Cards.Drow;
 using TUnderdark.Model.Cards.Obedience;
 
@@ -16,8 +17,9 @@ namespace TUnderdark.TTSParser
             { new HashSet<int>() { 1042 },              () => new Noble() }, 
             { new HashSet<int>() { 1044 },              () => new Soldier() }, 
             { new HashSet<int>() { 243 },               () => new PriestessOfLolth() }, 
-            { new HashSet<int>() { 240 },               () => new Houseguard() }, 
+            { new HashSet<int>() { 240 },               () => new Houseguard() },
 
+            #region Drow
 
             { new HashSet<int>() { 211, 212 },          () => new BountyHunter() }, 
             { new HashSet<int>() { 219, 220 },          () => new DrowNegotiator() }, 
@@ -38,7 +40,34 @@ namespace TUnderdark.TTSParser
             { new HashSet<int>() { 215 },               () => new CouncilMember() }, 
             { new HashSet<int>() { 225 },               () => new Inquisitor() }, 
             { new HashSet<int>() { 228 },               () => new MasterOfSorcere() }, 
-            { new HashSet<int>() { 229 },               () => new MatronMother() }, 
+            { new HashSet<int>() { 229 },               () => new MatronMother() },
+
+            #endregion
+
+            { new HashSet<int>() { 11634, 11635, 11636 },       () => new WhiteWyrmling() },
+            { new HashSet<int>() { 11622, 11623, 11624 },       () => new Kobold() },
+            { new HashSet<int>() { 11620, 11621 },              () => new GreenWyrmling() },
+            { new HashSet<int>() { 11610, 11611, 11612, 11613 },() => new DragonCultist() },
+            { new HashSet<int>() { 11616, 11617, 11618 },       () => new EnchanterOfThay() },
+            { new HashSet<int>() { 11627, 11628 },              () => new RedWyrmling() },
+            { new HashSet<int>() { 11630, 11631, 11632 },       () => new WatcherOfThay() },
+            { new HashSet<int>() { 11604, 11605 },              () => new BlueWyrmling() },
+            { new HashSet<int>() { 11614, 11615 },              () => new Dragonclaw() },
+            { new HashSet<int>() { 11601, 11602 },              () => new BlackWyrmling() },
+            { new HashSet<int>() { 11637, 11638, 11639,  },     () => new Wyrmspeaker() },
+            { new HashSet<int>() { 11608, 11609  },             () => new CultFanatic() },
+            { new HashSet<int>() { 11606, 11607  },             () => new ClericOfLaogzed() },
+            { new HashSet<int>() { 11633 },                     () => new WhiteDragon() },
+            { new HashSet<int>() { 11600 },                     () => new BlackDragon() },
+            { new HashSet<int>() { 11603 },                     () => new BlueDragon() },
+            { new HashSet<int>() { 11619 },                     () => new GreenDragon() },
+            { new HashSet<int>() { 11625 },                     () => new RathModar() },
+            { new HashSet<int>() { 11629 },                     () => new SeverinSilrajin() },
+            { new HashSet<int>() { 11626 },                     () => new RedDragon() },
+
+            #region Dragon
+
+            #endregion
         };
     }
 }

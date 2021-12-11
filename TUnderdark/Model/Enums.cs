@@ -46,5 +46,11 @@ namespace TUnderdark.Model
     {
         DROW, 
         DOPPELGANGER,
+        DRAGON,
+        KOBOLD,
+        HUMAN,
+        DWARF,
+        HALFDRAGON,
+        TROGLODYTE,
     };
 }

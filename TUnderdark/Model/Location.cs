@@ -80,7 +80,7 @@ namespace TUnderdark.Model
                 && Troops.Where(kv => kv.Value == maxPresence).Count() == 1;
         }
 
-        public bool IsFullControl(Color color)
+        public bool IsTotalControl(Color color)
         {
             return Spies.All(kv => kv.Key == color || !kv.Value) 
                 && Troops[color] == Size;
@@ -143,6 +143,8 @@ namespace TUnderdark.Model
 
             return candidate;
         }
+
+        
 
         public bool IsOtherPlayerTroops(Player player)
         {
