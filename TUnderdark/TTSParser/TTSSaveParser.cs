@@ -31,6 +31,8 @@ namespace TUnderdark.TTSParser
 
             CheckControlSumOfUnits(board, container);
 
+            ParseTrophyHall(board, container);
+
             Console.WriteLine("Save has been loaded into virtual board");
 
             return true;
@@ -175,7 +177,55 @@ namespace TUnderdark.TTSParser
                 }
             }
 
-            Console.WriteLine("Locations parsed");
+            Console.WriteLine("Locations have parsed");
+        }
+
+        private static void ParseTrophyHall(Board board, JSONContainer container)
+        {
+            Console.WriteLine("Parsing player zones...");
+
+            foreach (var (color, player) in board.Players)
+            {
+                var coords = PlayerZonePositions.Positions[color];
+
+                var objectsInLocation = container.ObjectStates
+                    .Where(o => o.IsPositionIn(coords.X1, coords.X2, coords.Z1, coords.Z2))
+                    .ToList();
+
+                foreach (var objectInLocation in objectsInLocation)
+                {
+                    switch (objectInLocation.Nickname)
+                    {
+                        case "Unaligned Troops":
+                            player.TrophyHall[Color.WHITE] += 1;
+                            break;
+                        case "Mizzrym Troops":
+                            player.TrophyHall[Color.GREEN] += 1;
+                            break;
+                        case "Barrison Del'Armgo Troops":
+                            player.TrophyHall[Color.RED] += 1;
+                            break;
+                        case "Xorlarrin Troops":
+                            player.TrophyHall[Color.BLUE] += 1;
+                            break;
+                        case "Baenre Troops":
+                            player.TrophyHall[Color.YELLOW] += 1;
+                            break;
+                        case "1 VP":
+                            player.VPTokens += 1;
+                            break;
+                        case "5 VP":
+                            player.VPTokens += 5;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                player.TrophyHall[color] = 0;
+            }
+
+            Console.WriteLine("Player zones have parsed");
         }
     }
 }
