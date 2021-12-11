@@ -12,7 +12,7 @@ namespace TUnderdark.TTSParser
 {
     internal static class CardMapper
     {
-        public static Dictionary<HashSet<int>, Func<Card>> CardMakers = new Dictionary<HashSet<int>, Func<Card>>() 
+        public static Dictionary<HashSet<int>, Func<Card>> RawCardMakers = new Dictionary<HashSet<int>, Func<Card>>() 
         {
             { new HashSet<int>() { 1042 },              () => new Noble() }, 
             { new HashSet<int>() { 1044 },              () => new Soldier() }, 
@@ -69,5 +69,12 @@ namespace TUnderdark.TTSParser
 
             #endregion
         };
+
+        public static Dictionary<int, Func<Card>> CardMakers => RawCardMakers
+            .SelectMany(kv => kv.Key, (kv, cardId) => (CardId: cardId, Creator: kv.Value))
+            .ToDictionary(
+                kv => kv.CardId,
+                kv => kv.Creator
+            );
     }
 }

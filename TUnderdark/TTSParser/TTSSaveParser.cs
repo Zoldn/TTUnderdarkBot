@@ -33,6 +33,10 @@ namespace TUnderdark.TTSParser
 
             ParseTrophyHall(board, container);
 
+            ParseMarketCards(board, container);
+
+            ParsePlayerCards(board, container);
+
             Console.WriteLine("Save has been loaded into virtual board");
 
             return true;
@@ -229,6 +233,137 @@ namespace TUnderdark.TTSParser
             }
 
             Console.WriteLine("Player zones have parsed");
+        }
+
+        private static void ParseMarketCards(Board board, JSONContainer container)
+        {
+            Console.WriteLine("Parsing market area");
+
+            var cardMakers = CardMapper.CardMakers;
+
+            var coords = MarketZonePositions.MarketZone;
+
+            var marketCards = container.ObjectStates
+                .Where(o => o.IsPositionIn(coords.X1, coords.X2, coords.Z1, coords.Z2))
+                .ToList();
+
+            foreach (var marketCard in marketCards)
+            {
+                if (cardMakers.TryGetValue(marketCard.CardId, out var maker))
+                {
+                    board.Market.Add(maker());
+                }
+            }
+
+            coords = MarketZonePositions.Common;
+
+            var commonMarketCards = container.ObjectStates
+                .Where(o => o.IsPositionIn(coords.X1, coords.X2, coords.Z1, coords.Z2))
+                .ToList();
+
+            foreach (var marketCard in commonMarketCards)
+            {
+                if (cardMakers.TryGetValue(marketCard.CardId, out var maker))
+                {
+                    var card = maker();
+
+                    switch (card.Name)
+                    {
+                        case "Priestess of Lolth":
+                            board.Lolths += 1;
+                            break;
+                        case "Houseguard":
+                            board.HouseGuards += 1;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            coords = MarketZonePositions.Devoured;
+
+            var devouredCards = container.ObjectStates
+                .Where(o => o.IsPositionIn(coords.X1, coords.X2, coords.Z1, coords.Z2))
+                .ToList();
+
+            foreach (var devouredCard in devouredCards)
+            {
+                if (cardMakers.TryGetValue(devouredCard.CardId, out var maker))
+                {
+                    board.Devoured.Add(maker());
+                }
+            }
+
+            coords = MarketZonePositions.Deck;
+
+            var deckCards = container.ObjectStates
+                .Where(o => o.IsPositionIn(coords.X1, coords.X2, coords.Z1, coords.Z2))
+                .ToList();
+
+            foreach (var deckCard in deckCards)
+            {
+                if (deckCard.Name != "Deck")
+                {
+                    continue;
+                }
+
+                foreach (var id in deckCard.DeckIDs)
+                {
+                    if (cardMakers.TryGetValue(id, out var maker))
+                    {
+                        board.Deck.Add(maker());
+                    }
+                }
+            }
+
+            Console.WriteLine("Market area has parsed");
+        }
+
+        private static void ParsePlayerCards(Board board, JSONContainer container)
+        {
+            Console.WriteLine("Parsing player cards");
+
+            var cardMakers = CardMapper.CardMakers;
+
+            foreach (var (color, player) in board.Players)
+            {
+                PushCards(player.Deck, cardMakers, PlayerZonePositions.Decks[color], container);
+                PushCards(player.Discard, cardMakers, PlayerZonePositions.Discard[color], container);
+                PushCards(player.Hand, cardMakers, PlayerZonePositions.Hands[color], container);
+                PushCards(player.InnerCircle, cardMakers, PlayerZonePositions.InnerCircle[color], container);
+            }
+
+            Console.WriteLine("Player cards have parsed");
+        }
+
+        private static void PushCards(List<Card> target, Dictionary<int, Func<Card>> cardMakers,
+            (double X1, double X2, double Z1, double Z2) coords, JSONContainer container)
+        {
+            var elements = container.ObjectStates
+                .Where(o => o.IsPositionIn(coords.X1, coords.X2, coords.Z1, coords.Z2))
+                .ToList();
+
+            foreach (var element in elements)
+            {
+                if (element.Name == "Deck")
+                {
+                    foreach (var id in element.DeckIDs)
+                    {
+                        if (cardMakers.TryGetValue(id, out var maker))
+                        {
+                            target.Add(maker());
+                        }
+                    }
+                }
+                else
+                {
+                    if (cardMakers.TryGetValue(element.CardId, out var maker))
+                    {
+                        target.Add(maker());
+                    }
+                }
+            }
         }
     }
 }
