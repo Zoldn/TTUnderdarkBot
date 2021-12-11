@@ -607,6 +607,13 @@ namespace TUnderdark.Model
                 Name = "Everfire",
                 Size = 3,
                 IsStart = false,
+                NeighboorIds = new List<LocationId>() {
+                    LocationId.Everfire2Bridge,
+                    LocationId.Everfire2Chaulssin,
+                    LocationId.Everfire2Menzoberranzan,
+                    LocationId.Phaerlin2Everfire,
+                    LocationId.Legion2Everfire,
+                }
             }
                  );
 
@@ -703,7 +710,7 @@ namespace TUnderdark.Model
                 );
 
             board.Locations.Add(
-               Location.MakeTunnel(LocationId.Yathchol2ChedNasad, "Yathchol2ChadNasad",
+               Location.MakeTunnel(LocationId.Yathchol2ChedNasad, "Yathchol2ChedNasad",
                LocationId.Yathchol, LocationId.ChedNasad)
                );
 
@@ -787,9 +794,25 @@ namespace TUnderdark.Model
                 LocationId.Ruins, LocationId.ChedNasad)
                 );
         }
+
+        private static void LinkLocations(Board board)
+        {
+            var dict = board.Locations
+                .ToDictionary(l => l.Id);
+
+            foreach (var location in board.Locations)
+            {
+                location.Neighboors = location.NeighboorIds
+                    .Select(id => dict[id])
+                    .ToHashSet();
+            }
+        }
+
         public static void Initialize(Board board)
         {
             CreateLocations(board);
+
+            LinkLocations(board);
 
             TestBoardInitialization.CheckBoardCreation(board);
         }

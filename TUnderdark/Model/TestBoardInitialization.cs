@@ -13,6 +13,23 @@ namespace TUnderdark.Model
             CheckNames(board);
 
             CheckLocationProperties(board);
+
+            CheckCohesion(board);
+        }
+
+        private static void CheckCohesion(Board board)
+        {
+            Console.WriteLine("Checking cohesion");
+            foreach (var location in board.Locations)
+            {
+                foreach (var neighboor in location.Neighboors)
+                {
+                    if (!neighboor.Neighboors.Contains(location))
+                    {
+                        Console.WriteLine($"Failed link {location.Name} <X==> {neighboor.Name}");
+                    }
+                }
+            }
         }
 
         private static void CheckLocationProperties(Board board)
