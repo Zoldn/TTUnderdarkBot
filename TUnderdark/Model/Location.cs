@@ -17,7 +17,6 @@ namespace TUnderdark.Model
                 IsStart = false,
                 BonusMana = 0,
                 ControlVPs = 0,
-                HasControlMarker = false,
                 Id = id,
             };
         }
@@ -33,9 +32,11 @@ namespace TUnderdark.Model
         public bool IsStart { get; set; }
         public bool IsTunnel => !IsSite;
         public bool IsSpyPlacable => !IsTunnel;
-        public bool HasControlMarker { get; set; }
+        public bool HasControlMarker => BonusMana > 0;
         public int BonusMana { get; set; }
         public HashSet<Location> Neighboors { get; set; }
+        public int BonusVP { get; set; }
+
         public Location(LocationId id)
         {
             Id = id;
@@ -51,9 +52,9 @@ namespace TUnderdark.Model
                 .ToDictionary(c => c, c => false);
 
             ControlVPs = 0;
-            IsSite = false;
-            HasControlMarker = false;
+            IsSite = true;
             BonusMana = 0;
+            BonusVP = 0;
             Neighboors = new();
             IsStart = false;
         }
