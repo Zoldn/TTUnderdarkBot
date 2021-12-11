@@ -34,7 +34,7 @@ namespace TUnderdark.Model
             InsaneOutcats = 30;
         }
 
-        public void PrintResults()
+        public void PrintResults(bool isMonoSpaceFormat = false)
         {
             Dictionary<Color, int> controlVPs = Players
                 .ToDictionary(c => c.Key, c => 0);
@@ -66,7 +66,7 @@ namespace TUnderdark.Model
 
             Console.WriteLine("\nRESULTS:\n");
 
-            if (false)
+            if (isMonoSpaceFormat)
             {
                 Console.WriteLine("PLAYER\t|Trophy\t|Deck\t|Promote|Control|Total\t|RESULT\t|");
 

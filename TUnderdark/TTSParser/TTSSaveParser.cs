@@ -186,7 +186,7 @@ namespace TUnderdark.TTSParser
 
             foreach (var (color, player) in board.Players)
             {
-                var coords = PlayerZonePositions.Positions[color];
+                var coords = PlayerZonePositions.Zones[color];
 
                 var objectsInLocation = container.ObjectStates
                     .Where(o => o.IsPositionIn(coords.X1, coords.X2, coords.Z1, coords.Z2))
@@ -216,6 +216,9 @@ namespace TUnderdark.TTSParser
                             break;
                         case "5 VP":
                             player.VPTokens += 5;
+                            break;
+                        case "First Player marker":
+                            player.IsFirstPlayer = true;
                             break;
                         default:
                             break;

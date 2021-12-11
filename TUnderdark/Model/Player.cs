@@ -26,6 +26,7 @@ namespace TUnderdark.Model
         public int VP => DeckVP + PromoteVP + TrophyHallVP;
 
         public int CurrentDeckSize => Deck.Count + Hand.Count + Discard.Count;
+        public bool IsFirstPlayer { get; set; }
 
         public Player(Color color)
         {
@@ -42,6 +43,8 @@ namespace TUnderdark.Model
             VPTokens = 0;
             Spies = 5;
             Troops = 40;
+
+            IsFirstPlayer = false;
         }
     }
 }
