@@ -12,7 +12,7 @@ namespace TUnderdark
         {
             Console.WriteLine("Welcome to Underdark!");
 
-            var board = BoardInitializer.Initialize(isWithChecks: false);
+            var board = BoardInitializer.Initialize(isWithChecks: true);
 
             string json = GetJson(isLastSave: false);
 
@@ -33,7 +33,7 @@ namespace TUnderdark
             }
             else
             {
-                string targerSave = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\TS_Save_18.json";
+                string targerSave = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\TS_Save_19.json";
 
                 return GetSaveFile(targerSave);
             }

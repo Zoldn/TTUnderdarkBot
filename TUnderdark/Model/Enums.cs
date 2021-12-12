@@ -52,5 +52,14 @@ namespace TUnderdark.Model
         DWARF,
         HALFDRAGON,
         TROGLODYTE,
+        UNDEAD,
+        DEMON,
+        SHAPECHANGER,
+        DERRO,
+        FIEND,
+        MICONYD,
+        GIANT,
+        ILLITHID,
+        ABERRATION,
     };
 }
