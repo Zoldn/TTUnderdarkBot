@@ -53,7 +53,6 @@ namespace TUnderdark.Model
         HALFDRAGON,
         TROGLODYTE,
         UNDEAD,
-        DEMON,
         SHAPECHANGER,
         DERRO,
         FIEND,
@@ -63,5 +62,8 @@ namespace TUnderdark.Model
         ABERRATION,
         MONSTROSITY,
         CONSTRUCT,
+        GRIMLOCK,
+        BEAST,
+        QUAGGOTH,
     };
 }

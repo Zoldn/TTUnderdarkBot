@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
+using TUnderdark.Model.Cards.Aberrations;
 using TUnderdark.Model.Cards.Demons;
 using TUnderdark.Model.Cards.Dragons;
 using TUnderdark.Model.Cards.Drow;
@@ -120,9 +121,33 @@ namespace TUnderdark.TTSParser
             { new HashSet<int>() { 11800 },                     () => new Revenant() },
             { new HashSet<int>() { 11733 },                     () => new HighPriestOfMyrkul() },
             { new HashSet<int>() { 11732 },                     () => new Lich() },
-            
-            #endregion
 
+            #endregion
+            #region Aberrations
+
+            { new HashSet<int>() { 11817 },                     () => new Gauth() },
+            { new HashSet<int>() { 11807 },                     () => new BrainwashedSlave() },
+            { new HashSet<int>() { 11818 },                     () => new Spectator() },
+            { new HashSet<int>() { 11812 },                     () => new Grimlock() },
+            { new HashSet<int>() { 11816 },                     () => new MindWitness() },
+            { new HashSet<int>() { 11814 },                     () => new CraniumRats() },
+            { new HashSet<int>() { 11803 },                     () => new IntellectDevourer() },
+            { new HashSet<int>() { 11808 },                     () => new Nothic() },
+            { new HashSet<int>() { 11809 },                     () => new Cloaker() },
+            { new HashSet<int>() { 11804 },                     () => new Ambassador() },
+            { new HashSet<int>() { 11806 },                     () => new Chuul() },
+            { new HashSet<int>() { 11811 },                     () => new Quaggoth() },
+            { new HashSet<int>() { 11939 },                     () => new UmberHulk() },
+            { new HashSet<int>() { 11802 },                     () => new Puppeteer() },
+            { new HashSet<int>() { 11805 },                     () => new Aboleth() },
+            { new HashSet<int>() { 11813 },                     () => new DeathTyrant() },
+            { new HashSet<int>() { 11810 },                     () => new Neogi() },
+            { new HashSet<int>() { 11801 },                     () => new Ulitharid() },
+            { new HashSet<int>() { 11815 },                     () => new Beholder() },
+            { new HashSet<int>() { 11738 },                     () => new ElderBrain() },
+            
+
+            #endregion
         };
 
         public static Dictionary<int, Func<Card>> CardMakers => RawCardMakers
