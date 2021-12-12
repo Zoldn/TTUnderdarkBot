@@ -65,5 +65,10 @@ namespace TUnderdark.Model
         GRIMLOCK,
         BEAST,
         QUAGGOTH,
+        ELEMENTAL,
+        ELF,
+        MEDUSA,
+        TIEFLING,
+        ELEMENTALPRINCE,
     };
 }

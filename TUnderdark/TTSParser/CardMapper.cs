@@ -8,6 +8,7 @@ using TUnderdark.Model.Cards.Aberrations;
 using TUnderdark.Model.Cards.Demons;
 using TUnderdark.Model.Cards.Dragons;
 using TUnderdark.Model.Cards.Drow;
+using TUnderdark.Model.Cards.Elementals;
 using TUnderdark.Model.Cards.Obedience;
 using TUnderdark.Model.Cards.Undeads;
 
@@ -145,7 +146,30 @@ namespace TUnderdark.TTSParser
             { new HashSet<int>() { 11801 },                     () => new Ulitharid() },
             { new HashSet<int>() { 11815 },                     () => new Beholder() },
             { new HashSet<int>() { 11738 },                     () => new ElderBrain() },
-            
+            #endregion
+
+            #region Elementals
+
+            { new HashSet<int>() { 27501, 27502, 27503, 27504 },() => new AirElemental() },
+            { new HashSet<int>() { 27511, 27512, 27513,  },     () => new CrushingWaveCultist() },
+            { new HashSet<int>() { 27521, 27522, 27523,  },     () => new FireElemental() },
+            { new HashSet<int>() { 27518, 27519, 27520,  },     () => new EternalFlameCultist() },
+            { new HashSet<int>() { 27534, 27535, 27536,  },     () => new WaterElemental() },
+            { new HashSet<int>() { 27507, 27508, 27509, 27510 },() => new BlackEarthCultist() },
+            { new HashSet<int>() { 27527, 27528 },              () => new HowlingHatredCultist() },
+            { new HashSet<int>() { 27537, 27538 },              () => new WaterElementalMyrmidon() },
+            { new HashSet<int>() { 27526 },                     () => new GarShatterkeel() },
+            { new HashSet<int>() { 27500 },                     () => new AerisiKalinoth() },
+            { new HashSet<int>() { 27530 },                     () => new MarlosUrnrayle() },
+            { new HashSet<int>() { 27533 },                     () => new Vanifer() },
+            { new HashSet<int>() { 27525, 27524 },              () => new FireElementalMyrmidon() },
+            { new HashSet<int>() { 27514, 27515 },              () => new EarthElemental() },
+            { new HashSet<int>() { 27505, 27506 },              () => new AirElementalMyrmidon() },
+            { new HashSet<int>() { 27516, 27517 },              () => new EarthElementalMyrmidon() },
+            { new HashSet<int>() { 27531 },                     () => new Ogremoch() },
+            { new HashSet<int>() { 27529 },                     () => new Imix() },
+            { new HashSet<int>() { 27539 },                     () => new YanCBin() },
+            { new HashSet<int>() { 27532 },                     () => new Olhydra() },
 
             #endregion
         };
