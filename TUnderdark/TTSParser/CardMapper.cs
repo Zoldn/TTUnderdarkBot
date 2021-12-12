@@ -8,6 +8,7 @@ using TUnderdark.Model.Cards.Demons;
 using TUnderdark.Model.Cards.Dragons;
 using TUnderdark.Model.Cards.Drow;
 using TUnderdark.Model.Cards.Obedience;
+using TUnderdark.Model.Cards.Undeads;
 
 namespace TUnderdark.TTSParser
 {
@@ -96,6 +97,32 @@ namespace TUnderdark.TTSParser
             { new HashSet<int>() { 241 },                       () => new InsaneOutcast() },
 
             #endregion
+
+            #region Undeads
+
+            { new HashSet<int>() { 11731 },                     () => new OgreZombie() },
+            { new HashSet<int>() { 11722 },                     () => new Conjurer() },
+            { new HashSet<int>() { 11724 },                     () => new Wight() },
+            { new HashSet<int>() { 11719 },                     () => new Banshee() },
+            { new HashSet<int>() { 11727 },                     () => new CultistOfMyrkul() },
+            { new HashSet<int>() { 11735 },                     () => new MinotuarSkeleton() },
+            { new HashSet<int>() { 11730 },                     () => new Wraith() },
+            { new HashSet<int>() { 11737 },                     () => new CarrionCrawler() },
+            { new HashSet<int>() { 11729 },                     () => new SkeletalHorde() },
+            { new HashSet<int>() { 11726 },                     () => new RavenousZombie() },
+            { new HashSet<int>() { 11720 },                     () => new VampireSpawn() },
+            { new HashSet<int>() { 11736 },                     () => new FleshGolem() },
+            { new HashSet<int>() { 11723 },                     () => new Ghost() },
+            { new HashSet<int>() { 11734 },                     () => new Necromancer() },
+            { new HashSet<int>() { 11728 },                     () => new Vampire() },
+            { new HashSet<int>() { 11725 },                     () => new MummyLord() },
+            { new HashSet<int>() { 11721 },                     () => new DeathKnight() },
+            { new HashSet<int>() { 11800 },                     () => new Revenant() },
+            { new HashSet<int>() { 11733 },                     () => new HighPriestOfMyrkul() },
+            { new HashSet<int>() { 11732 },                     () => new Lich() },
+            
+            #endregion
+
         };
 
         public static Dictionary<int, Func<Card>> CardMakers => RawCardMakers

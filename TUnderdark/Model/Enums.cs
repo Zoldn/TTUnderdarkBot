@@ -61,5 +61,7 @@ namespace TUnderdark.Model
         GIANT,
         ILLITHID,
         ABERRATION,
+        MONSTROSITY,
+        CONSTRUCT,
     };
 }
