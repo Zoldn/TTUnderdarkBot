@@ -183,8 +183,8 @@ namespace TUnderdark.Model.Cards.Elementals
 
         }
         public override int ManaCost => 4;
-        public override int VP => 2;
-        public override int PromoteVP => 4;
+        public override int VP => 1;
+        public override int PromoteVP => 3;
         public override CardType CardType => CardType.MALICE;
         public override string Name => "Fire Elemental Myrmidon";
         public override string ShortName => "FEM";
