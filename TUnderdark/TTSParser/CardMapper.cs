@@ -119,7 +119,7 @@ namespace TUnderdark.TTSParser
             { new HashSet<int>() { 11728 },                     () => new Vampire() },
             { new HashSet<int>() { 11725 },                     () => new MummyLord() },
             { new HashSet<int>() { 11721 },                     () => new DeathKnight() },
-            { new HashSet<int>() { 11800 },                     () => new Revenant() },
+            { new HashSet<int>() { 11738 },                     () => new Revenant() },
             { new HashSet<int>() { 11733 },                     () => new HighPriestOfMyrkul() },
             { new HashSet<int>() { 11732 },                     () => new Lich() },
 
@@ -145,7 +145,7 @@ namespace TUnderdark.TTSParser
             { new HashSet<int>() { 11810 },                     () => new Neogi() },
             { new HashSet<int>() { 11801 },                     () => new Ulitharid() },
             { new HashSet<int>() { 11815 },                     () => new Beholder() },
-            { new HashSet<int>() { 11738 },                     () => new ElderBrain() },
+            { new HashSet<int>() { 11800 },                     () => new ElderBrain() },
             #endregion
 
             #region Elementals

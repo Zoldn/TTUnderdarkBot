@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TUnderdark.Output;
 
 namespace TUnderdark.Model
 {
@@ -110,6 +111,143 @@ namespace TUnderdark.Model
                     $"Total {totalControlVPs[color]}");
             }
             */
+        }
+
+        internal List<ResultRecord> GetResults(int turn, Dictionary<Color, string> playerNames)
+        {
+            Dictionary<Color, int> controlVPs = Players
+                .ToDictionary(c => c.Key, c => 0);
+
+            Dictionary<Color, int> totalControlVPs = Players
+                .ToDictionary(c => c.Key, c => 0);
+
+            foreach (var location in Locations)
+            {
+                if (!location.IsSite)
+                {
+                    continue;
+                }
+
+                var controller = location.GetControlPlayer();
+
+                if (controller.HasValue)
+                {
+                    controlVPs[controller.Value] += location.ControlVPs;
+
+                    controller = location.GetFullControl();
+
+                    if (controller.HasValue)
+                    {
+                        totalControlVPs[controller.Value] += 2;
+                    }
+                }
+            }
+
+            DateTime timeStamp = DateTime.Now;
+
+            var results = new List<ResultRecord>();
+
+            foreach (var (color, player) in Players)
+            {
+                results.Add(new ResultRecord()
+                {
+                    Color = color,
+                    Name = playerNames[color],
+                    TimeStamp = timeStamp,
+                    Turn = turn,
+                    Statictic = ResultRecordStatictic.CONTROL_VP,
+                    Value = controlVPs[color],
+                });
+
+                results.Add(new ResultRecord()
+                {
+                    Color = color,
+                    Name = playerNames[color],
+                    TimeStamp = timeStamp,
+                    Turn = turn,
+                    Statictic = ResultRecordStatictic.TOTAL_CONTROL_VP,
+                    Value = totalControlVPs[color],
+                });
+
+                results.Add(new ResultRecord()
+                {
+                    Color = color,
+                    Name = playerNames[color],
+                    TimeStamp = timeStamp,
+                    Turn = turn,
+                    Statictic = ResultRecordStatictic.TROPHY_HALL_VP,
+                    Value = player.TrophyHallVP,
+                });
+
+                results.Add(new ResultRecord()
+                {
+                    Color = color,
+                    Name = playerNames[color],
+                    TimeStamp = timeStamp,
+                    Turn = turn,
+                    Statictic = ResultRecordStatictic.DECK_VP,
+                    Value = player.DeckVP,
+                });
+
+                results.Add(new ResultRecord()
+                {
+                    Color = color,
+                    Name = playerNames[color],
+                    TimeStamp = timeStamp,
+                    Turn = turn,
+                    Statictic = ResultRecordStatictic.INNER_CIRCLE_VP,
+                    Value = player.PromoteVP,
+                });
+
+                results.Add(new ResultRecord()
+                {
+                    Color = color,
+                    Name = playerNames[color],
+                    TimeStamp = timeStamp,
+                    Turn = turn,
+                    Statictic = ResultRecordStatictic.TOTAL_VP,
+                    Value = player.PromoteVP + player.DeckVP + player.TrophyHallVP + controlVPs[color] + totalControlVPs[color],
+                });
+
+                results.Add(new ResultRecord()
+                {
+                    Color = color,
+                    Name = playerNames[color],
+                    TimeStamp = timeStamp,
+                    Turn = turn,
+                    Statictic = ResultRecordStatictic.INSANE_OUTCASTS,
+                    Value = player.Deck.Where(c => c.CardType == CardType.INSANE).Count() +
+                        player.Hand.Where(c => c.CardType == CardType.INSANE).Count() +
+                        player.Discard.Where(c => c.CardType == CardType.INSANE).Count(),
+                });
+
+                results.Add(new ResultRecord()
+                {
+                    Color = color,
+                    Name = playerNames[color],
+                    TimeStamp = timeStamp,
+                    Turn = turn,
+                    Statictic = ResultRecordStatictic.DECK_COUNT,
+                    Value = player.Deck.Count() +
+                        player.Hand.Count() +
+                        player.Discard.Count(),
+                });
+
+                results.Add(new ResultRecord()
+                {
+                    Color = color,
+                    Name = playerNames[color],
+                    TimeStamp = timeStamp,
+                    Turn = turn,
+                    Statictic = ResultRecordStatictic.TOTAL_MP_COST,
+                    Value = player.Deck.Sum(c => c.ManaCost) +
+                        player.Hand.Sum(c => c.ManaCost) +
+                        player.Discard.Sum(c => c.ManaCost) +
+                        player.InnerCircle.Sum(c => c.ManaCost),
+                });
+            }
+
+            return results;
         }
 
         public void PrintAllLocationWithColorUnits(Color color)

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TUnderdark.Interaction;
 using TUnderdark.Model;
 using TUnderdark.TTSParser;
 
@@ -12,28 +14,54 @@ namespace TUnderdark
         {
             Console.WriteLine("Welcome to Underdark!");
 
-            var board = BoardInitializer.Initialize(isWithChecks: true);
+            var board = BoardInitializer.Initialize(isWithChecks: false);
 
-            string json = GetJson(isLastSave: false);
+            string json = GetJson(isLastSave: true);
 
             TTSSaveParser.Read(json, board);
 
             board.PrintResults();
 
+            //RunTracker();
+
             Console.ReadLine();
+        }
+
+        private static void RunTracker()
+        {
+            //var saveFile = GetJson(false);
+
+            var playerNames = new Dictionary<Color, string>()
+            {
+                { Color.RED, "Epic" },
+                { Color.YELLOW, "Nyamka" },
+                { Color.GREEN, "msnk" },
+                { Color.BLUE, "Раскрученная преданностъ" },
+            };
+
+            Console.WriteLine("\nTracker has started!\n");
+
+            var saveFile = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\TS_Save_23.json";
+
+            var partyTracker = new PartyTracker(saveFile, playerNames);
+
+            partyTracker.Start();
         }
 
         private static string GetJson(bool isLastSave = true)
         {
+            var pathToUserFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
             if (isLastSave)
             {
-                string targetDirectory = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\";
-
+                //string targetDirectory = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\";
+                string targetDirectory = pathToUserFolder + @"\Documents\My Games\Tabletop Simulator\Saves\";
                 return GetNewestSaveFileInFolder(targetDirectory);
             }
             else
             {
-                string targerSave = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\TS_Save_16.json";
+                //string targerSave = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\TS_Save_28.json";
+                string targerSave = pathToUserFolder + @"\Documents\My Games\Tabletop Simulator\Saves\TS_Save_28.json";
 
                 return GetSaveFile(targerSave);
             }
