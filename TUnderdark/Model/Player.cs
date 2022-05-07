@@ -29,6 +29,8 @@ namespace TUnderdark.Model
         public bool IsFirstPlayer { get; set; }
         public bool IsReturnableSpies => Spies < 5;
 
+        public string Name { get; set; }
+
         public Player(Color color)
         {
             Color = color;
@@ -46,6 +48,8 @@ namespace TUnderdark.Model
             Troops = 40;
 
             IsFirstPlayer = false;
+
+            Name = color.ToString();
         }
     }
 }

@@ -37,9 +37,57 @@ namespace TUnderdark.TTSParser
 
             ParsePlayerCards(board, container);
 
+            ParsePlayerNames(board, container);
+
             Console.WriteLine("Save has been loaded into virtual board");
 
             return true;
+        }
+
+        internal class PlayerNameRecord
+        {
+            public string Name { get; set; }
+            public string Color { get; set; }
+        }
+
+        private static void ParsePlayerNames(Board board, JSONContainer container)
+        {
+            var firstPlayerMarker = container
+                .ObjectStates
+                .FirstOrDefault(o => o.GUID == "8a56cd");
+
+            if (firstPlayerMarker == null)
+            {
+                return;
+            }
+
+            var json = firstPlayerMarker.Description;
+
+            var parsedPlayerColors = JsonConvert.DeserializeObject<List<PlayerNameRecord>>(json);
+
+            var colorNamesToEnum = new Dictionary<string, Color>()
+            {
+                { "Red", Color.RED },
+                { "Yellow", Color.YELLOW },
+                { "Green", Color.GREEN },
+                { "Blue", Color.BLUE },
+            };
+
+            var colorToNames = parsedPlayerColors
+                .Where(e => colorNamesToEnum.ContainsKey(e.Color))
+                .ToDictionary(e => colorNamesToEnum[e.Color], e => e.Name);
+
+            foreach (var (color, player) in board.Players)
+            {
+                if (colorToNames.TryGetValue(color, out var name))
+                {
+                    player.Name = name;
+                }
+                else 
+                {
+                    player.Name = color.ToString();
+                }
+            }
         }
 
         private static void CheckControlSumOfUnits(Board board, JSONContainer container)

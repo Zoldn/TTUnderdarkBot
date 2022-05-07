@@ -75,7 +75,7 @@ namespace TUnderdark.Model
                 {
                     int result = player.TrophyHallVP + player.DeckVP + player.PromoteVP + controlVPs[color] + totalControlVPs[color];
 
-                    Console.WriteLine($"{color}\t|{player.TrophyHallVP}\t|" +
+                    Console.WriteLine($"{player.Name}\t|{player.TrophyHallVP}\t|" +
                         $"{player.DeckVP}\t|" +
                         $"{player.PromoteVP}\t|" +
                         $"{controlVPs[color]}\t|" +
@@ -89,7 +89,7 @@ namespace TUnderdark.Model
                 {
                     int result = player.TrophyHallVP + player.DeckVP + player.PromoteVP + controlVPs[color] + totalControlVPs[color];
 
-                    Console.WriteLine($"{color}: {player.TrophyHallVP} + " +
+                    Console.WriteLine($"{player.Name}: {player.TrophyHallVP} + " +
                         $"{player.DeckVP} + " +
                         $"{player.PromoteVP} + " +
                         $"{controlVPs[color]} + " +

@@ -16,7 +16,7 @@ namespace TUnderdark
 
             var board = BoardInitializer.Initialize(isWithChecks: false);
 
-            string json = GetJson(isLastSave: true);
+            string json = GetJson(isLastSave: false);
 
             TTSSaveParser.Read(json, board);
 
@@ -61,7 +61,7 @@ namespace TUnderdark
             else
             {
                 //string targerSave = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\TS_Save_28.json";
-                string targerSave = pathToUserFolder + @"\Documents\My Games\Tabletop Simulator\Saves\TS_Save_28.json";
+                string targerSave = pathToUserFolder + @"\Documents\My Games\Tabletop Simulator\Saves\TS_Save_45.json";
 
                 return GetSaveFile(targerSave);
             }
