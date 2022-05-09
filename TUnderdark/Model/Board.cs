@@ -35,8 +35,10 @@ namespace TUnderdark.Model
             InsaneOutcats = 30;
         }
 
-        public void PrintResults(bool isMonoSpaceFormat = false)
+        public string PrintResults(bool isMonoSpaceFormat = false)
         {
+            var ret = string.Empty;
+
             Dictionary<Color, int> controlVPs = Players
                 .ToDictionary(c => c.Key, c => 0);
 
@@ -69,11 +71,19 @@ namespace TUnderdark.Model
 
             if (isMonoSpaceFormat)
             {
+                ret += "PLAYER\t|Trophy\t|Deck\t|Promote|Control|Total\t|RESULT\t|\n";
                 Console.WriteLine("PLAYER\t|Trophy\t|Deck\t|Promote|Control|Total\t|RESULT\t|");
 
                 foreach (var (color, player) in Players)
                 {
                     int result = player.TrophyHallVP + player.DeckVP + player.PromoteVP + controlVPs[color] + totalControlVPs[color];
+
+                    ret += $"{player.Name}\t|{player.TrophyHallVP}\t|" +
+                        $"{player.DeckVP}\t|" +
+                        $"{player.PromoteVP}\t|" +
+                        $"{controlVPs[color]}\t|" +
+                        $"{totalControlVPs[color]}\t|" +
+                        $"{result}\t|\n";
 
                     Console.WriteLine($"{player.Name}\t|{player.TrophyHallVP}\t|" +
                         $"{player.DeckVP}\t|" +
@@ -85,21 +95,66 @@ namespace TUnderdark.Model
             }
             else
             {
-                foreach (var (color, player) in Players)
+                int largestNameSize = Math.Max(6, Players.Max(e => e.Value.Name.Length));
+
+                ret += "`Results are:\n";
+
+                //Console.WriteLine($"{AddSpacesToSize("Player", largestNameSize)}|Trophy\t|Deck\t|Promote|Control|Total\t|RESULT\t|");
+                Console.WriteLine($"RESULT\tTrophy\tDeck\tPromote\tControl\tTotal\tPlayer");
+                //ret += $"`RESULT = Trophy + Deck + Promote + Control + TotalControl\n";
+                ret += $"{AddSpacesToSize("Name", largestNameSize + 3)}" +
+                    $"{AddSpacesToSize("Score", 8)}" +
+                    $"{AddSpacesToSize("Trophy", 8)}" +
+                    $"{AddSpacesToSize("Deck", 8)}" +
+                    $"{AddSpacesToSize("Promote", 8)}" +
+                    $"{AddSpacesToSize("Control", 8)}" +
+                    $"{AddSpacesToSize("TotalControl", 12)}\n";
+
+                foreach (var (color, player) in Players
+                    .OrderByDescending(p => p.Value.TrophyHallVP + p.Value.DeckVP + p.Value.PromoteVP + controlVPs[p.Key] + totalControlVPs[p.Key])
+                    .ToDictionary(kv => kv.Key, kv => kv.Value))
                 {
                     int result = player.TrophyHallVP + player.DeckVP + player.PromoteVP + controlVPs[color] + totalControlVPs[color];
 
+                    /*
                     Console.WriteLine($"{player.Name}: {player.TrophyHallVP} + " +
                         $"{player.DeckVP} + " +
                         $"{player.PromoteVP} + " +
                         $"{controlVPs[color]} + " +
                         $"{totalControlVPs[color]} = " +
                         $"{result}");
+                    */
+
+                    Console.WriteLine(
+                        $"{result} = " +
+                        $"{player.TrophyHallVP} + \t" +
+                        $"{player.DeckVP} + \t" +
+                        $"{player.PromoteVP} + \t" +
+                        $"{controlVPs[color]} + \t" +
+                        $"{totalControlVPs[color]} \t  " +
+                        $"\t{player.Name}");
+
+                    /*
+                    ret += $"{result} = " +
+                        $"\t{player.TrophyHallVP} + " +
+                        $"\t{player.DeckVP} + " +
+                        $"\t{player.PromoteVP} + " +
+                        $"\t{controlVPs[color]} + " +
+                        $"\t{totalControlVPs[color]}" +
+                        $"\t{player.Name}\n";
+                    */
+
+                    ret += $"{AddSpacesToSize(player.Name, largestNameSize + 3)}" +
+                        $"{AddSpacesToSize(result, 8)}" +
+                        $"{AddSpacesToSize(player.TrophyHallVP, 8)}" +
+                        $"{AddSpacesToSize(player.DeckVP, 8)}" +
+                        $"{AddSpacesToSize(player.PromoteVP, 8)}" +
+                        $"{AddSpacesToSize(controlVPs[color], 8)}" +
+                        $"{AddSpacesToSize(totalControlVPs[color], 12)}\n";
                 }
+
+                ret += "`";
             }
-            
-
-
 
             /*
             foreach (var (color, player) in Players)
@@ -111,6 +166,23 @@ namespace TUnderdark.Model
                     $"Total {totalControlVPs[color]}");
             }
             */
+
+            return ret;
+        }
+
+        private string AddSpacesToSize(string s, int length)
+        {
+            int spaceCount = length - s.Length;
+            if (spaceCount > 0)
+            {
+                var spaces = new string(' ', spaceCount);
+                return s + spaces;
+            }
+            return s;
+        }
+        private string AddSpacesToSize(int s, int length)
+        {
+            return AddSpacesToSize(s.ToString(), length);
         }
 
         internal List<ResultRecord> GetResults(int turn, Dictionary<Color, string> playerNames)

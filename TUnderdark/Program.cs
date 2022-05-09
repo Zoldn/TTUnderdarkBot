@@ -48,7 +48,7 @@ namespace TUnderdark
             partyTracker.Start();
         }
 
-        private static string GetJson(bool isLastSave = true)
+        public static string GetJson(bool isLastSave = true)
         {
             var pathToUserFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
