@@ -63,7 +63,8 @@ namespace TUnderdark.TTSParser
 
             var json = firstPlayerMarker.Description;
 
-            var parsedPlayerColors = JsonConvert.DeserializeObject<List<PlayerNameRecord>>(json);
+            var parsedPlayerColors = JsonConvert.DeserializeObject<List<PlayerNameRecord>>(json) ??
+                new List<PlayerNameRecord>();
 
             var colorNamesToEnum = new Dictionary<string, Color>()
             {

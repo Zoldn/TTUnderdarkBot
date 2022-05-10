@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TUnderdark.Config;
 using TUnderdark.Interaction;
 using TUnderdark.Model;
 using TUnderdark.TTSParser;
@@ -16,7 +17,7 @@ namespace TUnderdark
 
             var board = BoardInitializer.Initialize(isWithChecks: false);
 
-            string json = GetJson(isLastSave: false);
+            string json = GetJson(isLastSave: true);
 
             TTSSaveParser.Read(json, board);
 
@@ -50,18 +51,22 @@ namespace TUnderdark
 
         public static string GetJson(bool isLastSave = true)
         {
-            var pathToUserFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var config = Configuration.LoadFromFile();
+
+            //var pathToUserFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
             if (isLastSave)
             {
                 //string targetDirectory = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\";
-                string targetDirectory = pathToUserFolder + @"\Documents\My Games\Tabletop Simulator\Saves\";
+                //string targetDirectory = pathToUserFolder + @"\Documents\My Games\Tabletop Simulator\Saves\";
+                string targetDirectory = config.PathToSaveFiles;
                 return GetNewestSaveFileInFolder(targetDirectory);
             }
             else
             {
                 //string targerSave = @"C:\Users\User\Documents\My Games\Tabletop Simulator\Saves\TS_Save_28.json";
-                string targerSave = pathToUserFolder + @"\Documents\My Games\Tabletop Simulator\Saves\TS_Save_45.json";
+                //string targerSave = pathToUserFolder + @"\Documents\My Games\Tabletop Simulator\Saves\TS_Save_45.json";
+                string targerSave = config.PathToSaveFiles + @"TS_Save_45.json";
 
                 return GetSaveFile(targerSave);
             }
