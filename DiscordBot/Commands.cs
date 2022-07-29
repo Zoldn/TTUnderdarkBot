@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 using TUnderdark.API;
+using TUnderdark.RatingSystem;
 
 namespace DiscordBot
 {
@@ -61,6 +62,30 @@ namespace DiscordBot
 
             return ReplyAsync($"First player is {selectedColor}\n" +
                 $"Your half-decks are {selectedRaces}");
+        }
+
+
+        [Command("top")]
+        [Summary("Get 10 top player ratings")]
+        public Task GetTopRating()
+        {
+            var ratingTracker = new RatingTracker();
+
+            ratingTracker.ReadData();
+            var ret = ratingTracker.GetTopRatings();
+
+            return ReplyAsync(ret);
+        }
+
+        [Command("commitlast")]
+        [Summary("Commit results of last game to ratings")]
+        public Task CommitGame()
+        {
+            var ratingTracker = new RatingTracker();
+
+            var ret = ratingTracker.CommitGame();
+
+            return ReplyAsync(ret);
         }
     }
 

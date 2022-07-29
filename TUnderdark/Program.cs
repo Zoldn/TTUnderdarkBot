@@ -5,6 +5,7 @@ using System.Linq;
 using TUnderdark.Config;
 using TUnderdark.Interaction;
 using TUnderdark.Model;
+using TUnderdark.RatingSystem;
 using TUnderdark.TTSParser;
 
 namespace TUnderdark
@@ -13,6 +14,14 @@ namespace TUnderdark
     {
         static void Main(string[] args)
         {
+            var ratingTracker = new RatingTracker();
+
+            ratingTracker.CleanData();
+            ratingTracker.WriteData();
+            ratingTracker.ReadData();
+            ratingTracker.CommitGame();
+            ratingTracker.GetTopRatings();
+
             Console.WriteLine("Welcome to Underdark!");
 
             var board = BoardInitializer.Initialize(isWithChecks: false);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TUnderdark.Output;
+using TUnderdark.Utils;
 
 namespace TUnderdark.Model
 {
@@ -35,10 +36,8 @@ namespace TUnderdark.Model
             InsaneOutcats = 30;
         }
 
-        public string PrintResults(bool isMonoSpaceFormat = false)
+        public (Dictionary<Color, int>, Dictionary<Color, int>) GetControlVPs() 
         {
-            var ret = string.Empty;
-
             Dictionary<Color, int> controlVPs = Players
                 .ToDictionary(c => c.Key, c => 0);
 
@@ -66,6 +65,45 @@ namespace TUnderdark.Model
                     }
                 }
             }
+
+            return (controlVPs, totalControlVPs);
+        }
+
+        public string PrintResults(bool isMonoSpaceFormat = false)
+        {
+            var ret = string.Empty;
+
+            var (controlVPs, totalControlVPs) = GetControlVPs();
+
+            /*
+            Dictionary<Color, int> controlVPs = Players
+                .ToDictionary(c => c.Key, c => 0);
+
+            Dictionary<Color, int> totalControlVPs = Players
+                .ToDictionary(c => c.Key, c => 0);
+
+            foreach (var location in Locations)
+            {
+                if (!location.IsSite)
+                {
+                    continue;
+                }
+
+                var controller = location.GetControlPlayer();
+
+                if (controller.HasValue)
+                {
+                    controlVPs[controller.Value] += location.ControlVPs;
+
+                    controller = location.GetFullControl();
+
+                    if (controller.HasValue)
+                    {
+                        totalControlVPs[controller.Value] += 2;
+                    }
+                }
+            }
+            */
 
             Console.WriteLine("\nRESULTS:\n");
 
@@ -102,13 +140,13 @@ namespace TUnderdark.Model
                 //Console.WriteLine($"{AddSpacesToSize("Player", largestNameSize)}|Trophy\t|Deck\t|Promote|Control|Total\t|RESULT\t|");
                 Console.WriteLine($"RESULT\tTrophy\tDeck\tPromote\tControl\tTotal\tPlayer");
                 //ret += $"`RESULT = Trophy + Deck + Promote + Control + TotalControl\n";
-                ret += $"{AddSpacesToSize("Name", largestNameSize + 3)}" +
-                    $"{AddSpacesToSize("Score", 8)}" +
-                    $"{AddSpacesToSize("Trophy", 8)}" +
-                    $"{AddSpacesToSize("Deck", 8)}" +
-                    $"{AddSpacesToSize("Promote", 8)}" +
-                    $"{AddSpacesToSize("Control", 8)}" +
-                    $"{AddSpacesToSize("TotalControl", 12)}\n";
+                ret += $"{"Name".AddSpacesToSize(largestNameSize + 3)}" +
+                    $"{"Score".AddSpacesToSize(8)}" +
+                    $"{"Trophy".AddSpacesToSize(8)}" +
+                    $"{"Deck".AddSpacesToSize(8)}" +
+                    $"{"Promote".AddSpacesToSize(8)}" +
+                    $"{"Control".AddSpacesToSize(8)}" +
+                    $"{"TotalControl".AddSpacesToSize(12)}\n";
 
                 foreach (var (color, player) in Players
                     .OrderByDescending(p => p.Value.TrophyHallVP + p.Value.DeckVP + p.Value.PromoteVP + controlVPs[p.Key] + totalControlVPs[p.Key])
@@ -144,13 +182,13 @@ namespace TUnderdark.Model
                         $"\t{player.Name}\n";
                     */
 
-                    ret += $"{AddSpacesToSize(player.Name, largestNameSize + 3)}" +
-                        $"{AddSpacesToSize(result, 8)}" +
-                        $"{AddSpacesToSize(player.TrophyHallVP, 8)}" +
-                        $"{AddSpacesToSize(player.DeckVP, 8)}" +
-                        $"{AddSpacesToSize(player.PromoteVP, 8)}" +
-                        $"{AddSpacesToSize(controlVPs[color], 8)}" +
-                        $"{AddSpacesToSize(totalControlVPs[color], 12)}\n";
+                    ret += $"{player.Name.AddSpacesToSize(largestNameSize + 3)}" +
+                        $"{result.AddSpacesToSize(8)}" +
+                        $"{player.TrophyHallVP.AddSpacesToSize(8)}" +
+                        $"{player.DeckVP.AddSpacesToSize(8)}" +
+                        $"{player.PromoteVP.AddSpacesToSize(8)}" +
+                        $"{controlVPs[color].AddSpacesToSize(8)}" +
+                        $"{totalControlVPs[color].AddSpacesToSize(12)}\n";
                 }
 
                 ret += "`";
@@ -170,20 +208,11 @@ namespace TUnderdark.Model
             return ret;
         }
 
-        private string AddSpacesToSize(string s, int length)
-        {
-            int spaceCount = length - s.Length;
-            if (spaceCount > 0)
-            {
-                var spaces = new string(' ', spaceCount);
-                return s + spaces;
-            }
-            return s;
-        }
-        private string AddSpacesToSize(int s, int length)
-        {
-            return AddSpacesToSize(s.ToString(), length);
-        }
+        
+        //private string AddSpacesToSize(int s, int length)
+        //{
+        //    return AddSpacesToSize(s.ToString(), length);
+        //}
 
         internal List<ResultRecord> GetResults(int turn, Dictionary<Color, string> playerNames)
         {

@@ -30,6 +30,7 @@ namespace TUnderdark.Model
         public bool IsReturnableSpies => Spies < 5;
 
         public string Name { get; set; }
+        public string SteamId { get; set; }
 
         public Player(Color color)
         {
@@ -50,6 +51,7 @@ namespace TUnderdark.Model
             IsFirstPlayer = false;
 
             Name = color.ToString();
+            SteamId = string.Empty;
         }
     }
 }

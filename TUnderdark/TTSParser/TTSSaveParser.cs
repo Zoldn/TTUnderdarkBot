@@ -48,6 +48,7 @@ namespace TUnderdark.TTSParser
         {
             public string Name { get; set; }
             public string Color { get; set; }
+            public string Id { get; set; }
         }
 
         private static void ParsePlayerNames(Board board, JSONContainer container)
@@ -76,13 +77,14 @@ namespace TUnderdark.TTSParser
 
             var colorToNames = parsedPlayerColors
                 .Where(e => colorNamesToEnum.ContainsKey(e.Color))
-                .ToDictionary(e => colorNamesToEnum[e.Color], e => e.Name);
+                .ToDictionary(e => colorNamesToEnum[e.Color], e => e);
 
             foreach (var (color, player) in board.Players)
             {
-                if (colorToNames.TryGetValue(color, out var name))
+                if (colorToNames.TryGetValue(color, out var record))
                 {
-                    player.Name = name;
+                    player.Name = record.Name;
+                    player.SteamId = record.Id;
                 }
                 else 
                 {
