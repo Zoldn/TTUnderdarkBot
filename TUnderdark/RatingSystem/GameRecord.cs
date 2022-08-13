@@ -52,5 +52,6 @@ namespace TUnderdark.RatingSystem
         public int PromoteVP { get; set; }
         public int TotalControlVP { get; set; }
         public int ControlVP { get; set; }
+        public GamePlayerRecord() { }
     }
 }

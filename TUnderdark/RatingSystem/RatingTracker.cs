@@ -6,40 +6,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
+using TUnderdark.RatingSystem.RatingUpdators;
 using TUnderdark.TTSParser;
 using TUnderdark.Utils;
 
 namespace TUnderdark.RatingSystem
 {
+    
+
     public class RatingTracker
     {
-        private class RatingUpdaterRecord
-        {
-            public PlayerRecord PlayerRecord { get; set; }
-            public GamePlayerRecord GamePlayerRecord { get; private set; }
-            public int Score => GamePlayerRecord.ScoreVP;
-            public double PartOfVPInGame { get; set; }
-            public double PartRating { get; set; }
-            public int ChangeRating { get; set; }
-            public int OldRating { get; set; }
-            public int NewRating { get; internal set; }
-
-            public RatingUpdaterRecord(GamePlayerRecord gamePlayerRecord)
-            {
-                GamePlayerRecord = gamePlayerRecord;
-                PartOfVPInGame = 0.0d;
-                PartRating = 0.0d;
-                ChangeRating = 0;
-            }
-        }
-
-        public static readonly string RATING_DATA_FILE = "rating.json";
+        public const string DEFAULT_RATING_FILE = "rating.json";
+        public string RatingDataFile { get; protected set; }
         /// <summary>
         /// Список игроков с ключом SteamId
         /// </summary>
         public Dictionary<string, PlayerRecord> Players { get; private set; }
-
-        
 
         /// <summary>
         /// Список игр с ключом Id игры
@@ -49,25 +31,27 @@ namespace TUnderdark.RatingSystem
         /// Записи о играх каждого игрока с ключом Id игры, SteamId игрока
         /// </summary>
         public Dictionary<(long, string), GamePlayerRecord> GamePlayers { get; private set; }
-        public RatingTracker()
+        public RatingTracker(string inputFile = DEFAULT_RATING_FILE)
         {
             Players = new Dictionary<string, PlayerRecord>();
             Games = new Dictionary<long, GameRecord>();
             GamePlayers = new Dictionary<(long, string), GamePlayerRecord>();
+
+            RatingDataFile = inputFile;
         }
 
         public bool ReadData()
         {
             string json = string.Empty;
 
-            if (!File.Exists(RATING_DATA_FILE))
+            if (!File.Exists(RatingDataFile))
             {
                 CleanData();
             }
 
             try
             {
-                json = File.ReadAllText(RATING_DATA_FILE);
+                json = File.ReadAllText(RatingDataFile);
             }
             catch (Exception)
             {
@@ -107,7 +91,7 @@ namespace TUnderdark.RatingSystem
 
             try
             {
-                File.WriteAllText(RATING_DATA_FILE, json);
+                File.WriteAllText(RatingDataFile, json);
             }
             catch (Exception)
             {
@@ -136,7 +120,7 @@ namespace TUnderdark.RatingSystem
 
             try
             {
-                File.WriteAllText(RATING_DATA_FILE, json);
+                File.WriteAllText(RatingDataFile, json);
             }
             catch (Exception)
             {
@@ -193,24 +177,9 @@ namespace TUnderdark.RatingSystem
         {
             ReadData();
 
-            var board = BoardInitializer.Initialize(isWithChecks: false);
+            var boardCommiter = new BoardCommiter(new RatingUpdatorDefault());
 
-            string json = Program.GetJson(isLastSave: true);
-
-            TTSSaveParser.Read(json, board);
-
-            /// Проверяем, есть ли зарегистрированные игроки с такими steam_id
-            /// если нет, то создаем
-            CreateOrUpdatePlayerIfNeeded(board);
-
-            /// Регистрируем новую игру
-            var gameRecord = CreateNewGameRecord(board);
-
-            /// Добавляем записи об игроках
-            var playersInGame = AddPlayerGameRecords(gameRecord, board);
-
-            /// Апдейтим рейтинги
-            var ratingUpdates = UpdateRatings(playersInGame);
+            var ratingUpdates = boardCommiter.Update(this);
 
             /// Возвращаем список игроков с изменениями рейтинга
             string changeString = GetChangeRatingString(ratingUpdates);
@@ -221,7 +190,7 @@ namespace TUnderdark.RatingSystem
             return changeString;
         }
 
-        private string GetChangeRatingString(List<RatingUpdaterRecord> ratingUpdates)
+        private string GetChangeRatingString(List<IRatingUpdaterRecord> ratingUpdates)
         {
             string ret = "`\n";
 
@@ -248,201 +217,6 @@ namespace TUnderdark.RatingSystem
             ret += "`";
 
             return ret;
-        }
-
-        private List<RatingUpdaterRecord> UpdateRatings(List<GamePlayerRecord> playersInGame)
-        {
-            var ratingUpdates = playersInGame
-                .Select(p => new RatingUpdaterRecord(p))
-                .ToList();
-
-            foreach (var ratingUpdate in ratingUpdates)
-            {
-                ratingUpdate.PlayerRecord = Players[ratingUpdate.GamePlayerRecord.PlayerSteamId];
-            }
-
-            int totalRating = ratingUpdates.Sum(r => r.PlayerRecord.Rating);
-            int totalScore = ratingUpdates.Sum(r => r.GamePlayerRecord.ScoreVP);
-
-            if (totalRating == 0 || totalScore == 0)
-            {
-                return new List<RatingUpdaterRecord>();
-            }
-
-            foreach (var ratingUpdate in ratingUpdates)
-            {
-                ratingUpdate.PartOfVPInGame = (double)ratingUpdate.GamePlayerRecord.ScoreVP / totalScore;
-                ratingUpdate.PartRating = (double)ratingUpdate.PlayerRecord.Rating / totalRating;
-
-                ratingUpdate.ChangeRating = (int)Math.Round(
-                    1000.0d * (ratingUpdate.PartOfVPInGame - ratingUpdate.PartRating)
-                    );
-            }
-
-            int sumOfChanges = ratingUpdates.Sum(r => r.ChangeRating);
-
-            if (sumOfChanges > 0)
-            {
-                foreach (var ratingUpdate in ratingUpdates)
-                {
-                    if (sumOfChanges == 0)
-                    {
-                        break;
-                    }
-
-                    ratingUpdate.ChangeRating -= 1;
-                    sumOfChanges--;
-                }
-            }
-
-            if (sumOfChanges < 0)
-            {
-                foreach (var ratingUpdate in ratingUpdates)
-                {
-                    if (sumOfChanges == 0)
-                    {
-                        break;
-                    }
-
-                    ratingUpdate.ChangeRating += 1;
-                    sumOfChanges++;
-                }
-            }
-
-            foreach (var ratingUpdate in ratingUpdates)
-            {
-                ratingUpdate.OldRating = ratingUpdate.PlayerRecord.Rating;
-                ratingUpdate.PlayerRecord.Rating += ratingUpdate.ChangeRating;
-                ratingUpdate.NewRating = ratingUpdate.PlayerRecord.Rating;
-            }
-
-            return ratingUpdates;
-        }
-
-        private List<GamePlayerRecord> AddPlayerGameRecords(GameRecord gameRecord, Board board)
-        {
-            var (controlVPs, totalControlVPs) = board.GetControlVPs();
-
-            var colorScores = new Dictionary<Color, int>();
-
-            foreach (var (color, player) in board.Players)
-            {
-                int score = controlVPs[color] +
-                    totalControlVPs[color] +
-                    player.PromoteVP +
-                    player.TrophyHallVP +
-                    player.DeckVP;
-
-                colorScores.Add(color, score);
-            }
-
-            var scorePlaces = new Dictionary<int, int>();
-
-            scorePlaces = colorScores.Select(kv => kv.Value)
-                .Distinct()
-                .OrderByDescending(e => e)
-                .Select((e, index) => (e, index))
-                .ToDictionary(p => p.e, p => p.index + 1);
-
-            var colorPlaces = colorScores
-                .ToDictionary(
-                    kv => kv.Key, 
-                    kv => scorePlaces[kv.Value]
-                    );
-
-            var records = new List<GamePlayerRecord>();
-
-            foreach (var (color, player) in board.Players)
-            {
-                if (!Players.TryGetValue(player.SteamId, out var playerRecord))
-                {
-                    continue;
-                }
-
-                playerRecord.PlayedGames++;
-
-                if (colorPlaces[color] == 1)
-                {
-                    playerRecord.WonGames++;
-                }
-
-                var record = new GamePlayerRecord()
-                {
-                    Color = color.ToString(),
-                    DeckVP = player.DeckVP,
-                    ControlVP = controlVPs[color],
-                    TotalControlVP = totalControlVPs[color],
-                    PlayerSteamId = player.SteamId,
-                    PromoteVP = player.PromoteVP,
-                    TrophyVP = player.TrophyHallVP,
-                    GameRecordId = gameRecord.GameRecordId,
-                    ScoreVP = colorScores[color],
-                    Place = colorPlaces[color],
-                };
-
-                records.Add(record);
-            }
-
-            foreach (var record in records)
-            {
-                GamePlayers.Add((gameRecord.GameRecordId, record.PlayerSteamId), record);
-            }
-
-            return records;
-        }
-
-        private GameRecord CreateNewGameRecord(Board board)
-        {
-            var record = GameRecord.CreateNewGame();
-
-            /*
-            var decks = board.Deck
-                .Concat(board.Market)
-                .Concat(board.Players.SelectMany(p => p.Value.Deck))
-                .Concat(board.Players.SelectMany(p => p.Value.InnerCircle))
-                .Concat(board.Players.SelectMany(p => p.Value.Hand))
-                .Select(c => c.)
-                .Distinct()
-                .Where(e => e != Ra&& e != CardType.OBEDIENCE)
-                .Select(e => e.ToString())
-                .ToList();
-            */
-
-            Games.Add(record.GameRecordId, record);
-
-            return record;
-        }
-
-        private void CreateOrUpdatePlayerIfNeeded(Board board)
-        {
-            foreach (var (_, player) in board.Players)
-            {
-                if (!Players.TryGetValue(player.SteamId, out var playerRecord))
-                {
-                    if (player.SteamId != string.Empty)
-                    {
-                        Players.Add(
-                            player.SteamId,
-                            new PlayerRecord()
-                            {
-                                PlayerSteamId = player.SteamId,
-                                PlayerSteamName = player.Name,
-                            }
-                        );
-                    }
-                }
-                else
-                {
-                    if (player.Name == string.Empty)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        playerRecord.PlayerSteamName = player.Name;
-                    }
-                }
-            }
         }
     }
 }

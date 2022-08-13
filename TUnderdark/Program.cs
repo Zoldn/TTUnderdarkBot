@@ -6,6 +6,7 @@ using TUnderdark.Config;
 using TUnderdark.Interaction;
 using TUnderdark.Model;
 using TUnderdark.RatingSystem;
+using TUnderdark.RatingSystem.RatingUpdators;
 using TUnderdark.TTSParser;
 
 namespace TUnderdark
@@ -14,6 +15,25 @@ namespace TUnderdark
     {
         static void Main(string[] args)
         {
+            var sourceTracker = new RatingTracker(
+                @"D:\Projects\TUnderdark\TUnderdark\DiscordBot\bin\Debug\net5.0\rating.json");
+            var targetTracker = new RatingTracker(
+                @"D:\Projects\TUnderdark\TUnderdark\DiscordBot\bin\Debug\net5.0\new_rating.json");
+
+            sourceTracker.ReadData();
+
+            targetTracker.CleanData();
+            targetTracker.WriteData();
+
+            var fileCommiter = new FileCommiter(new RatingUpdatorNew(), sourceTracker, targetTracker);
+
+            fileCommiter.Update();
+
+            targetTracker.WriteData();
+
+            Console.WriteLine(targetTracker.GetTopRatings());
+
+            /*
             var ratingTracker = new RatingTracker();
 
             ratingTracker.CleanData();
@@ -31,8 +51,7 @@ namespace TUnderdark
             TTSSaveParser.Read(json, board);
 
             board.PrintResults();
-
-            //RunTracker();
+            */
 
             Console.ReadLine();
         }
