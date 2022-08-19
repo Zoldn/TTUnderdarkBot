@@ -190,7 +190,7 @@ namespace TUnderdark.RatingSystem
             return changeString;
         }
 
-        private string GetChangeRatingString(List<IRatingUpdaterRecord> ratingUpdates)
+        public string GetChangeRatingString(List<IRatingUpdaterRecord> ratingUpdates)
         {
             string ret = "`\n";
 

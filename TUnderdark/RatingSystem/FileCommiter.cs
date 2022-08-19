@@ -48,7 +48,12 @@ namespace TUnderdark.RatingSystem
             AddGameStats(playersInGame);
 
             /// Обновляем рейтинги
-            RatingUpdator.UpdateRatings(Target, playersInGame);
+            var ret = RatingUpdator.UpdateRatings(Target, playersInGame);
+
+            Target.GetChangeRatingString(ret);
+
+            //Console.WriteLine();
+            //Console.WriteLine(str);
         }
 
         private void AddGameStats(List<GamePlayerRecord> playersInGame)
