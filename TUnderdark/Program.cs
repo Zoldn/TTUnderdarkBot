@@ -15,23 +15,20 @@ namespace TUnderdark
     {
         static void Main(string[] args)
         {
-            var sourceTracker = new RatingTracker(
-                @"D:\Projects\TUnderdark\TUnderdark\DiscordBot\bin\Debug\net5.0\rating.json");
-            var targetTracker = new RatingTracker(
-                @"D:\Projects\TUnderdark\TUnderdark\DiscordBot\bin\Debug\net5.0\new_rating.json");
+            Console.WriteLine("Welcome to Underdark!");
 
-            sourceTracker.ReadData();
+            var board = BoardInitializer.Initialize(isWithChecks: false);
 
-            targetTracker.CleanData();
-            targetTracker.WriteData();
+            string json = GetJson(isLastSave: true);
 
-            var fileCommiter = new FileCommiter(new RatingUpdatorNew(), sourceTracker, targetTracker);
+            TTSSaveParser.Read(json, board);
 
-            fileCommiter.Update();
+            board.PrintResults();
 
-            targetTracker.WriteData();
+            Console.ReadLine();
 
-            Console.WriteLine(targetTracker.GetTopRatings());
+
+            //RecalcRatings();
 
             /*
             var ratingTracker = new RatingTracker();
@@ -52,8 +49,27 @@ namespace TUnderdark
 
             board.PrintResults();
             */
+        }
 
-            Console.ReadLine();
+        private static void RecalcRatings()
+        {
+            var sourceTracker = new RatingTracker(
+                            @"D:\Projects\TUnderdark\TUnderdark\DiscordBot\bin\Debug\net5.0\rating.json");
+            var targetTracker = new RatingTracker(
+                @"D:\Projects\TUnderdark\TUnderdark\DiscordBot\bin\Debug\net5.0\new_rating.json");
+
+            sourceTracker.ReadData();
+
+            targetTracker.CleanData();
+            targetTracker.WriteData();
+
+            var fileCommiter = new FileCommiter(new RatingUpdatorNew(), sourceTracker, targetTracker);
+
+            fileCommiter.Update();
+
+            targetTracker.WriteData();
+
+            Console.WriteLine(targetTracker.GetTopRatings());
         }
 
         private static void RunTracker()

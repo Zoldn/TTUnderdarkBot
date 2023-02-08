@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace DiscordBot
@@ -26,7 +27,23 @@ namespace DiscordBot
 
 			//  You can assign your bot token to a string, and pass that in to connect.
 			//  This is, however, insecure, particularly if you plan to have your code hosted in a public repository.
-			var token = "OTcyNDI4MTY5MjcxNDcyMTY4.GduWD3.Bgf_6DWXNCRjvKQvnQVqFhQCd1pnAcLzOclbaw";
+			//var token = "OTcyNDI4MTY5MjcxNDcyMTY4.GiaKG_.vq-WSBhCZcqoDdqC6nggvrtVmQOmHmYmry3Z00";
+
+			string token = null;
+
+			try
+			{
+                token = File.ReadAllText("token.txt");
+            }
+			catch (FileNotFoundException e)
+			{
+				throw new FileNotFoundException("You need token.txt file with token for this bot");
+			}
+
+			if (token is null)
+			{
+                throw new ArgumentNullException("You need token.txt file with token for this bot");
+            }
 
 			// Some alternative options would be to keep your token in an Environment Variable or a standalone file.
 			// var token = Environment.GetEnvironmentVariable("NameOfYourEnvironmentVariable");
