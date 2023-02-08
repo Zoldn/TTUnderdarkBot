@@ -177,7 +177,7 @@ namespace TUnderdark.RatingSystem
         {
             ReadData();
 
-            var boardCommiter = new BoardCommiter(new RatingUpdatorDefault());
+            var boardCommiter = new BoardCommiter(new RatingUpdatorNew());
 
             var ratingUpdates = boardCommiter.Update(this);
 
