@@ -27,7 +27,6 @@ namespace DiscordBot
 
 			//  You can assign your bot token to a string, and pass that in to connect.
 			//  This is, however, insecure, particularly if you plan to have your code hosted in a public repository.
-			//var token = "OTcyNDI4MTY5MjcxNDcyMTY4.GiaKG_.vq-WSBhCZcqoDdqC6nggvrtVmQOmHmYmry3Z00";
 
 			string token = null;
 
