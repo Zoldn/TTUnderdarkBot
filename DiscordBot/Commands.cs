@@ -72,7 +72,7 @@ namespace DiscordBot
             var ratingTracker = new RatingTracker();
 
             ratingTracker.ReadData();
-            var ret = ratingTracker.GetTopRatings();
+            var ret = ratingTracker.GetTopRatings(20);
 
             return ReplyAsync(ret);
         }
@@ -86,6 +86,22 @@ namespace DiscordBot
             var ret = ratingTracker.CommitGame();
 
             return ReplyAsync(ret);
+        }
+
+        private static readonly List<string> quotes = new()
+        {
+            "\"Я последний буду\" - Олег, 19 февраля 2023, 14:40",
+        };
+
+        [Command("quote")]
+        [Summary("Quotes")]
+        public Task GetQuote()
+        {
+            var random = new Random();
+
+            var index = random.Next(quotes.Count);
+
+            return ReplyAsync(quotes[index]);
         }
     }
 
