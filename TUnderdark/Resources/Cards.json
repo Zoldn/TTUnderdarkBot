@@ -7,7 +7,7 @@
       "PromoteVP": 1,
       "CardType": "OBEDIENCE",
       "Name": "Noble",
-      "Race": "Drow"
+      "Race": "DROW"
     },
     {
       "SpecificType": "SOLDIER",
@@ -16,7 +16,7 @@
       "PromoteVP": 1,
       "CardType": "OBEDIENCE",
       "Name": "Soldier",
-      "Race": "Drow"
+      "Race": "DROW"
     },
     {
       "SpecificType": "LOLTH",
@@ -25,7 +25,7 @@
       "PromoteVP": 2,
       "CardType": "OBEDIENCE",
       "Name": "Priestess of Lolth",
-      "Race": "Drow"
+      "Race": "DROW"
     },
     {
       "SpecificType": "HOUSEGUARD",
@@ -34,7 +34,368 @@
       "PromoteVP": 3,
       "CardType": "OBEDIENCE",
       "Name": "Houseguard",
-      "Race": "Drow"
+      "Race": "DROW"
+    },
+
+    {
+      "SpecificType": "BOUNTY_HUNTER",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "MALICE",
+      "Name": "Bounty hunter",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "DROW_NEGOTIATOR",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "AMBITION",
+      "Name": "Drow Negotiator",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "INFILTRATOR",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "GUILE",
+      "Name": "Infiltrator",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "DOPPELGANGER",
+      "ManaCost": 5,
+      "VP": 3,
+      "PromoteVP": 5,
+      "CardType": "MALICE",
+      "Name": "Doppelganger",
+      "Race": "DOPPELGANGER"
+    },
+    {
+      "SpecificType": "ADVOCATE",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "AMBITION",
+      "Name": "Advocate",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "SPY_MASTER",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "GUILE",
+      "Name": "Spy Master",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "CHOSEN_OF_LOLTH",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "AMBITION",
+      "Name": "Chosen of Lolth",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "UNDERDARK_RANGER",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "CONQUEST",
+      "Name": "Underdark Ranger",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "ADVANCED_SCOUT",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "CONQUEST",
+      "Name": "Advanced Scout",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "MASTER_OF_MELEE_MAGTHERE",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "CONQUEST",
+      "Name": "Master of Melee-Magthere",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "INFORMATION_BROCKER",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "GUILE",
+      "Name": "Information Brocker",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "MERCENARY_SQUAD",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 4,
+      "CardType": "CONQUEST",
+      "Name": "Mercenary Squad",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "SPELL_SPINNER",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "GUILE",
+      "Name": "Spell Spinner",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "BLACKGUARD",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "MALICE",
+      "Name": "Blackguard",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "WEAPONMASTER",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "CONQUEST",
+      "Name": "Weapon Master",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "DEATHBLADE",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "MALICE",
+      "Name": "Deathblade",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "COUNCIL_MEMBER",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "AMBITION",
+      "Name": "Council Member",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "INQUISITOR",
+      "ManaCost": 3,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "MALICE",
+      "Name": "Inquisitor",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "MASTER_OF_SORCERE",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "GUILE",
+      "Name": "Masters of Sorcere",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "MATRON_MOTHER",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "AMBITION",
+      "Name": "Matron Mother",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "WHITE_WYRMLING",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "CONQUEST",
+      "Name": "White Wyrmling",
+      "Race": "DRAGON"
+    },
+    {
+      "SpecificType": "KOBOLD",
+      "ManaCost": 1,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "CONQUEST",
+      "Name": "Kobold",
+      "Race": "KOBOLD"
+    },
+    {
+      "SpecificType": "GREEN_WYRMLING",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "GUILE",
+      "Name": "Green Wyrmling",
+      "Race": "DRAGON"
+    },
+    {
+      "SpecificType": "DRAGON_CULTIST",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 4,
+      "CardType": "MALICE",
+      "Name": "Dragon Cultist",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "ENCHANTER_OF_THAY",
+      "ManaCost": 4,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "GUILE",
+      "Name": "Enchanter of Thay",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "RED_WYRMLING",
+      "ManaCost": 5,
+      "VP": 3,
+      "PromoteVP": 5,
+      "CardType": "MALICE",
+      "Name": "Red Wyrmling",
+      "Race": "DRAGON"
+    },
+    {
+      "SpecificType": "WATCHER_OF_THAY",
+      "ManaCost": 3,
+      "VP": 2,
+      "PromoteVP": 3,
+      "CardType": "GUILE",
+      "Name": "Watcher of Thay",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "BLUE_WYRMLING",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "AMBITION",
+      "Name": "Blue Wyrmling",
+      "Race": "DRAGON"
+    },
+    {
+      "SpecificType": "DRAGONCLAW",
+      "ManaCost": 4,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "MALICE",
+      "Name": "Dragonclaw",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "BLACK_WYRMLING",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 4,
+      "CardType": "CONQUEST",
+      "Name": "Black Wyrmling",
+      "Race": "DRAGON"
+    },
+    {
+      "SpecificType": "WYRMSPEAKER",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "AMBITION",
+      "Name": "Wyrmspeaker",
+      "Race": "DWARF"
+    },
+    {
+      "SpecificType": "CULT_FANATIC",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 4,
+      "CardType": "AMBITION",
+      "Name": "Cult Fanatic",
+      "Race": "HALFDRAGON"
+    },
+    {
+      "SpecificType": "CLERIC_OF_LAOGZED",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "AMBITION",
+      "Name": "Cleric of Laogzed",
+      "Race": "TROGLODYTE"
+    },
+    {
+      "SpecificType": "WHITE_DRAGON",
+      "ManaCost": 6,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "CONQUEST",
+      "Name": "White Dragon",
+      "Race": "DRAGON"
+    },
+    {
+      "SpecificType": "BLACK_DRAGON",
+      "ManaCost": 7,
+      "VP": 3,
+      "PromoteVP": 7,
+      "CardType": "CONQUEST",
+      "Name": "Black Dragon",
+      "Race": "DRAGON"
+    },
+    {
+      "SpecificType": "BLUE_DRAGON",
+      "ManaCost": 8,
+      "VP": 4,
+      "PromoteVP": 8,
+      "CardType": "AMBITION",
+      "Name": "Blue Dragon",
+      "Race": "DRAGON"
+    },
+    {
+      "SpecificType": "GREEN_DRAGON",
+      "ManaCost": 7,
+      "VP": 3,
+      "PromoteVP": 7,
+      "CardType": "GUILE",
+      "Name": "Green Dragon",
+      "Race": "DRAGON"
+    },
+    {
+      "SpecificType": "RATH_MODAR",
+      "ManaCost": 6,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "GUILE",
+      "Name": "Rath Modar",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "SEVERIN_SILRAJIN",
+      "ManaCost": 7,
+      "VP": 4,
+      "PromoteVP": 8,
+      "CardType": "MALICE",
+      "Name": "Severin Silrajin",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "RED_DRAGON",
+      "ManaCost": 8,
+      "VP": 4,
+      "PromoteVP": 8,
+      "CardType": "MALICE",
+      "Name": "Red Dragon",
+      "Race": "DRAGON"
     }
   ]
 }
