@@ -247,6 +247,8 @@ namespace TUnderdark.TTSParser
                     .Where(o => o.IsPositionIn(coords.X1, coords.X2, coords.Z1, coords.Z2))
                     .ToList();
 
+                player.Spies = 0;
+
                 foreach (var objectInLocation in objectsInLocation)
                 {
                     switch (objectInLocation.Nickname)
@@ -274,6 +276,33 @@ namespace TUnderdark.TTSParser
                             break;
                         case "First Player marker":
                             player.IsFirstPlayer = true;
+                            break;
+                        case "Troops":
+                            player.Troops = objectInLocation.ContainedObjects.Count;
+                            break;
+                        case "Mizzrym Spy":
+                            if (player.Color == Color.GREEN)
+                            {
+                                player.Spies++;
+                            }
+                            break;
+                        case "Barrison Del'Armgo Spy":
+                            if (player.Color == Color.RED)
+                            {
+                                player.Spies++;
+                            }
+                            break;
+                        case "Baenre Spy":
+                            if (player.Color == Color.YELLOW)
+                            {
+                                player.Spies++;
+                            }
+                            break; 
+                        case "Xorlarrin Spy":
+                            if (player.Color == Color.BLUE)
+                            {
+                                player.Spies++;
+                            }
                             break;
                         default:
                             break;
