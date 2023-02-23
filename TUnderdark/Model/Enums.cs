@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TUnderdark.Model
 {
-    internal enum Color
+    public enum Color
     {
         WHITE,
         RED,

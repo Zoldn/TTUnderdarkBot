@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TUnderdark.Model
 {
-    internal class Location
+    public class Location
     {
         public static Location MakeTunnel(LocationId id, string name, LocationId from, LocationId to)
         {
@@ -227,6 +227,26 @@ namespace TUnderdark.Model
             }
 
             return $"{Name} ({Size}/{ControlVPs}) [{troopString}] {spyString} {fullControlString}";
+        }
+
+        internal Location Clone()
+        {
+            var location = new Location(Id)
+            {
+                Size = Size,
+                Name = Name,
+                Troops = Troops.ToDictionary(kv => kv.Key, kv => kv.Value),
+                Spies = Spies.ToDictionary(kv => kv.Key, kv => kv.Value),
+                ControlVPs = ControlVPs,
+                IsSite = IsSite,
+                BonusMana = BonusMana,
+                BonusVP = BonusVP,
+                NeighboorIds = NeighboorIds.ToList(),
+                Neighboors = null,
+                IsStart = IsStart,
+            };
+
+            return location;
         }
     }
 }

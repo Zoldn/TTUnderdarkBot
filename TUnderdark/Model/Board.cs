@@ -7,7 +7,7 @@ using TUnderdark.Utils;
 
 namespace TUnderdark.Model
 {
-    internal class Board 
+    public class Board 
     {
         public Dictionary<Color, Player> Players { get; set; }
         public List<Location> Locations { get; set; }
@@ -369,8 +369,27 @@ namespace TUnderdark.Model
         {
             var copyBoard = new Board() 
             {
-                //Deck = Deck.Select(e => e.),
+                Deck = Deck.Select(e => e.Clone()).ToList(),
+                Devoured = Devoured.Select(e => e.Clone()).ToList(),
+                HouseGuards = HouseGuards,
+                Lolths = Lolths,
+                InsaneOutcats = InsaneOutcats,
+                Market = Market.Select(e => e.Clone()).ToList(),
+                Players = Players.ToDictionary(kv => kv.Key, kv => kv.Value.Clone()),
+                Locations = Locations.Select(l => l.Clone()).ToList(),
             };
+
+            var locationDict = copyBoard
+                .Locations
+                .ToDictionary(l => l.Id);
+
+            foreach (var location in copyBoard.Locations)
+            {
+                location.Neighboors = location
+                    .NeighboorIds
+                    .Select(id => locationDict[id])
+                    .ToHashSet();
+            }
 
             return copyBoard;
         }

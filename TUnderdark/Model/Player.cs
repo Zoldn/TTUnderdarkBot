@@ -6,7 +6,7 @@ using System.Text;
 namespace TUnderdark.Model
 {
 
-    internal class Player
+    public class Player
     {
         public Color Color { get; set; }
         public List<Card> Deck { get; set; }
@@ -52,6 +52,26 @@ namespace TUnderdark.Model
 
             Name = color.ToString();
             SteamId = string.Empty;
+        }
+
+        public Player Clone()
+        {
+            var player = new Player(Color)
+            {
+                Deck = Deck.Select(c => c.Clone()).ToList(),
+                Hand = Hand.Select(c => c.Clone()).ToList(),
+                Discard = Discard.Select(c => c.Clone()).ToList(),
+                InnerCircle = InnerCircle.Select(c => c.Clone()).ToList(),
+                TrophyHall = TrophyHall.ToDictionary(kv => kv.Key, kv => kv.Value),
+                VPTokens = VPTokens,
+                Spies = Spies,
+                Troops = Troops,
+                Name = Name,
+                SteamId = SteamId,
+                IsFirstPlayer = IsFirstPlayer,
+            };
+
+            return player;
         }
     }
 }

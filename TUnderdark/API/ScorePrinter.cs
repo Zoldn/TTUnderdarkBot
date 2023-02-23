@@ -15,7 +15,7 @@ namespace TUnderdark.API
         {
             var board = BoardInitializer.Initialize(isWithChecks: false);
             
-            string json = Program.GetJson(isLastSave: true);
+            string json = TTSLoader.GetJson(isLastSave: true);
 
             TTSSaveParser.Read(json, board);
 

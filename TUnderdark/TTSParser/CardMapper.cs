@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,6 +26,20 @@ namespace TUnderdark.TTSParser
             public List<Card> Cards { get; set; }
         }
 
+        public static bool TryMakeNewFromId(int cardId, out Card card)
+        {
+            if (CardMakers.TryGetValue(cardId, out var cardSpecificType))
+            {
+                card = CardMakers[cardId].Clone();
+                return true;
+            }
+            else
+            {
+                card = null;
+                return false;
+            }
+        }
+
         public static void ReadCards()
         {
             var cards = new List<Card>();
@@ -36,7 +51,15 @@ namespace TUnderdark.TTSParser
             SpecificTypeCardMakers = container
                 .Cards
                 .ToDictionary(c => c.SpecificType);
+
+            CardMakers = TTSIdCardMapper
+                .SelectMany(kv => kv.Key, (kv, cardId) => (CardId: cardId, Creator: kv.Value))
+                .ToDictionary(
+                    kv => kv.CardId,
+                    kv => SpecificTypeCardMakers[kv.Creator]
+                );
         }
+        public static Dictionary<int, Card> CardMakers { get; private set; }
 
         public static Dictionary<CardSpecificType, Card> SpecificTypeCardMakers =
             new Dictionary<CardSpecificType, Card>();
@@ -202,11 +225,12 @@ namespace TUnderdark.TTSParser
             */
         };
 
-        public static Dictionary<int, Card> CardMakers => TTSIdCardMapper
-            .SelectMany(kv => kv.Key, (kv, cardId) => (CardId: cardId, Creator: kv.Value))
-            .ToDictionary(
-                kv => kv.CardId,
-                kv => SpecificTypeCardMakers[kv.Creator]
-            );
+        
+        //public static Dictionary<int, Card> CardMakers => TTSIdCardMapper
+        //    .SelectMany(kv => kv.Key, (kv, cardId) => (CardId: cardId, Creator: kv.Value))
+        //    .ToDictionary(
+        //        kv => kv.CardId,
+        //        kv => SpecificTypeCardMakers[kv.Creator]
+        //    );
     }
 }

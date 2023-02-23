@@ -8,7 +8,7 @@ using TUnderdark.Model;
 
 namespace TUnderdark.TTSParser
 {
-    internal class TTSSaveParser
+    public class TTSSaveParser
     {
         public static bool Read(string json, Board board)
         {
@@ -290,7 +290,7 @@ namespace TUnderdark.TTSParser
         {
             Console.WriteLine("Parsing market area");
 
-            var cardMakers = CardMapper.CardMakers;
+            //var cardMakers = CardMapper.CardMakers;
 
             var coords = MarketZonePositions.MarketZone;
 
@@ -300,9 +300,9 @@ namespace TUnderdark.TTSParser
 
             foreach (var marketCard in marketCards)
             {
-                if (cardMakers.TryGetValue(marketCard.CardId, out var maker))
+                if (CardMapper.TryMakeNewFromId(marketCard.CardId, out var card))
                 {
-                    board.Market.Add(maker.Clone());
+                    board.Market.Add(card);
                 }
             }
 
@@ -314,10 +314,8 @@ namespace TUnderdark.TTSParser
 
             foreach (var marketCard in commonMarketCards)
             {
-                if (cardMakers.TryGetValue(marketCard.CardId, out var maker))
+                if (CardMapper.TryMakeNewFromId(marketCard.CardId, out var card))
                 {
-                    var card = maker.Clone();
-
                     switch (card.Name)
                     {
                         case "Priestess of Lolth":
@@ -340,9 +338,9 @@ namespace TUnderdark.TTSParser
 
             foreach (var devouredCard in devouredCards)
             {
-                if (cardMakers.TryGetValue(devouredCard.CardId, out var maker))
+                if (CardMapper.TryMakeNewFromId(devouredCard.CardId, out var card))
                 {
-                    board.Devoured.Add(maker.Clone());
+                    board.Devoured.Add(card);
                 }
             }
 
@@ -361,9 +359,9 @@ namespace TUnderdark.TTSParser
 
                 foreach (var id in deckCard.DeckIDs)
                 {
-                    if (cardMakers.TryGetValue(id, out var maker))
+                    if (CardMapper.TryMakeNewFromId(id, out var card))
                     {
-                        board.Deck.Add(maker.Clone());
+                        board.Deck.Add(card);
                     }
                 }
             }
@@ -375,20 +373,20 @@ namespace TUnderdark.TTSParser
         {
             Console.WriteLine("Parsing player cards");
 
-            var cardMakers = CardMapper.CardMakers;
+            //var cardMakers = CardMapper.CardMakers;
 
             foreach (var (color, player) in board.Players)
             {
-                PushCards(player.Deck, cardMakers, PlayerZonePositions.Decks[color], container);
-                PushCards(player.Discard, cardMakers, PlayerZonePositions.Discard[color], container);
-                PushCards(player.Hand, cardMakers, PlayerZonePositions.Hands[color], container);
-                PushCards(player.InnerCircle, cardMakers, PlayerZonePositions.InnerCircle[color], container);
+                PushCards(player.Deck, /*cardMakers,*/ PlayerZonePositions.Decks[color], container);
+                PushCards(player.Discard, /*cardMakers,*/ PlayerZonePositions.Discard[color], container);
+                PushCards(player.Hand, /*cardMakers,*/ PlayerZonePositions.Hands[color], container);
+                PushCards(player.InnerCircle, /*cardMakers,*/ PlayerZonePositions.InnerCircle[color], container);
             }
 
             Console.WriteLine("Player cards have parsed");
         }
 
-        private static void PushCards(List<Card> target, Dictionary<int, Card> cardMakers,
+        private static void PushCards(List<Card> target, /*Dictionary<int, Card> cardMakers,*/
             (double X1, double X2, double Z1, double Z2) coords, JSONContainer container)
         {
             var elements = container.ObjectStates
@@ -401,17 +399,17 @@ namespace TUnderdark.TTSParser
                 {
                     foreach (var id in element.DeckIDs)
                     {
-                        if (cardMakers.TryGetValue(id, out var maker))
+                        if (CardMapper.TryMakeNewFromId(id, out var card))
                         {
-                            target.Add(maker.Clone());
+                            target.Add(card);
                         }
                     }
                 }
                 else
                 {
-                    if (cardMakers.TryGetValue(element.CardId, out var maker))
+                    if (CardMapper.TryMakeNewFromId(element.CardId, out var card))
                     {
-                        target.Add(maker.Clone());
+                        target.Add(card);
                     }
                 }
             }

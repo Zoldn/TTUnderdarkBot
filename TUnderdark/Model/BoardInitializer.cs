@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TUnderdark.Model
 {
-    internal enum LocationId
+    public enum LocationId
     {
         Gauntlgrym,
         Gauntlgrym2Jhachalkhyn,
@@ -91,7 +91,7 @@ namespace TUnderdark.Model
         Phaerlin2Everfire,
     }
 
-    internal static class BoardInitializer
+    public static class BoardInitializer
     {
         private static void CreateLocations(Board board)
         {

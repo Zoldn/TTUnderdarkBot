@@ -19,7 +19,7 @@ namespace TUnderdark
 
             var board = BoardInitializer.Initialize(isWithChecks: false);
 
-            string json = GetJson(isLastSave: true);
+            string json = TTSLoader.GetJson(isLastSave: true);
 
             TTSSaveParser.Read(json, board);
 
@@ -93,6 +93,7 @@ namespace TUnderdark
             partyTracker.Start();
         }
 
+        /*
         public static string GetJson(bool isLastSave = true)
         {
             var config = Configuration.LoadFromFile();
@@ -115,6 +116,7 @@ namespace TUnderdark
                 return GetSaveFile(targerSave);
             }
         }
+        
 
         private static string GetSaveFile(string filePath)
         {
@@ -143,5 +145,6 @@ namespace TUnderdark
 
             return json;
         }
+        */
     }
 }
