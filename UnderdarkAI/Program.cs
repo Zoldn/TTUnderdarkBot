@@ -1,5 +1,6 @@
 ﻿using TUnderdark.Model;
 using TUnderdark.TTSParser;
+using UnderdarkAI.AI;
 using UnderdarkAI.Utils;
 
 namespace UnderdarkAI
@@ -18,9 +19,16 @@ namespace UnderdarkAI
 
             TTSSaveParser.Read(json, board);
 
-            board.PrintResults();
+            var turnMaker = new TurnMaker(board, Color.YELLOW) 
+            {
+                RestartLimit = 100,
+            };
 
-            board.Clone().PrintResults();
+            turnMaker.MakeTurn();
+
+            //board.PrintResults();
+
+            //board.Clone().PrintResults();
 
             Console.ReadLine();
         }
