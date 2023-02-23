@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TUnderdark.Model.Cards.Elementals
 {
+    /*
     internal class AirElemental : Card
     {
         public AirElemental()
@@ -288,4 +289,5 @@ namespace TUnderdark.Model.Cards.Elementals
         public override string ShortName => "HYD";
         public override Race Race => Race.ELEMENTALPRINCE;
     }
+    */
 }

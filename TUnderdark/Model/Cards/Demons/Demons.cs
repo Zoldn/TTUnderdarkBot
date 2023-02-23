@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TUnderdark.Model.Cards.Demons
 {
+    /*
     internal class Ghoul : Card
     {
         public Ghoul()
@@ -320,5 +321,5 @@ namespace TUnderdark.Model.Cards.Demons
         public override Race Race => Race.DROW;
     }
 
-    
+    */
 }

@@ -1,0 +1,40 @@
+{
+  "Cards": [
+    {
+      "SpecificType": "NOBLE",
+      "ManaCost": 0,
+      "VP": 0,
+      "PromoteVP": 1,
+      "CardType": "OBEDIENCE",
+      "Name": "Noble",
+      "Race": "Drow"
+    },
+    {
+      "SpecificType": "SOLDIER",
+      "ManaCost": 0,
+      "VP": 0,
+      "PromoteVP": 1,
+      "CardType": "OBEDIENCE",
+      "Name": "Soldier",
+      "Race": "Drow"
+    },
+    {
+      "SpecificType": "LOLTH",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "OBEDIENCE",
+      "Name": "Priestess of Lolth",
+      "Race": "Drow"
+    },
+    {
+      "SpecificType": "HOUSEGUARD",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "OBEDIENCE",
+      "Name": "Houseguard",
+      "Race": "Drow"
+    }
+  ]
+}

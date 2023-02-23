@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TUnderdark.Model.Cards.Aberrations
 {
+    /*
     internal class Gauth : Card
     {
         public Gauth()
@@ -288,4 +289,5 @@ namespace TUnderdark.Model.Cards.Aberrations
         public override string ShortName => "ELD";
         public override Race Race => Race.ABERRATION;
     }
+    */
 }

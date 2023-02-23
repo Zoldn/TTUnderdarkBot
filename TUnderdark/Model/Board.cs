@@ -7,7 +7,7 @@ using TUnderdark.Utils;
 
 namespace TUnderdark.Model
 {
-    internal class Board
+    internal class Board 
     {
         public Dictionary<Color, Player> Players { get; set; }
         public List<Location> Locations { get; set; }
@@ -363,6 +363,16 @@ namespace TUnderdark.Model
                     Console.WriteLine($"{location}");
                 }
             }
+        }
+
+        public Board Clone()
+        {
+            var copyBoard = new Board() 
+            {
+                //Deck = Deck.Select(e => e.),
+            };
+
+            return copyBoard;
         }
     }
 }

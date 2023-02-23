@@ -302,7 +302,7 @@ namespace TUnderdark.TTSParser
             {
                 if (cardMakers.TryGetValue(marketCard.CardId, out var maker))
                 {
-                    board.Market.Add(maker());
+                    board.Market.Add(maker.Clone());
                 }
             }
 
@@ -316,7 +316,7 @@ namespace TUnderdark.TTSParser
             {
                 if (cardMakers.TryGetValue(marketCard.CardId, out var maker))
                 {
-                    var card = maker();
+                    var card = maker.Clone();
 
                     switch (card.Name)
                     {
@@ -342,7 +342,7 @@ namespace TUnderdark.TTSParser
             {
                 if (cardMakers.TryGetValue(devouredCard.CardId, out var maker))
                 {
-                    board.Devoured.Add(maker());
+                    board.Devoured.Add(maker.Clone());
                 }
             }
 
@@ -363,7 +363,7 @@ namespace TUnderdark.TTSParser
                 {
                     if (cardMakers.TryGetValue(id, out var maker))
                     {
-                        board.Deck.Add(maker());
+                        board.Deck.Add(maker.Clone());
                     }
                 }
             }
@@ -388,7 +388,7 @@ namespace TUnderdark.TTSParser
             Console.WriteLine("Player cards have parsed");
         }
 
-        private static void PushCards(List<Card> target, Dictionary<int, Func<Card>> cardMakers,
+        private static void PushCards(List<Card> target, Dictionary<int, Card> cardMakers,
             (double X1, double X2, double Z1, double Z2) coords, JSONContainer container)
         {
             var elements = container.ObjectStates
@@ -403,7 +403,7 @@ namespace TUnderdark.TTSParser
                     {
                         if (cardMakers.TryGetValue(id, out var maker))
                         {
-                            target.Add(maker());
+                            target.Add(maker.Clone());
                         }
                     }
                 }
@@ -411,7 +411,7 @@ namespace TUnderdark.TTSParser
                 {
                     if (cardMakers.TryGetValue(element.CardId, out var maker))
                     {
-                        target.Add(maker());
+                        target.Add(maker.Clone());
                     }
                 }
             }

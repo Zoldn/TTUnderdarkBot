@@ -7,6 +7,7 @@ using TUnderdark.Model.CardActions;
 
 namespace TUnderdark.Model.Cards.Drow
 {
+    /*
     internal class BountyHunter : Card
     {
         public BountyHunter()
@@ -318,4 +319,5 @@ namespace TUnderdark.Model.Cards.Drow
         public override string ShortName => "MAM";
         public override Race Race => Race.DROW;
     }
+    */
 }

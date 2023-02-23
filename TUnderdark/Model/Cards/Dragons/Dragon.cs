@@ -7,6 +7,7 @@ using TUnderdark.Model.CardActions;
 
 namespace TUnderdark.Model.Cards.Dragons
 {
+    /*
     internal class WhiteWyrmling : Card
     {
         public WhiteWyrmling()
@@ -313,4 +314,5 @@ namespace TUnderdark.Model.Cards.Dragons
         public override string ShortName => "RDR";
         public override Race Race => Race.DRAGON;
     }
+    */
 }

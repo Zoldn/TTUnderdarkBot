@@ -32,7 +32,15 @@ namespace TUnderdark.Model
         }
     }
 
-    internal enum CardType
+    public enum CardSpecificType
+    {
+        NOBLE = 0,
+        SOLDIER,
+        LOLTH,
+        HOUSEGUARD,
+    }
+
+    public enum CardType
     {
         OBEDIENCE,
         AMBITION,
@@ -42,7 +50,7 @@ namespace TUnderdark.Model
         INSANE,
     }
 
-    internal enum Race
+    public enum Race
     {
         DROW, 
         DOPPELGANGER,

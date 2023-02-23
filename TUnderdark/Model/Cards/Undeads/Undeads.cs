@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TUnderdark.Model.Cards.Undeads
 {
+    /*
     internal class OgreZombie : Card
     {
         public OgreZombie()
@@ -305,4 +306,5 @@ namespace TUnderdark.Model.Cards.Undeads
         public override string ShortName => "LCH";
         public override Race Race => Race.UNDEAD;
     }
+    */
 }

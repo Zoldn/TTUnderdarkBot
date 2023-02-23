@@ -7,6 +7,7 @@ using TUnderdark.Model.CardActions;
 
 namespace TUnderdark.Model.Cards.Obedience
 {
+    /*
     internal class Noble : Card
     {
         public Noble() 
@@ -68,4 +69,5 @@ namespace TUnderdark.Model.Cards.Obedience
         public override string ShortName => "HGD";
         public override Race Race => Race.DROW;
     }
+    */
 }

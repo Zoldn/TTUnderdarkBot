@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
+using TUnderdark.Model.Cards;
 using TUnderdark.Model.Cards.Aberrations;
 using TUnderdark.Model.Cards.Demons;
 using TUnderdark.Model.Cards.Dragons;
@@ -11,18 +14,42 @@ using TUnderdark.Model.Cards.Drow;
 using TUnderdark.Model.Cards.Elementals;
 using TUnderdark.Model.Cards.Obedience;
 using TUnderdark.Model.Cards.Undeads;
+using TUnderdark.RatingSystem;
 
 namespace TUnderdark.TTSParser
 {
-    internal static class CardMapper
+    public static class CardMapper
     {
-        public static Dictionary<HashSet<int>, Func<Card>> RawCardMakers = new Dictionary<HashSet<int>, Func<Card>>() 
+        private sealed class JSONContainer
         {
-            { new HashSet<int>() { 1042 },              () => new Noble() }, 
-            { new HashSet<int>() { 1044 },              () => new Soldier() }, 
-            { new HashSet<int>() { 243 },               () => new PriestessOfLolth() }, 
-            { new HashSet<int>() { 240 },               () => new Houseguard() },
+            public List<Card> Cards { get; set; }
+        }
 
+        public static void ReadCards()
+        {
+            var cards = new List<Card>();
+
+            var json = File.ReadAllText(@"..\..\..\..\TUnderdark\Resources\Cards.json");
+
+            var container = JsonConvert.DeserializeObject<JSONContainer>(json);
+
+            SpecificTypeCardMakers = container
+                .Cards
+                .ToDictionary(c => c.SpecificType);
+        }
+
+        public static Dictionary<CardSpecificType, Card> SpecificTypeCardMakers =
+            new Dictionary<CardSpecificType, Card>();
+
+        public static Dictionary<HashSet<int>, CardSpecificType> TTSIdCardMapper = 
+            new Dictionary<HashSet<int>, CardSpecificType>() 
+        {
+            { new HashSet<int>() { 1042 },              CardSpecificType.NOBLE }, 
+            { new HashSet<int>() { 1044 },              CardSpecificType.SOLDIER }, 
+            { new HashSet<int>() { 243 },               CardSpecificType.LOLTH }, 
+            { new HashSet<int>() { 240 },               CardSpecificType.HOUSEGUARD },
+
+            /*
             #region Drow
 
             { new HashSet<int>() { 211, 212 },          () => new BountyHunter() }, 
@@ -170,15 +197,16 @@ namespace TUnderdark.TTSParser
             { new HashSet<int>() { 27529 },                     () => new Imix() },
             { new HashSet<int>() { 27539 },                     () => new YanCBin() },
             { new HashSet<int>() { 27532 },                     () => new Olhydra() },
-
+            
             #endregion
+            */
         };
 
-        public static Dictionary<int, Func<Card>> CardMakers => RawCardMakers
+        public static Dictionary<int, Card> CardMakers => TTSIdCardMapper
             .SelectMany(kv => kv.Key, (kv, cardId) => (CardId: cardId, Creator: kv.Value))
             .ToDictionary(
                 kv => kv.CardId,
-                kv => kv.Creator
+                kv => SpecificTypeCardMakers[kv.Creator]
             );
     }
 }
