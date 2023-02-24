@@ -10,12 +10,18 @@ namespace UnderdarkAI.Utils
     internal static class RandomSelector
     {
         public static T SelectRandomWithWeights<T>(Dictionary<T, double> items, Random random)
-            where T : notnull
+            //where T : notnull
         {
             Debug.Assert(items != null);
             Debug.Assert(items.Count > 0);
             Debug.Assert(items.All(kv => kv.Value >= 0));
             Debug.Assert(items.Any(kv => kv.Value > 0));
+
+
+            //if (items.Count == 0)
+            //{
+            //    return new T();
+            //}
 
             var totalWeight = items.Sum(kv => kv.Value);
 
@@ -73,9 +79,9 @@ namespace UnderdarkAI.Utils
 
             for (int i = 0; i < 100; i++)
             {
-                var option = SelectRandomWithWeights(options, random);
+                //var option = SelectRandomWithWeights(options, random);
 
-                rets.Add(option);
+                //rets.Add(option);
             }
 
             var groupResult = rets

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
+using UnderdarkAI.AI.Selectors;
 using UnderdarkAI.MetricUtils;
 using UnderdarkAI.Utils;
 
@@ -26,6 +27,8 @@ namespace UnderdarkAI.AI
         /// </summary>
         public int RestartLimit { get; set; }
 
+        public Dictionary<SelectionState, IEffectSelector> StateSelectors { get; private set; }
+
         public TurnMaker(Board board, Color color, int? seed = null)
         {
             InitialBoard = board;
@@ -40,25 +43,44 @@ namespace UnderdarkAI.AI
             {
                 random = new Random();
             }
+
+            StateSelectors = new Dictionary<SelectionState, IEffectSelector>()
+            {
+                { SelectionState.CARD_OR_FREE_ACTION, new CardOrFreeActionSelection() },
+                { SelectionState.SELECT_END_TURN, new EndTurnSelection() },
+                { SelectionState.SELECT_CARD, new CardToPlaySelection() },
+                { SelectionState.SELECT_CARD_OPTION, new CardOptionSelection() },
+                { SelectionState.SELECT_FREE_ACTION, new FreeActionSelection() },
+            };
         }
 
         public void MakeTurn()
         {
             for (int iteration = 0; iteration < RestartLimit; iteration++)
             {
-                Selection();
+                CopyRoot(out var board, out var turn);
+
+                Selection(board, turn);
             }
         }
 
-        private void Selection()
+        private void CopyRoot(out Board board, out Turn turn)
         {
             /// Клонируем исходное состояние
-            var board = InitialBoard.Clone();
+            board = InitialBoard.Clone();
 
             /// Текущий игрок, за которого надо сделать ход
             var currentPlayer = board.Players[Color];
 
-            Turn turn = InitializeNewTurn(board, currentPlayer);
+            turn = InitializeNewTurn(board, currentPlayer);
+        }
+
+        private void Selection(Board board, Turn turn)
+        {
+            Console.WriteLine();
+
+            /// Текущий игрок, за которого надо сделать ход
+            var currentPlayer = board.Players[Color];
 
             /// Шаффлим руку, чтобы рандомизировать порядок розыгрыша карт
             currentPlayer.Hand.Shuffle(random);
@@ -67,18 +89,29 @@ namespace UnderdarkAI.AI
             currentPlayer.Deck.Shuffle(random);
             board.Deck.Shuffle(random);
 
-            int currentHandIndex = 0;
-
-            /// Пока не закончились карты последовательно их разыгрываем
-            /// Заранее не знаем, сколько их будет, так как есть Draw a card
-            while (currentHandIndex < currentPlayer.Hand.Count)
+            while (turn.State != SelectionState.FINISH_SELECTION)
             {
-                var card = currentPlayer.Hand[currentHandIndex];
+                if (StateSelectors.TryGetValue(turn.State, out var selector))
+                {
+                    var effectVariations = selector.GenerateOptions(board, turn);
 
+                    var selectedEffectVariation = RandomSelector.SelectRandomWithWeights(effectVariations, random);
 
+                    turn.SelectionSequence.AddRange(selectedEffectVariation);
 
-                ++currentHandIndex;
+                    foreach (var effect in selectedEffectVariation)
+                    {
+                        effect.ApplyEffect(board, turn);
+                        effect.PrintEffect();
+                    }
+                }
+                else
+                {
+                    break;
+                }
             }
+
+            ControlMetrics.GetVPForSiteControlMarkersInTheEnd(board, turn);
         }
 
         private Turn InitializeNewTurn(Board board, Player currentPlayer)

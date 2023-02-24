@@ -7,6 +7,17 @@ using TUnderdark.Model;
 
 namespace UnderdarkAI.AI
 {
+    internal interface IEffectSelector
+    {
+        public Dictionary<List<IAtomicEffect>, double> GenerateOptions(Board board, Turn turn);
+    }
+
+    internal interface ICardEffectSelector : IEffectSelector
+    { 
+        public Card Card { get; }
+    }
+
+
     /// <summary>
     /// Атомарный эффект, применяемый к ходу или состоянию доски
     /// </summary>
@@ -20,7 +31,7 @@ namespace UnderdarkAI.AI
         /// <summary>
         /// Привязан ли эффект к карте, если null - то свободное действие
         /// </summary>
-        public Card Card { get; }
+        public Card? Card { get; }
         /// <summary>
         /// Применить эффект к текущему состоянию
         /// </summary>

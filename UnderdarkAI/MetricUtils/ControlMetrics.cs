@@ -27,5 +27,23 @@ namespace UnderdarkAI.MetricUtils
                 turn.Mana += location.BonusMana;
             }
         }
+
+        public static void GetVPForSiteControlMarkersInTheEnd(Board board, Turn turn)
+        {
+            foreach (var location in board.Locations)
+            {
+                if (location.BonusVP == 0)
+                {
+                    continue;
+                }
+
+                if (location.GetFullControl() != turn.Color)
+                {
+                    continue;
+                }
+
+                turn.VPs += location.BonusVP;
+            }
+        }
     }
 }

@@ -23,12 +23,38 @@ namespace UnderdarkAI.AI
     /// </summary>
     internal enum SelectionState
     {
+        /// <summary>
+        /// Выбор - сыграть карту или свободное действие
+        /// </summary>
         CARD_OR_FREE_ACTION,
+        /// <summary>
+        /// Выбор - какую карту сыграть
+        /// </summary>
         SELECT_CARD,
+        /// <summary>
+        /// Выбор - сыграть свободное действие
+        /// </summary>
         SELECT_FREE_ACTION,
+        /// <summary>
+        /// Выбор - какую опцию на карте сыграть
+        /// </summary>
         SELECT_CARD_OPTION,
+        /// <summary>
+        /// Выбор - локации
+        /// </summary>
         SELECT_LOCATION,
+        /// <summary>
+        /// Выбор - цвета
+        /// </summary>
         SELECT_COLOR,
+        /// <summary>
+        /// Переключиться в режим конца хода
+        /// </summary>
+        SELECT_END_TURN,
+        /// <summary>
+        /// Остановка поиска, ход полностью завершен
+        /// </summary>
+        FINISH_SELECTION,
     }
 
     /// <summary>
