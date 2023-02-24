@@ -30,15 +30,31 @@ namespace TUnderdark.Model
         public Dictionary<Color, bool> Spies { get; set; }
         public int ControlVPs { get; set; }
         public int TotalControlVPs => ControlVPs + (IsSite ? 2 : 0);
+        /// <summary>
+        /// Является ли контролируемое локацией
+        /// </summary>
         public bool IsSite { get; set; }
         public bool IsStart { get; set; }
         public bool IsTunnel => !IsSite;
         public bool IsSpyPlacable => !IsTunnel;
+        /// <summary>
+        /// Есть ли маркер контроля
+        /// </summary>
         public bool HasControlMarker => BonusMana > 0;
+        /// <summary>
+        /// Бонусная мана за контроль
+        /// </summary>
         public int BonusMana { get; set; }
+        /// <summary>
+        /// Победные очки в конце хода за полный контроль
+        /// </summary>
+        public int BonusVP { get; set; }
         public HashSet<Location> Neighboors { get; set; }
         public List<LocationId> NeighboorIds { get; set; }
-        public int BonusVP { get; set; }
+        /// <summary>
+        /// Количество свободных клеток в локации
+        /// </summary>
+        public int FreeSpaces => Size - TotalTroops;
 
         public Location(LocationId id)
         {

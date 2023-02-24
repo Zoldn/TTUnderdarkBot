@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
+using UnderdarkAI.MetricUtils;
 using UnderdarkAI.Utils;
 
 namespace UnderdarkAI.AI
@@ -57,6 +58,8 @@ namespace UnderdarkAI.AI
             /// Текущий игрок, за которого надо сделать ход
             var currentPlayer = board.Players[Color];
 
+            Turn turn = InitializeNewTurn(board, currentPlayer);
+
             /// Шаффлим руку, чтобы рандомизировать порядок розыгрыша карт
             currentPlayer.Hand.Shuffle(random);
 
@@ -76,6 +79,29 @@ namespace UnderdarkAI.AI
 
                 ++currentHandIndex;
             }
+        }
+
+        private Turn InitializeNewTurn(Board board, Player currentPlayer)
+        {
+            var turn = new Turn(Color);
+
+            foreach (var card in currentPlayer.Hand)
+            {
+                turn.CardStates.Add(card, CardState.IN_HAND);
+            }
+
+            foreach (var location in board.Locations)
+            {
+                turn.LocationStates.Add(location, new LocationState(location, Color));
+            }
+
+            ControlMetrics.GetStartManaFromSites(board, currentPlayer, turn);
+
+            DistanceCalculator.CalculatePresenceAndDistances(board, turn);
+
+            //turn.DebugPrintDistances();
+
+            return turn;
         }
     }
 }
