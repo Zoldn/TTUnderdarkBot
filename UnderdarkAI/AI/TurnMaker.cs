@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 using UnderdarkAI.AI.Selectors;
+using UnderdarkAI.AI.TargetFunctions;
 using UnderdarkAI.MetricUtils;
 using UnderdarkAI.Utils;
 
@@ -28,6 +30,7 @@ namespace UnderdarkAI.AI
         public int RestartLimit { get; set; }
 
         public Dictionary<SelectionState, IEffectSelector> StateSelectors { get; private set; }
+        public ITargetFunction TargetFunction { get; private set; }
 
         public TurnMaker(Board board, Color color, int? seed = null)
         {
@@ -52,6 +55,8 @@ namespace UnderdarkAI.AI
                 { SelectionState.SELECT_CARD_OPTION, new CardOptionSelection() },
                 { SelectionState.SELECT_FREE_ACTION, new FreeActionSelection() },
             };
+
+            TargetFunction = new VPScoreTargetFunction();
         }
 
         public void MakeTurn()
@@ -112,6 +117,8 @@ namespace UnderdarkAI.AI
             }
 
             ControlMetrics.GetVPForSiteControlMarkersInTheEnd(board, turn);
+
+            var score = TargetFunction.Evaluate(board, turn);
         }
 
         private Turn InitializeNewTurn(Board board, Player currentPlayer)
