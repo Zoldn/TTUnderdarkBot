@@ -42,6 +42,39 @@ namespace UnderdarkAI.Utils
             return items.Last().Key;
         }
 
+        public static T SelectRandomWithWeights<T>(IEnumerable<T> items, Func<T, double> weightSelector, Random random)
+        //where T : notnull
+        {
+            Debug.Assert(items != null);
+            Debug.Assert(items.Count() > 0);
+            //Debug.Assert(items.All(kv => kv.Value >= 0));
+            //Debug.Assert(items.Any(kv => kv.Value > 0));
+
+
+            //if (items.Count == 0)
+            //{
+            //    return new T();
+            //}
+
+            var totalWeight = items.Sum(i => weightSelector(i));
+
+            var randValue = random.NextDouble() * totalWeight;
+
+            double curWeight = 0.0d;
+
+            foreach (var item in items)
+            {
+                curWeight += weightSelector(item);
+
+                if (randValue <= curWeight)
+                {
+                    return item;
+                }
+            }
+
+            return items.Last();
+        }
+
         public static T SelectRandom<T>(List<T> items, Random random)
             where T : class
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
+using TUnderdark.TTSParser;
 
 namespace UnderdarkAI.AI.Selectors
 {
@@ -13,9 +14,11 @@ namespace UnderdarkAI.AI.Selectors
         public Dictionary<List<IAtomicEffect>, double> GenerateOptions(Board board, Turn turn)
         {
             return turn.CardStates
-                .Where(kv => kv.Value == CardState.IN_HAND)
+                .Where(kv => kv.State == CardState.IN_HAND)
                 .ToDictionary(
-                    c => new List<IAtomicEffect>(1) { new SelectedCardToPlay(c.Key) },
+                    c => new List<IAtomicEffect>(1) { new SelectedCardToPlay(
+                        CardMapper.SpecificTypeCardMakers[c.SpecificType].Clone()
+                        ) },
                     c => 10.0d
                 );
         }
@@ -37,7 +40,17 @@ namespace UnderdarkAI.AI.Selectors
 
         public void ApplyEffect(Board board, Turn turn)
         {
-            turn.CardStates[SelectedCard] = CardState.NOW_PLAYING;
+            //turn.CardStates[SelectedCard] = CardState.NOW_PLAYING;
+
+            var cardState = turn.CardStates.FirstOrDefault(s => s.SpecificType == SelectedCard.SpecificType);
+
+            if (cardState is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            cardState.State = CardState.NOW_PLAYING;
+
             turn.State = SelectionState.SELECT_CARD_OPTION;
         }
 

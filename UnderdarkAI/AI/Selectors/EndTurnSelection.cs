@@ -14,7 +14,7 @@ namespace UnderdarkAI.AI.Selectors
         {
             if (turn.EndTurnEffects.Count > 0)
             {
-                return turn.EndTurnEffects.ToDictionary(e => new List<IAtomicEffect>(1) { e }, e => 1.0d);
+                return turn.EndTurnEffects.ToDictionary(e => new List<IAtomicEffect>(1) {  }, e => 1.0d);
             }
             
             return new Dictionary<List<IAtomicEffect>, double> 

@@ -10,7 +10,8 @@ namespace TUnderdark.Model
     public class Board 
     {
         public Dictionary<Color, Player> Players { get; set; }
-        public List<Location> Locations { get; set; }
+        public List<Location> Locations { get; init; }
+        public Dictionary<LocationId, Location> LocationIds { get; set; }
         public List<Card> Deck { get; set; }
         public List<Card> Market { get; set; }
         public List<Card> Devoured { get; set; }
@@ -378,6 +379,10 @@ namespace TUnderdark.Model
                 Players = Players.ToDictionary(kv => kv.Key, kv => kv.Value.Clone()),
                 Locations = Locations.Select(l => l.Clone()).ToList(),
             };
+
+            copyBoard.LocationIds = copyBoard
+                .Locations
+                .ToDictionary(l => l.Id, l => l);
 
             var locationDict = copyBoard
                 .Locations

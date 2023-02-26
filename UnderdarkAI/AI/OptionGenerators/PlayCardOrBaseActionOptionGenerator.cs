@@ -4,12 +4,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
-using UnderdarkAI.AI;
+using UnderdarkAI.AI.Selectors;
 
-namespace UnderdarkAI.AI.Selectors
+namespace UnderdarkAI.AI.OptionGenerators
 {
-    internal class CardOrFreeActionSelection : IEffectSelector
+    internal class PlayCardOrBaseActionOptionGenerator : OptionGenerator
     {
+        public override SelectionState State => SelectionState.CARD_OR_FREE_ACTION;
+
+        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
+        {
+            var ret = new List<PlayableOption>(2);
+
+            if (IsFreeAction(board, turn))
+            {
+                ret.Add(new SwitchToBaseActionSelectionOption() { Weight = 50.0d });
+            }
+
+            if (IsCardInHands(board, turn))
+            {
+                ret.Add(new SwitchToCardSelectionOption() { Weight = 50.0d });
+            }
+
+            if (!ret.Any())
+            {
+                ret.Add(new SwitchToEndTurnSelectionOption() { Weight = 100.0d });
+            }
+
+            return ret;
+        }
 
         #region Statics 
         /// <summary>
@@ -105,86 +128,65 @@ namespace UnderdarkAI.AI.Selectors
         }
 
         #endregion
+    }
 
-        public CardOrFreeActionSelection() { }
-
-        public Dictionary<List<IAtomicEffect>, double> GenerateOptions(Board board, Turn turn)
+    internal class SwitchToCardSelectionOption : PlayableOption
+    {
+        public override void ApplyOption(Board board, Turn turn)
         {
-            var ret = new Dictionary<List<IAtomicEffect>, double>();
 
-            if (IsFreeAction(board, turn))
-            {
-                ret.Add(new List<IAtomicEffect>() { new ToFreeActionSelectionMode() }, 50.0d);
-            }
+        }
 
-            if (IsCardInHands(board, turn))
-            {
-                ret.Add(new List<IAtomicEffect>() { new ToCardToPlaySelectionMode() }, 50.0d);
-            }
+        public override int MinVerbosity => 10;
 
-            if (!ret.Any())
-            {
-                ret.Add(new List<IAtomicEffect>() { new ToEndTurnSwitch() }, 100.0d);
-            }
+        public override SelectionState GetNextState()
+        {
+            return SelectionState.SELECT_CARD;
+        }
 
-            return ret;
+        public override string GetOptionText()
+        {
+            return $"Switch to card to play selection";
         }
     }
 
-    internal class ToFreeActionSelectionMode : IAtomicEffect
+    internal class SwitchToBaseActionSelectionOption : PlayableOption
     {
-        public bool IsNewInfoRecieved => false;
-
-        public Card? Card => null;
-
-        public double Value { get; set; }
-
-        public void ApplyEffect(Board board, Turn turn)
+        public override void ApplyOption(Board board, Turn turn)
         {
-            turn.State = SelectionState.SELECT_BASE_ACTION;
+
         }
 
-        public void PrintEffect()
+        public override int MinVerbosity => 10;
+
+        public override SelectionState GetNextState()
         {
-            //Console.WriteLine($"Change selection to free selection");
+            return SelectionState.SELECT_BASE_ACTION;
+        }
+
+        public override string GetOptionText()
+        {
+            return $"Switch to free action selection";
         }
     }
 
-    internal class ToCardToPlaySelectionMode : IAtomicEffect
+    internal class SwitchToEndTurnSelectionOption : PlayableOption
     {
-        public bool IsNewInfoRecieved => false;
-
-        public Card? Card => null;
-
-        public double Value { get; set; }
-
-        public void ApplyEffect(Board board, Turn turn)
+        public override void ApplyOption(Board board, Turn turn)
         {
-            turn.State = SelectionState.SELECT_CARD;
+
         }
 
-        public void PrintEffect()
+        public override int MinVerbosity => 0;
+
+        public override SelectionState GetNextState()
         {
-            //Console.WriteLine($"Select card to play from hand");
-        }
-    }
-
-    internal class ToEndTurnSwitch : IAtomicEffect
-    {
-        public bool IsNewInfoRecieved => false;
-
-        public Card? Card => null;
-
-        public double Value { get; set; }
-
-        public void ApplyEffect(Board board, Turn turn)
-        {
-            turn.State = SelectionState.SELECT_CARD_END_TURN;
+            return SelectionState.SELECT_CARD_END_TURN;
         }
 
-        public void PrintEffect()
+        public override string GetOptionText()
         {
-            Console.WriteLine($"Ending turn");
+            return $"Switch to ending turn";
         }
     }
 }

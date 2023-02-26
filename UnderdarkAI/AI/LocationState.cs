@@ -37,5 +37,15 @@ namespace UnderdarkAI.AI
             HasPresence = false;
             IsPropagatable = false;
         }
+
+        internal LocationState Clone()
+        {
+            return new LocationState(Location, PlayerColor)
+            {
+                Distance = Distance,
+                HasPresence = HasPresence,
+                IsPropagatable = IsPropagatable,
+            };
+        }
     }
 }

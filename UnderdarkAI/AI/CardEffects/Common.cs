@@ -18,14 +18,21 @@ namespace UnderdarkAI.AI.CardEffects
 
         public void ApplyEffect(Board board, Turn turn)
         {
-            Card = turn.ActiveCard;
+            var sCard = turn.ActiveCard;
 
-            if (Card is null)
+            if (sCard is null)
             {
                 throw new NullReferenceException();
             }
 
-            turn.CardStates[Card] = CardState.DISCARDED;
+            var cardState = turn.CardStates.FirstOrDefault(s => s.SpecificType == sCard);
+
+            if (cardState is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            cardState.State = CardState.DISCARDED;
 
             turn.State = SelectionState.CARD_OR_FREE_ACTION;
         }
@@ -58,7 +65,20 @@ namespace UnderdarkAI.AI.CardEffects
             turn.Swords += Swords;
 
             turn.State = SelectionState.CARD_OR_FREE_ACTION;
-            turn.CardStates[turn.ActiveCard] = CardState.PLAYED;
+
+            if (turn.ActiveCard is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            var card = turn.CardStates.FirstOrDefault(s => s.SpecificType == turn.ActiveCard);
+
+            if (card is null)
+            {
+                throw new NullReferenceException();
+            }
+
+            card.State = CardState.PLAYED;
         }
 
         public void PrintEffect()
@@ -179,7 +199,8 @@ namespace UnderdarkAI.AI.CardEffects
             }
             else
             {
-                turn.VPs++;
+                board.Players[turn.Color].VPTokens++;
+                //turn.VPs++;
             }
             
             turn.Swords--;

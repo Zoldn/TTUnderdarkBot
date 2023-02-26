@@ -42,7 +42,8 @@ namespace UnderdarkAI.MetricUtils
                     continue;
                 }
 
-                turn.VPs += location.BonusVP;
+                //turn.VPs += location.BonusVP;
+                board.Players[turn.Color].VPTokens += location.BonusVP;
             }
         }
     }

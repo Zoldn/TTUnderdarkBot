@@ -793,6 +793,10 @@ namespace TUnderdark.Model
                 Location.MakeTunnel(LocationId.Ruins2ChedNasad, "Ruins2ChedNasad",
                 LocationId.Ruins, LocationId.ChedNasad)
                 );
+
+            board.LocationIds = board
+                .Locations
+                .ToDictionary(l => l.Id);
         }
 
         private static void LinkLocations(Board board)

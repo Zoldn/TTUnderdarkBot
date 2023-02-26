@@ -33,7 +33,7 @@ namespace UnderdarkAI.AI.Selectors
                 throw new NullReferenceException();
             }
 
-            if (SpecificCardSelectors.TryGetValue(turn.ActiveCard.SpecificType, out var selector))
+            if (SpecificCardSelectors.TryGetValue(turn.ActiveCard.Value, out var selector))
             {
                 return selector.GenerateOptions(board, turn);
             }
