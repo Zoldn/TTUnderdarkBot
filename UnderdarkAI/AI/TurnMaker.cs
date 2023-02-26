@@ -13,7 +13,7 @@ using UnderdarkAI.Utils;
 
 namespace UnderdarkAI.AI
 {
-    internal sealed class TurnMaker
+    public sealed class TurnMaker
     {
         private readonly Random random;
         /// <summary>
@@ -27,7 +27,7 @@ namespace UnderdarkAI.AI
         /// <summary>
         /// Частично зафиксированный ход
         /// </summary>
-        public Turn FixedTurn { get; private set; }
+        internal Turn FixedTurn { get; private set; }
         /// <summary>
         /// Цвет игрока, за которого надо сделать ход
         /// </summary>
@@ -36,8 +36,8 @@ namespace UnderdarkAI.AI
         /// Количество рестартов с начального решения
         /// </summary>
         public int RestartLimit { get; set; }
-        public Dictionary<SelectionState, OptionGenerator> StateSelectors { get; private set; }
-        public ITargetFunction TargetFunction { get; private set; }
+        internal Dictionary<SelectionState, OptionGenerator> StateSelectors { get; private set; }
+        internal ITargetFunction TargetFunction { get; private set; }
         public int Seed { get; }
 
         public TurnMaker(Board board, Color color, int? seed = null)
@@ -77,11 +77,16 @@ namespace UnderdarkAI.AI
             TargetFunction = new VPScoreTargetFunction();
         }
 
-        public void MakeTurn()
+        public TurnMakerResult MakeTurn()
         {
             Console.WriteLine();
 
-            var initialScore = TargetFunction.Evaluate(FixedBoard, FixedTurn);
+            var turnMakerResult = new TurnMakerResult() 
+            {
+                InitialScore = TargetFunction.Evaluate(FixedBoard, FixedTurn),
+            };
+
+            //var initialScore = TargetFunction.Evaluate(FixedBoard, FixedTurn);
 
             while (FixedTurn.State != SelectionState.FINISH_SELECTION)
             {
@@ -96,12 +101,13 @@ namespace UnderdarkAI.AI
                         break;
                     }
 
-                    var monteCarloStatus = MonteCarloSelectionStatus.NOT_ANALYSED;
+                    //var monteCarloStatus = MonteCarloSelectionStatus.NOT_ANALYSED;
 
                     if (options.Count == 1)
                     {
                         selectedOption = options[0];
-                        monteCarloStatus = MonteCarloSelectionStatus.ONLY_OPTION;
+                        //monteCarloStatus = MonteCarloSelectionStatus.ONLY_OPTION;
+                        selectedOption.MonteCarloStatus = MonteCarloSelectionStatus.ONLY_OPTION;
                     }
 
                     if (options.Count > 1)
@@ -109,7 +115,7 @@ namespace UnderdarkAI.AI
                         var monteCarloResult = RunMonteCarloSelection(options);
                         selectedOption = monteCarloResult.PlayableOption;
 
-                        monteCarloStatus = monteCarloResult.Status;
+                        //monteCarloStatus = monteCarloResult.PlayableOption.MonteCarloStatus;
 
                         //Console.WriteLine($"\tNext turn is {monteCarloResult.Status}");
                     }
@@ -120,7 +126,8 @@ namespace UnderdarkAI.AI
                     }
 
                     selectedOption.ApplyOption(FixedBoard, FixedTurn);
-                    selectedOption.Print(0, monteCarloStatus);
+                    //Console.WriteLine(selectedOption.Print(0, monteCarloStatus));
+                    turnMakerResult.PlayableOptions.Add(selectedOption);
 
                     FixedTurn.State = selectedOption.GetNextState();
                 }
@@ -132,9 +139,11 @@ namespace UnderdarkAI.AI
 
             ControlMetrics.GetVPForSiteControlMarkersInTheEnd(FixedBoard, FixedTurn);
 
-            var score = TargetFunction.Evaluate(FixedBoard, FixedTurn);
+            turnMakerResult.AfterTurnScore = TargetFunction.Evaluate(FixedBoard, FixedTurn);
 
-            Console.WriteLine($"Score change of this turn is {initialScore} -> {score}");
+            //Console.WriteLine($"Score change of this turn is {initialScore} -> {score}");
+
+            return turnMakerResult;
         }
 
         /// <summary>

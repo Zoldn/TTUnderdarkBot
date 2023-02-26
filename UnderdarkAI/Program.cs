@@ -11,6 +11,8 @@ namespace UnderdarkAI
         {
             CardMapper.ReadCards();
 
+            ArgumentParser.Parse("-color=y -turn=1 -iters=50", out var parseResultInfo, out var parsedArgs);
+
             Console.WriteLine("Reading current save");
 
             var board = BoardInitializer.Initialize(isWithChecks: false);
@@ -26,7 +28,9 @@ namespace UnderdarkAI
                 RestartLimit = 100,
             };
 
-            turnMaker.MakeTurn();
+            var resultTurn = turnMaker.MakeTurn();
+
+            Console.WriteLine(resultTurn.Print());
 
             //board.PrintResults();
 

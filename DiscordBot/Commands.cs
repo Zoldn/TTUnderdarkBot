@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 using TUnderdark.API;
+using TUnderdark.Model;
 using TUnderdark.RatingSystem;
+using TUnderdark.TTSParser;
+using UnderdarkAI.AI;
 
 namespace DiscordBot
 {
@@ -102,6 +105,38 @@ namespace DiscordBot
             var index = random.Next(quotes.Count);
 
             return ReplyAsync(quotes[index]);
+        }
+
+        // ~say hello world -> hello world
+        [Command("run")]
+        [Summary("Run solving turn for selected color")]
+        public Task MakeTurn([Remainder][Summary("The text to echo")] string args)
+        {
+            if (!ArgumentParser.Parse(args, out var parseResultInfo, out var parsedArgs))
+            {
+                return ReplyAsync(parseResultInfo);
+            }
+
+            CardMapper.ReadCards();
+
+            var board = BoardInitializer.Initialize(isWithChecks: false);
+
+            string json = TTSLoader.GetJson(isLastSave: false, saveName: @"TS_Save_70.json");
+
+            TTSSaveParser.Read(json, board);
+
+            //TestRandom();
+
+            var turnMaker = new TurnMaker(board, parsedArgs.Color.Value)
+            {
+                RestartLimit = parsedArgs.Iterations,
+            };
+
+            var resultTurn = turnMaker.MakeTurn();
+
+            Console.WriteLine(resultTurn.Print());
+
+            return ReplyAsync(resultTurn.Print());
         }
     }
 

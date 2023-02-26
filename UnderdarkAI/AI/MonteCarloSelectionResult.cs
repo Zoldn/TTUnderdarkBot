@@ -23,14 +23,14 @@ namespace UnderdarkAI.AI
         public IReadOnlyList<double> Scores { get; }
         public double AverageScore { get; }
         public double StandardDeviationScore { get; }
-        public MonteCarloSelectionStatus Status { get; set; }
+        //public MonteCarloSelectionStatus Status { get; set; }
         public double DistanceToBest { get; set; }
         public MonteCarloSelectionInfo(PlayableOption option, IEnumerable<double> scores)
         {
             PlayableOption = option;
             Scores = scores.ToList();
 
-            Status = MonteCarloSelectionStatus.NOT_ANALYSED;
+            option.MonteCarloStatus = MonteCarloSelectionStatus.NOT_ANALYSED;
 
             AverageScore = Scores.Average();
 
@@ -125,25 +125,25 @@ namespace UnderdarkAI.AI
 
                 if (distance > 3.0d)
                 {
-                    bestOption.Status = MonteCarloSelectionStatus.BEST;
+                    bestOption.PlayableOption.MonteCarloStatus = MonteCarloSelectionStatus.BEST;
                 }
                 else if (distance > 2.0d)
                 {
-                    bestOption.Status = MonteCarloSelectionStatus.GREAT;
+                    bestOption.PlayableOption.MonteCarloStatus = MonteCarloSelectionStatus.GREAT;
                 }
                 else if (distance > 1.0d)
                 {
-                    bestOption.Status = MonteCarloSelectionStatus.GOOD;
+                    bestOption.PlayableOption.MonteCarloStatus = MonteCarloSelectionStatus.GOOD;
                 }
                 else if (distance > -TOLERANCE)
                 {
-                    bestOption.Status = MonteCarloSelectionStatus.NORMAL;
+                    bestOption.PlayableOption.MonteCarloStatus = MonteCarloSelectionStatus.NORMAL;
                 }
             }
             else
             {
                 bestOption = RandomSelector.SelectRandom(goodOptions, random);
-                bestOption.Status = MonteCarloSelectionStatus.NORMAL;
+                bestOption.PlayableOption.MonteCarloStatus = MonteCarloSelectionStatus.NORMAL;
             }
 
             //var distanceToOthers = SelectionInfos

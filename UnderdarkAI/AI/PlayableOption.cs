@@ -24,23 +24,29 @@ namespace UnderdarkAI.AI
         public abstract void ApplyOption(Board board, Turn turn);
         public abstract string GetOptionText();
         public abstract int MinVerbosity { get; }
+        public MonteCarloSelectionStatus MonteCarloStatus { get; set; }
+
         public override string ToString()
         {
             return GetOptionText();
         }
-        public void Print(int verbosity, MonteCarloSelectionStatus monteCarloStatus)
+        public string Print(int verbosity, MonteCarloSelectionStatus monteCarloStatus)
         {
             if (verbosity >= MinVerbosity)
             {
                 if (monteCarloStatus == MonteCarloSelectionStatus.NOT_ANALYSED)
                 {
-                    Console.WriteLine(GetOptionText());
+                    //Console.WriteLine(GetOptionText());
+                    return GetOptionText();
                 }
                 else
                 {
-                    Console.WriteLine($"{GetOptionText()} [{monteCarloStatus}]");
+                    // Console.WriteLine($"{GetOptionText()} [{monteCarloStatus}]");
+                    return $"{GetOptionText()} [{monteCarloStatus}]";
                 }
             }
+
+            return string.Empty;
         }
     }
 }
