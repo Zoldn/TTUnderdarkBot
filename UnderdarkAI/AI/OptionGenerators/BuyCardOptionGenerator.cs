@@ -16,15 +16,20 @@ namespace UnderdarkAI.AI.OptionGenerators
         {
             var ret = new List<PlayableOption>();
 
-            
-            AddHouseguardOption(board, turn, ret);
+            AddHouseguardBuyOption(board, turn, ret);
             AddLolthBuyOption(board, turn, ret);
             AddMarketOptions(board, turn, ret);
+            AddDisableBuyOption(board, turn, ret);
 
             return ret;
         }
 
-        private static void AddHouseguardOption(Board board, Turn turn, List<PlayableOption> ret)
+        private void AddDisableBuyOption(Board board, Turn turn, List<PlayableOption> ret)
+        {
+            ret.Add(new DisableBuyOption() { Weight = 0.5d });
+        }
+
+        private static void AddHouseguardBuyOption(Board board, Turn turn, List<PlayableOption> ret)
         {
             if (board.HouseGuards <= 0 || turn.Mana < 3)
             {
@@ -146,4 +151,25 @@ namespace UnderdarkAI.AI.OptionGenerators
             }
         }
     }
+
+    internal class DisableBuyOption : PlayableOption
+    {
+        public override int MinVerbosity => 10;
+
+        public override void ApplyOption(Board board, Turn turn)
+        {
+            turn.IsBuyingEnabled = false;
+        }
+
+        public override SelectionState GetNextState()
+        {
+            return SelectionState.CARD_OR_FREE_ACTION;
+        }
+
+        public override string GetOptionText()
+        {
+            return $"Disable buying";
+        }
+    }
+
 }

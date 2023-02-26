@@ -42,6 +42,11 @@ namespace UnderdarkAI.AI.OptionGenerators
         /// <returns></returns>
         public static bool IsAvailableBuy(Board board, Turn turn)
         {
+            if (!turn.IsBuyingEnabled)
+            {
+                return false;
+            }
+
             bool buyFromMarketAvailable = board.Market.Count > 0
                 && board.Market.Min(c => c.ManaCost) <= turn.Mana;
 

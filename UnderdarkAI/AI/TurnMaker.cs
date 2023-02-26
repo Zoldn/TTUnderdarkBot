@@ -81,6 +81,8 @@ namespace UnderdarkAI.AI
         {
             Console.WriteLine();
 
+            var initialScore = TargetFunction.Evaluate(FixedBoard, FixedTurn);
+
             while (FixedTurn.State != SelectionState.FINISH_SELECTION)
             {
                 if (StateSelectors.TryGetValue(FixedTurn.State, out var selector))
@@ -132,7 +134,7 @@ namespace UnderdarkAI.AI
 
             var score = TargetFunction.Evaluate(FixedBoard, FixedTurn);
 
-            Console.WriteLine($"Final score is {score}");
+            Console.WriteLine($"Score change of this turn is {initialScore} -> {score}");
         }
 
         /// <summary>

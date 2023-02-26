@@ -136,6 +136,7 @@ namespace UnderdarkAI.AI
             .Select(s => s.SpecificType)
             .SingleOrDefault();
         //public Dictionary<Card, CardState> CardStates { get; private set; }
+        public bool IsBuyingEnabled { get; set; }
         public List<TurnCardState> CardStates { get; private set; }
         public Dictionary<Location, LocationState> LocationStates { get; private set; }
         public Turn(Color color)
@@ -146,6 +147,7 @@ namespace UnderdarkAI.AI
             EndTurnEffects = new(10);
             CardStates = new(5);
 
+            IsBuyingEnabled = true;
             State = SelectionState.CARD_OR_FREE_ACTION;
 
             LocationStates = new();
@@ -178,6 +180,7 @@ namespace UnderdarkAI.AI
                         kv => kv.Value.Clone()
                         ),
                 Mana = Mana,
+                IsBuyingEnabled = IsBuyingEnabled,
                 Swords = Swords,
                 State = State,
                 PresentScore = PresentScore,
