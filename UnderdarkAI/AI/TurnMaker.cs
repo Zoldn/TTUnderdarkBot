@@ -81,7 +81,7 @@ namespace UnderdarkAI.AI
         {
             Console.WriteLine();
 
-            var turnMakerResult = new TurnMakerResult() 
+            var turnMakerResult = new TurnMakerResult(FixedTurn.Color) 
             {
                 InitialScore = TargetFunction.Evaluate(FixedBoard, FixedTurn),
             };

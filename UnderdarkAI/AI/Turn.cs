@@ -19,6 +19,15 @@ namespace UnderdarkAI.AI
         DISCARDED,
     }
     /// <summary>
+    /// Режим выбора опции на карте Choose one
+    /// </summary>
+    internal enum CardOption
+    {
+        NONE_OPTION,
+        OPTION_A,
+        OPTION_B,
+    }
+    /// <summary>
     /// Режим выбора конечного автомата
     /// </summary>
     internal enum SelectionState
@@ -125,11 +134,20 @@ namespace UnderdarkAI.AI
         /// Estimate score of future
         /// </summary>
         public double FutureScore { get; set; }
+        #region State of automata
         /// <summary>
         /// Текущее состояние выбора
         /// </summary>
         public SelectionState State { get; set; }
-        //public List<IAtomicEffect> SelectionSequence { get; set; }
+        /// <summary>
+        /// Итерация выбора карты (для карт, вида "выберите 2/3 раза")
+        /// </summary>
+        public int CardStateIteration { get; set; }
+        /// <summary>
+        /// Опция на карте
+        /// </summary>
+        public CardOption CardOption { get; set; }
+        #endregion
         public List<PlayableOption> EndTurnEffects { get; set; }
         public CardSpecificType? ActiveCard => CardStates
             .Where(s => s.State == CardState.NOW_PLAYING)
@@ -149,6 +167,8 @@ namespace UnderdarkAI.AI
 
             IsBuyingEnabled = true;
             State = SelectionState.CARD_OR_FREE_ACTION;
+            CardOption = CardOption.NONE_OPTION;
+            CardStateIteration = 0;
 
             LocationStates = new();
         }
@@ -186,6 +206,8 @@ namespace UnderdarkAI.AI
                 PresentScore = PresentScore,
                 //VPs = VPs,
                 Value = Value,
+                CardStateIteration = CardStateIteration,
+                CardOption = CardOption,
             };
 
             return turn;
