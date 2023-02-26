@@ -28,11 +28,18 @@ namespace UnderdarkAI.AI
         {
             return GetOptionText();
         }
-        public void Print(int verbosity)
+        public void Print(int verbosity, MonteCarloSelectionStatus monteCarloStatus)
         {
             if (verbosity >= MinVerbosity)
             {
-                Console.WriteLine(GetOptionText());
+                if (monteCarloStatus == MonteCarloSelectionStatus.NOT_ANALYSED)
+                {
+                    Console.WriteLine(GetOptionText());
+                }
+                else
+                {
+                    Console.WriteLine($"{GetOptionText()} [{monteCarloStatus}]");
+                }
             }
         }
     }

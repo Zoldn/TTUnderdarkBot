@@ -38,6 +38,7 @@ namespace UnderdarkAI.AI
         public int RestartLimit { get; set; }
         public Dictionary<SelectionState, OptionGenerator> StateSelectors { get; private set; }
         public ITargetFunction TargetFunction { get; private set; }
+        public int Seed { get; }
 
         public TurnMaker(Board board, Color color, int? seed = null)
         {
@@ -50,17 +51,18 @@ namespace UnderdarkAI.AI
 
             if (seed.HasValue)
             {
-                random = new Random(seed.Value);
+                Seed = seed.Value;
             }
             else
             {
-                random = new Random();
+                Seed = (int)(DateTime.Now.Ticks % 10000000);
             }
+
+            random = new Random(Seed);
 
             StateSelectors = new Dictionary<SelectionState, OptionGenerator>()
             {
                 { SelectionState.CARD_OR_FREE_ACTION, new PlayCardOrBaseActionOptionGenerator() },
-                //{ SelectionState.SELECT_END_TURN, new EndTurnSelection() },
                 { SelectionState.SELECT_CARD, new SelectCardToPlayOptionGenerator() },
                 { SelectionState.SELECT_CARD_OPTION, new SelectPlayingCardOptionGenerator() },
                 { SelectionState.SELECT_BASE_ACTION, new BaseActionOptionGenerator() },
@@ -92,14 +94,22 @@ namespace UnderdarkAI.AI
                         break;
                     }
 
+                    var monteCarloStatus = MonteCarloSelectionStatus.NOT_ANALYSED;
+
                     if (options.Count == 1)
                     {
                         selectedOption = options[0];
+                        monteCarloStatus = MonteCarloSelectionStatus.ONLY_OPTION;
                     }
 
                     if (options.Count > 1)
                     {
-                        selectedOption = RunMonteCarloSelection(options);
+                        var monteCarloResult = RunMonteCarloSelection(options);
+                        selectedOption = monteCarloResult.PlayableOption;
+
+                        monteCarloStatus = monteCarloResult.Status;
+
+                        //Console.WriteLine($"\tNext turn is {monteCarloResult.Status}");
                     }
 
                     if (selectedOption is null)
@@ -108,7 +118,7 @@ namespace UnderdarkAI.AI
                     }
 
                     selectedOption.ApplyOption(FixedBoard, FixedTurn);
-                    selectedOption.Print(0);
+                    selectedOption.Print(0, monteCarloStatus);
 
                     FixedTurn.State = selectedOption.GetNextState();
                 }
@@ -132,7 +142,7 @@ namespace UnderdarkAI.AI
         /// <param name="firstOptions"></param>
         /// <returns></returns>
         /// <exception cref="NullReferenceException"></exception>
-        private PlayableOption? RunMonteCarloSelection(List<PlayableOption> firstOptions)
+        private MonteCarloSelectionInfo? RunMonteCarloSelection(List<PlayableOption> firstOptions)
         {
             var scoresOfFirstChoiseIndexes = firstOptions
                 .ToDictionary(
@@ -218,21 +228,29 @@ namespace UnderdarkAI.AI
                 scoresOfFirstChoiseIndexes[selectedFirstSelectionOption].Add(score);
             }
 
-            if (FixedTurn.State == SelectionState.BUY_CARD_BY_MANA)
-            {
-                int y = 1;
-            }
-
             var aggedResults = scoresOfFirstChoiseIndexes
                 .ToDictionary(
                     g => g.Key,
                     g => g.Value.Average()
                 );
 
-            var bestOption = aggedResults
-                .OrderByDescending(g => g.Value)
-                .First()
-                .Key;
+            var monteCarloChoices = scoresOfFirstChoiseIndexes
+                .Select(kv => new MonteCarloSelectionInfo(kv.Key, kv.Value))
+                .ToList();
+
+            //if (FixedTurn.State == SelectionState.BUY_CARD_BY_MANA)
+            //{
+            //    int y = 1;
+            //}
+
+            var analyzer = new MonteCarloSelectionInfoAnalyzer(monteCarloChoices);
+
+            var bestOption = analyzer.SelectBest(random);
+
+            //var bestOption = aggedResults
+            //    .OrderByDescending(g => g.Value)
+            //    .First()
+            //    .Key;
 
             ///TODO
 
