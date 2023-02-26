@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
-using UnderdarkAI.AI.Selectors.SpecificCardSelectors;
+using UnderdarkAI.AI.OptionGenerators.SpecificCardSelectors;
 
 namespace UnderdarkAI.AI.OptionGenerators
 {

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 using TUnderdark.TTSParser;
-using UnderdarkAI.AI.CardEffects;
 
 namespace UnderdarkAI.AI.OptionGenerators
 {
@@ -17,6 +16,7 @@ namespace UnderdarkAI.AI.OptionGenerators
         {
             var ret = new List<PlayableOption>();
 
+            
             AddHouseguardOption(board, turn, ret);
             AddLolthBuyOption(board, turn, ret);
             AddMarketOptions(board, turn, ret);
@@ -35,7 +35,7 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             ret.Add(new BuyingOption(card.SpecificType)
             {
-                Weight = 1.0d + card.VP / card.ManaCost
+                Weight = GetWeight(card),
             }
             );
         }
@@ -51,7 +51,7 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             ret.Add(new BuyingOption(card.SpecificType)
             {
-                Weight = 1.0d + card.VP / card.ManaCost
+                Weight = GetWeight(card)
             }
             );
         }
@@ -66,10 +66,15 @@ namespace UnderdarkAI.AI.OptionGenerators
             {
                 ret.Add(new BuyingOption(card.SpecificType)
                 {
-                    Weight = 1.0d + card.VP / card.ManaCost,
+                    Weight = GetWeight(card),
                 }
                 );
             }
+        }
+
+        private static double GetWeight(Card card)
+        {
+            return 1.0d + (double)card.VP / card.ManaCost;
         }
     }
 

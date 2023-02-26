@@ -19,6 +19,8 @@ namespace UnderdarkAI
 
             TTSSaveParser.Read(json, board);
 
+            //TestRandom();
+
             var turnMaker = new TurnMaker(board, Color.YELLOW) 
             {
                 RestartLimit = 100,
@@ -31,6 +33,19 @@ namespace UnderdarkAI
             //board.Clone().PrintResults();
 
             Console.ReadLine();
+        }
+
+        private static void TestRandom()
+        {
+            Random random = new Random((int)(DateTime.Now.Ticks % 1000000));
+
+            List<double> rvalues = Enumerable.Range(0, 10000)
+                .Select(e => random.NextDouble())
+                .ToList();
+
+            var t = rvalues
+                .GroupBy(e => (int)Math.Floor(10 * e))
+                .ToDictionary(g => g.Key, g => g.Count());
         }
     }
 }

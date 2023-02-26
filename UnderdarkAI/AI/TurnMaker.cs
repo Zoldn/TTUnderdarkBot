@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 using UnderdarkAI.AI.OptionGenerators;
-using UnderdarkAI.AI.Selectors;
 using UnderdarkAI.AI.TargetFunctions;
 using UnderdarkAI.MetricUtils;
 using UnderdarkAI.Utils;
@@ -37,8 +36,6 @@ namespace UnderdarkAI.AI
         /// Количество рестартов с начального решения
         /// </summary>
         public int RestartLimit { get; set; }
-
-        //public Dictionary<SelectionState, IEffectSelector> StateSelectors { get; private set; }
         public Dictionary<SelectionState, OptionGenerator> StateSelectors { get; private set; }
         public ITargetFunction TargetFunction { get; private set; }
 
@@ -59,15 +56,6 @@ namespace UnderdarkAI.AI
             {
                 random = new Random();
             }
-
-            //StateSelectors = new Dictionary<SelectionState, IEffectSelector>()
-            //{
-            //    { SelectionState.CARD_OR_FREE_ACTION, new CardOrFreeActionSelection() },
-            //    { SelectionState.SELECT_END_TURN, new EndTurnSelection() },
-            //    { SelectionState.SELECT_CARD, new CardToPlaySelection() },
-            //    { SelectionState.SELECT_CARD_OPTION, new CardOptionSelection() },
-            //    { SelectionState.SELECT_FREE_ACTION, new FreeActionSelection() },
-            //};
 
             StateSelectors = new Dictionary<SelectionState, OptionGenerator>()
             {
@@ -91,16 +79,6 @@ namespace UnderdarkAI.AI
         {
             Console.WriteLine();
 
-            /// Текущий игрок, за которого надо сделать ход
-            //var currentPlayer = FixedBoard.Players[Color];
-
-            /// Шаффлим руку, чтобы рандомизировать порядок розыгрыша карт
-            //currentPlayer.Hand.Shuffle(random);
-
-            /// Шаффлим колоды рынка и игрока, для устранения ошибки заглядывания в будущее
-            //currentPlayer.Deck.Shuffle(random);
-            //FixedBoard.Deck.Shuffle(random);
-
             while (FixedTurn.State != SelectionState.FINISH_SELECTION)
             {
                 if (StateSelectors.TryGetValue(FixedTurn.State, out var selector))
@@ -121,7 +99,7 @@ namespace UnderdarkAI.AI
 
                     if (options.Count > 1)
                     {
-                        selectedOption = RunMonteCarloSelection(options/*FixedBoard, FixedTurn*/);
+                        selectedOption = RunMonteCarloSelection(options);
                     }
 
                     if (selectedOption is null)
@@ -240,6 +218,11 @@ namespace UnderdarkAI.AI
                 scoresOfFirstChoiseIndexes[selectedFirstSelectionOption].Add(score);
             }
 
+            if (FixedTurn.State == SelectionState.BUY_CARD_BY_MANA)
+            {
+                int y = 1;
+            }
+
             var aggedResults = scoresOfFirstChoiseIndexes
                 .ToDictionary(
                     g => g.Key,
@@ -251,6 +234,8 @@ namespace UnderdarkAI.AI
                 .First()
                 .Key;
 
+            ///TODO
+
             return bestOption;
         }
 
@@ -260,47 +245,6 @@ namespace UnderdarkAI.AI
             board = FixedBoard.Clone();
 
             turn = FixedTurn.Clone(board);
-        }
-
-        private void Selection(Board board, Turn turn)
-        {
-            Console.WriteLine();
-
-            /// Текущий игрок, за которого надо сделать ход
-            var currentPlayer = board.Players[Color];
-
-            /// Шаффлим руку, чтобы рандомизировать порядок розыгрыша карт
-            currentPlayer.Hand.Shuffle(random);
-
-            /// Шаффлим колоды рынка и игрока, для устранения ошибки заглядывания в будущее
-            currentPlayer.Deck.Shuffle(random);
-            board.Deck.Shuffle(random);
-
-            while (turn.State != SelectionState.FINISH_SELECTION)
-            {
-                if (StateSelectors.TryGetValue(turn.State, out var selector))
-                {
-                    //var effectVariations = selector.GenerateOptions(board, turn);
-
-                    //var selectedEffectVariation = RandomSelector.SelectRandomWithWeights(effectVariations, random);
-
-                    ////turn.SelectionSequence.AddRange(selectedEffectVariation);
-
-                    //foreach (var effect in selectedEffectVariation)
-                    //{
-                    //    effect.ApplyEffect(board, turn);
-                    //    //effect.PrintEffect();
-                    //}
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            ControlMetrics.GetVPForSiteControlMarkersInTheEnd(board, turn);
-
-            var score = TargetFunction.Evaluate(board, turn);
         }
 
         private Turn InitializeNewTurn(Board board)

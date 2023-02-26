@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 
-namespace UnderdarkAI.AI.Selectors.SpecificCardSelectors
+namespace UnderdarkAI.AI.OptionGenerators.SpecificCardSelectors
 {
     internal class ResourceGainOptionSelector : OptionGenerator
     {
