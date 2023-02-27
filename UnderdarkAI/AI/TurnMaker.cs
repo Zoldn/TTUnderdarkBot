@@ -137,6 +137,8 @@ namespace UnderdarkAI.AI
                 }
             }
 
+            ControlMetrics.PromoteCardsInTheEnd(FixedBoard, FixedTurn);
+
             ControlMetrics.GetVPForSiteControlMarkersInTheEnd(FixedBoard, FixedTurn);
 
             turnMakerResult.AfterTurnScore = TargetFunction.Evaluate(FixedBoard, FixedTurn);
@@ -217,9 +219,15 @@ namespace UnderdarkAI.AI
                         }
 
                         selectedOption.ApplyOption(board, turn);
-                        //selectedOption.Print(100);
+                        Console.WriteLine(selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED));
 
                         selectedOption.UpdateTurnState(turn);
+
+                        if (turn.State == SelectionState.CARD_OR_FREE_ACTION)
+                        {
+                            turn.CardOption = CardOption.NONE_OPTION;
+                            turn.CardStateIteration = 0;
+                        }
                     }
                     else
                     {
@@ -227,7 +235,9 @@ namespace UnderdarkAI.AI
                     }
                 }
 
-                ControlMetrics.GetVPForSiteControlMarkersInTheEnd(board, turn);
+                ControlMetrics.PromoteCardsInTheEnd(board, turn);
+
+                ControlMetrics.GetVPForSiteControlMarkersInTheEnd(board, turn, verbosity: 10);
 
                 var score = TargetFunction.Evaluate(board, turn);
 

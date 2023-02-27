@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 
-namespace UnderdarkAI.AI.OptionGenerators.SpecificCardSelectors
+namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
 {
     internal class ResourceGainOptionSelector : OptionGenerator
     {
@@ -31,7 +31,7 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificCardSelectors
         public int Mana { get; }
         public int Swords { get; }
         public override int MinVerbosity => 0;
-        public ResourceGainOption(int mana, int swords)
+        public ResourceGainOption(int mana = 0, int swords = 0)
         {
             Mana = mana;
             Swords = swords;

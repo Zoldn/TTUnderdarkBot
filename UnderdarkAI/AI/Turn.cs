@@ -150,7 +150,7 @@ namespace UnderdarkAI.AI
         #endregion
         public List<PlayableOption> EndTurnEffects { get; set; }
         public CardSpecificType? ActiveCard => CardStates
-            .Where(s => s.State == CardState.NOW_PLAYING)
+            .Where(s => s.State == CardState.NOW_PLAYING || s.EndTurnState == CardState.NOW_PLAYING)
             .Select(s => s.SpecificType)
             .SingleOrDefault();
         //public Dictionary<Card, CardState> CardStates { get; private set; }

@@ -52,8 +52,8 @@ namespace UnderdarkAI.AI.OptionGenerators
         public override void ApplyOption(Board board, Turn turn)
         {
             turn.CardStates
-                .First(s => s.SpecificType == SpecificType && s.State == CardState.IN_HAND)
-                .State = CardState.NOW_PLAYING;
+                .First(s => s.SpecificType == SpecificType && s.EndTurnState == CardState.IN_HAND)
+                .EndTurnState = CardState.NOW_PLAYING;
         }
 
         public override void UpdateTurnState(Turn turn)

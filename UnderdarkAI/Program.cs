@@ -23,6 +23,8 @@ namespace UnderdarkAI
 
             //TestRandom();
 
+            board.Players[Color.YELLOW].Hand.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.ADVOCATE]);
+
             var turnMaker = new TurnMaker(board, Color.YELLOW) 
             {
                 RestartLimit = 100,
