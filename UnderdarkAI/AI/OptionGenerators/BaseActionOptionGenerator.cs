@@ -48,9 +48,9 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override int MinVerbosity => 10;
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.BUY_CARD_BY_MANA;
+            turn.State = SelectionState.BUY_CARD_BY_MANA;
         }
 
         public override string GetOptionText()
@@ -68,9 +68,9 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override int MinVerbosity => 10;
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.DEPLOY_BY_SWORD;
+            turn.State = SelectionState.DEPLOY_BY_SWORD;
         }
 
         public override string GetOptionText()
@@ -87,9 +87,9 @@ namespace UnderdarkAI.AI.OptionGenerators
         }
 
         public override int MinVerbosity => 0;
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.ASSASSINATE_BY_SWORD;
+            turn.State = SelectionState.ASSASSINATE_BY_SWORD;
         }
 
         public override string GetOptionText()
@@ -107,9 +107,9 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override int MinVerbosity => 0;
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.RETURN_ENEMY_SPY_BY_SWORD;
+            turn.State = SelectionState.RETURN_ENEMY_SPY_BY_SWORD;
         }
 
         public override string GetOptionText()

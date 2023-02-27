@@ -63,9 +63,9 @@ namespace UnderdarkAI.AI.OptionGenerators
             board.Players[turn.Color].TrophyHall[TargetColor]++;
         }
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.CARD_OR_FREE_ACTION;
+            turn.State = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         public override string GetOptionText()

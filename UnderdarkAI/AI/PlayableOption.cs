@@ -16,7 +16,7 @@ namespace UnderdarkAI.AI
         /// <summary>
         /// Следующее состояние конечного автомата выбора после выполнения этой опции
         /// </summary>
-        public abstract SelectionState GetNextState();
+        public abstract void UpdateTurnState(Turn turn);
         /// <summary>
         /// Вероятность выбора этой опции
         /// </summary>

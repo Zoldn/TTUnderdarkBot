@@ -44,9 +44,9 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificCardSelectors
             turn.CardStates.Single(s => s.State == CardState.NOW_PLAYING).State = CardState.PLAYED;
         }
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.CARD_OR_FREE_ACTION;
+            turn.State = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         public override string GetOptionText()

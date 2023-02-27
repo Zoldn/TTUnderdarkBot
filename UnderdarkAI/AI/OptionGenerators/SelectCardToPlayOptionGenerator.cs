@@ -50,9 +50,9 @@ namespace UnderdarkAI.AI.OptionGenerators
                 .State = CardState.NOW_PLAYING;
         }
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.SELECT_CARD_OPTION;
+            turn.State = SelectionState.SELECT_CARD_OPTION;
         }
 
         public override string GetOptionText()

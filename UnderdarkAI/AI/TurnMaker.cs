@@ -129,7 +129,7 @@ namespace UnderdarkAI.AI
                     //Console.WriteLine(selectedOption.Print(0, monteCarloStatus));
                     turnMakerResult.PlayableOptions.Add(selectedOption);
 
-                    FixedTurn.State = selectedOption.GetNextState();
+                    selectedOption.UpdateTurnState(FixedTurn);
                 }
                 else
                 {
@@ -219,7 +219,7 @@ namespace UnderdarkAI.AI
                         selectedOption.ApplyOption(board, turn);
                         //selectedOption.Print(100);
 
-                        turn.State = selectedOption.GetNextState();
+                        selectedOption.UpdateTurnState(turn);
                     }
                     else
                     {

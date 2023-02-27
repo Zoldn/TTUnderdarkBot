@@ -143,9 +143,9 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override int MinVerbosity => 10;
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.SELECT_CARD;
+            turn.State = SelectionState.SELECT_CARD;
         }
 
         public override string GetOptionText()
@@ -163,9 +163,9 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override int MinVerbosity => 10;
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.SELECT_BASE_ACTION;
+            turn.State = SelectionState.SELECT_BASE_ACTION;
         }
 
         public override string GetOptionText()
@@ -183,9 +183,9 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override int MinVerbosity => 10;
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.SELECT_CARD_END_TURN;
+            turn.State = SelectionState.SELECT_CARD_END_TURN;
         }
 
         public override string GetOptionText()

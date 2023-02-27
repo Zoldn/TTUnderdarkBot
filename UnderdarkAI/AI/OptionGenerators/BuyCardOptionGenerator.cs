@@ -93,9 +93,9 @@ namespace UnderdarkAI.AI.OptionGenerators
             SpecificType = specificType;
         }
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.CARD_OR_FREE_ACTION;
+            turn.State = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         public override void ApplyOption(Board board, Turn turn)
@@ -161,9 +161,9 @@ namespace UnderdarkAI.AI.OptionGenerators
             turn.IsBuyingEnabled = false;
         }
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.CARD_OR_FREE_ACTION;
+            turn.State = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         public override string GetOptionText()

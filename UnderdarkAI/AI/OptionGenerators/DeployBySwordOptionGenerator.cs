@@ -71,9 +71,9 @@ namespace UnderdarkAI.AI.OptionGenerators
             turn.Swords--;
         }
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.CARD_OR_FREE_ACTION;
+            turn.State = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         public override string GetOptionText()
@@ -95,9 +95,9 @@ namespace UnderdarkAI.AI.OptionGenerators
             turn.Swords--;
         }
 
-        public override SelectionState GetNextState()
+        public override void UpdateTurnState(Turn turn)
         {
-            return SelectionState.CARD_OR_FREE_ACTION;
+            turn.State = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         public override string GetOptionText()
