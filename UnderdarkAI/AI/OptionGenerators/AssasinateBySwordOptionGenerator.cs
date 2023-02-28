@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
@@ -48,19 +49,39 @@ namespace UnderdarkAI.AI.OptionGenerators
         public LocationId LocationId { get; }
         public Color TargetColor { get; }
         public override int MinVerbosity => 0;
+        public bool IsCityTaken { get; private set; }
         public AssassinateBySwordOption(LocationId locationId, Color targetColor)
         {
             LocationId = locationId;
             TargetColor = targetColor;
+            IsCityTaken = false;
         }
 
         public override void ApplyOption(Board board, Turn turn)
         {
             turn.Swords -= 3;
 
-            board.LocationIds[LocationId].Troops[TargetColor]--;
+            var location = board.LocationIds[LocationId];
+
+            var prevControl = location.GetControlPlayer();
+
+            location.Troops[TargetColor]--;
 
             board.Players[turn.Color].TrophyHall[TargetColor]++;
+
+            var nowControl = location.GetControlPlayer();
+
+            ///Проверяем, захватили ли этим деплоем город
+            ///Если да, то добавляем 1 ману
+            if (location.BonusMana > 0 && prevControl != turn.Color && nowControl == turn.Color)
+            {
+                turn.Mana += 1;
+                IsCityTaken = true;
+            }
+            else
+            {
+                IsCityTaken = false;
+            }
         }
 
         public override void UpdateTurnState(Turn turn)
@@ -70,6 +91,10 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override string GetOptionText()
         {
+            if (IsCityTaken)
+            {
+                return $"Assassinate {TargetColor} troop in {LocationId} by 3 swords, gain 1 mana for control this site";
+            }
             return $"Assassinate {TargetColor} troop in {LocationId} by 3 swords";
         }
     }

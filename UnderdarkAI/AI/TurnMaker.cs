@@ -88,6 +88,8 @@ namespace UnderdarkAI.AI
 
             //var initialScore = TargetFunction.Evaluate(FixedBoard, FixedTurn);
 
+            ControlMetrics.GetManaForSiteControlMarkersInTheStart(FixedBoard, FixedTurn, turnMakerResult, verbosity: 0);
+
             while (FixedTurn.State != SelectionState.FINISH_SELECTION)
             {
                 if (StateSelectors.TryGetValue(FixedTurn.State, out var selector))
@@ -139,7 +141,7 @@ namespace UnderdarkAI.AI
 
             ControlMetrics.PromoteCardsInTheEnd(FixedBoard, FixedTurn);
 
-            ControlMetrics.GetVPForSiteControlMarkersInTheEnd(FixedBoard, FixedTurn);
+            ControlMetrics.GetVPForSiteControlMarkersInTheEnd(FixedBoard, FixedTurn, turnMakerResult);
 
             turnMakerResult.AfterTurnScore = TargetFunction.Evaluate(FixedBoard, FixedTurn);
 
@@ -219,7 +221,7 @@ namespace UnderdarkAI.AI
                         }
 
                         selectedOption.ApplyOption(board, turn);
-                        Console.WriteLine(selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED));
+                        //Console.WriteLine(selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED));
 
                         selectedOption.UpdateTurnState(turn);
 
@@ -237,7 +239,7 @@ namespace UnderdarkAI.AI
 
                 ControlMetrics.PromoteCardsInTheEnd(board, turn);
 
-                ControlMetrics.GetVPForSiteControlMarkersInTheEnd(board, turn, verbosity: 10);
+                ControlMetrics.GetVPForSiteControlMarkersInTheEnd(board, turn, null, verbosity: 10);
 
                 var score = TargetFunction.Evaluate(board, turn);
 
@@ -267,13 +269,6 @@ namespace UnderdarkAI.AI
             var analyzer = new MonteCarloSelectionInfoAnalyzer(monteCarloChoices);
 
             var bestOption = analyzer.SelectBest(random);
-
-            //var bestOption = aggedResults
-            //    .OrderByDescending(g => g.Value)
-            //    .First()
-            //    .Key;
-
-            ///TODO
 
             return bestOption;
         }

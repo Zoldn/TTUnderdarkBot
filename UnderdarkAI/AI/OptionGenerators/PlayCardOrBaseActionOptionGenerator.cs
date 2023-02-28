@@ -181,7 +181,7 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         }
 
-        public override int MinVerbosity => 10;
+        public override int MinVerbosity => 0;
 
         public override void UpdateTurnState(Turn turn)
         {
@@ -190,7 +190,7 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override string GetOptionText()
         {
-            return $"Switch to ending turn";
+            return $"In the end of turn action(s)";
         }
     }
 }

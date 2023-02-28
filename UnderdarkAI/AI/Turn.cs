@@ -157,7 +157,8 @@ namespace UnderdarkAI.AI
         public bool IsBuyingEnabled { get; set; }
         public List<TurnCardState> CardStates { get; private set; }
         public Dictionary<Location, LocationState> LocationStates { get; private set; }
-        public Turn(Color color)
+        public bool IsOriginal { get; private set; }
+        public Turn(Color color, bool isOriginal = true)
         {
             Color = color;
 
@@ -171,6 +172,7 @@ namespace UnderdarkAI.AI
             CardStateIteration = 0;
 
             LocationStates = new();
+            IsOriginal = isOriginal;
         }
 
         public void DebugPrintDistances()
@@ -188,7 +190,7 @@ namespace UnderdarkAI.AI
 
         public Turn Clone(Board board)
         {
-            var turn = new Turn(Color)
+            var turn = new Turn(Color, isOriginal: false)
             {
                 CardStates = CardStates
                     .Select(s => s.Clone()).ToList(),

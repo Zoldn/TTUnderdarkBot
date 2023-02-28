@@ -46,6 +46,7 @@ namespace UnderdarkAI.AI.OptionGenerators
         public LocationId LocationId { get; }
 
         public override int MinVerbosity => 0;
+        public bool IsCityTaken { get; private set; }
 
         public DeployBySwordOption(LocationId locationId)
         {
@@ -58,7 +59,11 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             var location = board.LocationIds[LocationId];
 
+            var prevControl = location.GetControlPlayer();
+
             location.Troops[turn.Color] += 1;
+
+            var nowControl = location.GetControlPlayer();
 
             if (location.Troops[turn.Color] == 1)
             {
@@ -66,6 +71,18 @@ namespace UnderdarkAI.AI.OptionGenerators
                 {
                     turn.LocationStates[neighboor].HasPresence = true;
                 }
+            }
+
+            ///Проверяем, захватили ли этим деплоем город
+            ///Если да, то добавляем 1 ману
+            if (location.BonusMana > 0 && prevControl != turn.Color && nowControl == turn.Color)
+            {
+                turn.Mana += 1;
+                IsCityTaken = true;
+            }
+            else
+            {
+                IsCityTaken = false;
             }
 
             turn.Swords--;
@@ -78,6 +95,11 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override string GetOptionText()
         {
+            if (IsCityTaken)
+            {
+                return $"Deploying troop in {LocationId} by 1 sword, gain 1 mana for control this site";
+            }
+
             return $"Deploying troop in {LocationId} by 1 sword";
         }
     }

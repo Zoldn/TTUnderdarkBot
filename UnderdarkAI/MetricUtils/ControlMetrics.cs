@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
@@ -10,6 +11,7 @@ namespace UnderdarkAI.MetricUtils
 {
     internal static class ControlMetrics
     {
+        [Obsolete]
         public static void GetStartManaFromSites(Board board, Player player, Turn turn)
         {
             foreach (var location in board.Locations)
@@ -28,7 +30,8 @@ namespace UnderdarkAI.MetricUtils
             }
         }
 
-        public static void GetVPForSiteControlMarkersInTheEnd(Board board, Turn turn, int verbosity = 0)
+        public static void GetVPForSiteControlMarkersInTheEnd(Board board, Turn turn, TurnMakerResult? turnMakerResult, 
+            int verbosity = 0)
         {
             foreach (var location in board.Locations)
             {
@@ -45,10 +48,36 @@ namespace UnderdarkAI.MetricUtils
                 //turn.VPs += location.BonusVP;
                 board.Players[turn.Color].VPTokens += location.BonusVP;
 
+                if (turnMakerResult != null)
+                {
+                    turnMakerResult.EndTurnEffects.Add($"Gain {location.BonusVP} VP for {location.Name}");
+                }
+                
                 if (verbosity == 0)
                 {
                     Console.WriteLine($"Gain {location.BonusVP} VP for {location.Name}");
                 }
+            }
+        }
+
+        internal static void GetManaForSiteControlMarkersInTheStart(Board board, Turn turn, 
+            TurnMakerResult turnMakerResult, int verbosity)
+        {
+            foreach (var location in board.Locations)
+            {
+                if (!location.HasControlMarker)
+                {
+                    continue;
+                }
+
+                if (location.GetControlPlayer() != turn.Color)
+                {
+                    continue;
+                }
+
+                turn.Mana += location.BonusMana;
+
+                turnMakerResult.StartTurnEffects.Add($"Gain 1 mana for control {location}");
             }
         }
 
