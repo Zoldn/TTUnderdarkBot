@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
+using TUnderdark.TTSParser;
 using UnderdarkAI.AI.PlayableOptions;
 
 namespace UnderdarkAI.AI.OptionGenerators
@@ -20,7 +21,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                     )
                     .Select(s => s.SpecificType)
                     .Distinct()
-                    .Select(s => new PromoteAnotherCardOption(promoter, s) { Weight = 1.0d })
+                    .Select(s => new PromoteAnotherCardOption(promoter, s) 
+                    { Weight = 1.0d +
+                        CardMapper.SpecificTypeCardMakers[s].PromoteVP -
+                        CardMapper.SpecificTypeCardMakers[s].VP
+                    })
                     .ToList();
 
             return new List<PlayableOption>(options);
