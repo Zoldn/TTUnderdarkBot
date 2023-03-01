@@ -93,13 +93,10 @@ namespace UnderdarkAI.AI.OptionGenerators
         public override string GetOptionText()
         {
             string prefix = IsBaseAction ? "" : "\t";
+            string suffix = IsBaseAction ? " by 1 sword" : "";
+            string citySuffix = IsCityTaken ? ", gain 1 mana for control this site" : "";
 
-            if (IsCityTaken)
-            {
-                return $"{prefix}Deploying troop in {LocationId} by 1 sword, gain 1 mana for control this site";
-            }
-
-            return $"{prefix}Deploying troop in {LocationId} by 1 sword";
+            return $"{prefix}Deploying troop in {LocationId}{suffix}{citySuffix}";
         }
     }
 

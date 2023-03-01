@@ -128,66 +128,12 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
                 return options;
             }
 
-            ///Выбор возвращать трупса или шпиона
-            if (turn.State == SelectionState.SELECT_CARD_OPTION 
-                && turn.CardStateIteration == 0
-                && turn.CardOption == CardOption.NONE_OPTION)
-            {
-                // На опцию А возвращаем трупсов
-                if (OptionUtils.IsReturnableTroops(board, turn))
-                {
-                    options.Add(new CardOptionASelection() { Weight = 1.0d });
-                }
-
-                // На опцию Б возвращаем шпионов
-                if (OptionUtils.IsReturnableSpies(board, turn))
-                {
-                    options.Add(new CardOptionBSelection() { Weight = 1.0d });
-                }
-
-                if (options.Count == 0)
-                {
-                    options.Add(new DoNothingOption()
-                    {
-                        Weight = 1.0d,
-                        NextCardIteration = 1,
-                    });
-                }
-
-                return options;
-            }
-
-            // На опцию А возвращаем трупсов
-            if (turn.State == SelectionState.SELECT_CARD_OPTION
-                && turn.CardStateIteration == 0
-                && turn.CardOption == CardOption.OPTION_A)
-            {
-                options.AddRange(OptionUtils
-                    .GetReturnTroopOptions(board, turn)
-                    .Apply(p => { 
-                        p.NextCardIteration = 1; 
-                        p.NextCardOption = CardOption.NONE_OPTION;
-                        p.NextState = SelectionState.SELECT_CARD_OPTION;
-                    }));
-
-                return options;
-            }
-
-            // На опцию B возвращаем шпионов
-            if (turn.State == SelectionState.SELECT_CARD_OPTION
-                && turn.CardStateIteration == 0
-                && turn.CardOption == CardOption.OPTION_B)
-            {
-                options.AddRange(OptionUtils
-                    .GetReturnEnemySpyOptions(board, turn)
-                    .Apply(p => {
-                        p.NextCardIteration = 1;
-                        p.NextCardOption = CardOption.NONE_OPTION;
-                        p.NextState = SelectionState.SELECT_CARD_OPTION;
-                    }));
-
-                return options;
-            }
+            /// Вернуть шпиона или трупс
+            options.AddRange(
+                ReturnEnemyTroopOrSpyHelper.ReturnEnemyTroopOrSpyHandler(board, turn, 
+                    inChoiceCardStateIteration: 0, 
+                    outChoiceCardStateIteration: 1)
+                );
 
             /// Запоминаем промоут в конце хода и завершаем карту
             if (turn.State == SelectionState.SELECT_CARD_OPTION
@@ -203,6 +149,16 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
             }
 
             return options;
+        }
+    }
+
+    internal class CouncilMemberOptionGenetator : OptionGenerator
+    {
+        public override SelectionState State => throw new NotImplementedException();
+
+        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
+        {
+            throw new NotImplementedException();
         }
     }
 }
