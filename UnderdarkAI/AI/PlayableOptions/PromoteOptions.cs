@@ -37,7 +37,7 @@ namespace UnderdarkAI.AI.PlayableOptions
 
         public override string GetOptionText()
         {
-            return $"Promote {CardMapper.SpecificTypeCardMakers[Target].Name} by " +
+            return $"\tPromote {CardMapper.SpecificTypeCardMakers[Target].Name} by " +
                 $"{CardMapper.SpecificTypeCardMakers[Promoter].Name}";
         }
     }

@@ -11,6 +11,12 @@ namespace UnderdarkAI.AI.OptionGenerators
 {
     internal static class OptionUtils
     {
+        /// <summary>
+        /// Опции для промоута другой карты в конце хода
+        /// </summary>
+        /// <param name="turn"></param>
+        /// <param name="promoter"></param>
+        /// <returns></returns>
         internal static List<PlayableOption> GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(Turn turn,
             CardSpecificType promoter)
         {
@@ -29,6 +35,100 @@ namespace UnderdarkAI.AI.OptionGenerators
                     .ToList();
 
             return new List<PlayableOption>(options);
-        } 
+        }
+
+        internal static List<PlayableOption> GetReturnEnemySpyOptions(Board board, Turn turn, bool isBaseAction = false)
+        {
+            var ret = new List<PlayableOption>();
+
+            foreach (var (location, locationState) in turn.LocationStates)
+            {
+                if (!locationState.HasPresence)
+                {
+                    continue;
+                }
+
+                foreach (var (color, isSpy) in location.Spies)
+                {
+                    if (color == turn.Color || !isSpy)
+                    {
+                        continue;
+                    }
+
+                    ret.Add(new ReturnSpyOption(location.Id, color, isBaseAction: isBaseAction) { Weight = 1.0d });
+                }
+            }
+
+            return ret;
+        }
+
+        internal static List<PlayableOption> GetReturnTroopOptions(Board board, Turn turn)
+        {
+            var options = new List<PlayableOption>();
+
+            foreach (var (location, locationState) in turn.LocationStates)
+            {
+                if (!locationState.HasPresence)
+                {
+                    continue;
+                }
+
+                foreach (var (color, count) in location.Troops)
+                {
+                    if (color == turn.Color || color == Color.WHITE || count == 0)
+                    {
+                        continue;
+                    }
+
+                    options.Add(new ReturnTroopOption(location.Id, color));
+                }
+            }
+
+            return options;
+        }
+
+
+        /// <summary>
+        /// Есть ли опции для возвращения шпионов
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="turn"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        internal static bool IsReturnableSpies(Board board, Turn turn)
+        {
+            return turn.LocationStates
+                .Any(l => l.Value.HasPresence && l.Key.Spies.Any(kv => kv.Value && kv.Key != turn.Color));
+        }
+
+        /// <summary>
+        /// Опции для возвращения трупсов
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="turn"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        internal static bool IsReturnableTroops(Board board, Turn turn)
+        {
+            foreach (var (location, locationState) in turn.LocationStates)
+            {
+                if (!locationState.HasPresence)
+                {
+                    continue;
+                }
+
+                foreach (var (color, count) in location.Troops)
+                {
+                    if (color == turn.Color || color == Color.WHITE || count == 0)
+                    {
+                        continue;
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

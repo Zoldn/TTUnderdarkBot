@@ -24,9 +24,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.SOLDIER, new ResourceGainOptionSelector(swords: 1) },
                 { CardSpecificType.LOLTH, new ResourceGainOptionSelector(mana: 2) },
                 { CardSpecificType.HOUSEGUARD, new ResourceGainOptionSelector(swords: 2) },
-
+#region Drow
                 { CardSpecificType.ADVOCATE, new AdvocateOptionGenerator() },
                 { CardSpecificType.DROW_NEGOTIATOR, new DrowNegotiatorOptionGenerator() },
+                { CardSpecificType.CHOSEN_OF_LOLTH, new ChosenOfLolthOptionGenetator() },
+#endregion
             };
         }
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)

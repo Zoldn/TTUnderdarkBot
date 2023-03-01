@@ -84,19 +84,19 @@ namespace UnderdarkAI.AI.OptionGenerators
         /// <param name="board"></param>
         /// <param name="turn"></param>
         /// <returns></returns>
-        public static bool IsReturnEnemySpyBySwords(Board board, Turn turn)
-        {
-            if (turn.Swords < 3)
-            {
-                return false;
-            }
+        //public static bool IsReturnEnemySpyBySwords(Board board, Turn turn)
+        //{
+        //    if (turn.Swords < 3)
+        //    {
+        //        return false;
+        //    }
 
-            var possibleSpiesRemoval = turn.LocationStates
-                .Where(l => l.Value.HasPresence && l.Key.Spies.Any(kv => kv.Value && kv.Key != turn.Color))
-                .ToList();
+        //    var possibleSpiesRemoval = turn.LocationStates
+        //        .Where(l => l.Value.HasPresence && l.Key.Spies.Any(kv => kv.Value && kv.Key != turn.Color))
+        //        .ToList();
 
-            return possibleSpiesRemoval.Any();
-        }
+        //    return possibleSpiesRemoval.Any();
+        //}
 
         /// <summary>
         /// Можно ли убить за мечи
@@ -122,7 +122,7 @@ namespace UnderdarkAI.AI.OptionGenerators
         {
             return IsAvailableBuy(board, turn)
                 || IsPlaceActionAvailable(board, turn)
-                || IsReturnEnemySpyBySwords(board, turn)
+                || (OptionUtils.IsReturnableSpies(board, turn) && turn.Swords >= 3)
                 || IsAssassinateBySwords(board, turn);
         }
 
