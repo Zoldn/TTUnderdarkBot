@@ -88,14 +88,10 @@ namespace UnderdarkAI.AI.OptionGenerators
         public CardSpecificType SpecificType { get; }
         public CardSpecificType? NewSpecificType { get; private set; }
         public override int MinVerbosity => 0;
-        public BuyingOption(CardSpecificType specificType)
+        public BuyingOption(CardSpecificType specificType) : base()
         {
             SpecificType = specificType;
-        }
-
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.CARD_OR_FREE_ACTION;
+            NextState = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         public override void ApplyOption(Board board, Turn turn)
@@ -155,15 +151,14 @@ namespace UnderdarkAI.AI.OptionGenerators
     internal class DisableBuyOption : PlayableOption
     {
         public override int MinVerbosity => 10;
+        public DisableBuyOption() : base()
+        {
+            NextState = SelectionState.CARD_OR_FREE_ACTION;
+        }
 
         public override void ApplyOption(Board board, Turn turn)
         {
             turn.IsBuyingEnabled = false;
-        }
-
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         public override string GetOptionText()

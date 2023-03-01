@@ -136,6 +136,10 @@ namespace UnderdarkAI.AI.OptionGenerators
 
     internal class SwitchToCardSelectionOption : PlayableOption
     {
+        public SwitchToCardSelectionOption() : base()
+        {
+            NextState = SelectionState.SELECT_CARD;
+        }
         public override void ApplyOption(Board board, Turn turn)
         {
 
@@ -143,10 +147,6 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override int MinVerbosity => 10;
 
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.SELECT_CARD;
-        }
 
         public override string GetOptionText()
         {
@@ -156,17 +156,16 @@ namespace UnderdarkAI.AI.OptionGenerators
 
     internal class SwitchToBaseActionSelectionOption : PlayableOption
     {
+        public SwitchToBaseActionSelectionOption() : base()
+        {
+            NextState = SelectionState.SELECT_BASE_ACTION;
+        }
         public override void ApplyOption(Board board, Turn turn)
         {
 
         }
 
         public override int MinVerbosity => 10;
-
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.SELECT_BASE_ACTION;
-        }
 
         public override string GetOptionText()
         {
@@ -176,6 +175,10 @@ namespace UnderdarkAI.AI.OptionGenerators
 
     internal class SwitchToEndTurnSelectionOption : PlayableOption
     {
+        public SwitchToEndTurnSelectionOption() : base()
+        {
+            NextState = SelectionState.SELECT_CARD_END_TURN;
+        }
         public override void ApplyOption(Board board, Turn turn)
         {
 
@@ -183,10 +186,6 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override int MinVerbosity => 0;
 
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.SELECT_CARD_END_TURN;
-        }
 
         public override string GetOptionText()
         {

@@ -17,12 +17,9 @@ namespace UnderdarkAI.AI.PlayableOptions
         {
             Promoter = promoter;
             Target = target;
+            NextState = SelectionState.SELECT_CARD_END_TURN;
         }
 
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.SELECT_CARD_END_TURN;
-        }
 
         public override void ApplyOption(Board board, Turn turn)
         {
@@ -52,6 +49,7 @@ namespace UnderdarkAI.AI.PlayableOptions
         public EnablePromoteEndTurnOption(CardSpecificType specificType)
         {
             SpecificType = specificType;
+            NextState = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         public override void ApplyOption(Board board, Turn turn)
@@ -68,9 +66,5 @@ namespace UnderdarkAI.AI.PlayableOptions
             return $"\tAt end of turn promote another card played this turn";
         }
 
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.CARD_OR_FREE_ACTION;
-        }
     }
 }

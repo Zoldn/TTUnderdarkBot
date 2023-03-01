@@ -12,10 +12,11 @@ namespace UnderdarkAI.AI.PlayableOptions
         public int Mana { get; }
         public int Swords { get; }
         public override int MinVerbosity => 0;
-        public ResourceGainOption(int mana = 0, int swords = 0)
+        public ResourceGainOption(int mana = 0, int swords = 0) : base()
         {
             Mana = mana;
             Swords = swords;
+            NextState = SelectionState.CARD_OR_FREE_ACTION;
         }
         public override void ApplyOption(Board board, Turn turn)
         {
@@ -25,10 +26,6 @@ namespace UnderdarkAI.AI.PlayableOptions
             turn.CardStates.Single(s => s.State == CardState.NOW_PLAYING).State = CardState.PLAYED;
         }
 
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.CARD_OR_FREE_ACTION;
-        }
 
         public override string GetOptionText()
         {

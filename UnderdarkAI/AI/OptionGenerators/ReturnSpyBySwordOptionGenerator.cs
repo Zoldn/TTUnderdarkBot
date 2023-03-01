@@ -35,7 +35,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                         continue;
                     }
 
-                    ret.Add(new ReturnSpyBySwordOption(location.Id, color) { Weight = 1.0d });
+                    ret.Add(new ReturnSpyBySwordOption(location.Id, color, isBaseAction: true) { Weight = 1.0d });
                 }
             }
 
@@ -48,29 +48,35 @@ namespace UnderdarkAI.AI.OptionGenerators
         public LocationId LocationId { get; }
         public Color TargetColor { get; }
         public override int MinVerbosity => 0;
-        public ReturnSpyBySwordOption(LocationId locationId, Color targetColor)
+        public bool IsBaseAction { get; }
+        public ReturnSpyBySwordOption(LocationId locationId, Color targetColor, bool isBaseAction = false) : base()
         {
             LocationId = locationId;
             TargetColor = targetColor;
+            NextState = SelectionState.CARD_OR_FREE_ACTION;
+            IsBaseAction = isBaseAction;
         }
 
         public override void ApplyOption(Board board, Turn turn)
         {
-            turn.Swords -= 3;
+            if (IsBaseAction)
+            {
+                turn.Swords -= 3;
+            }
 
             board.LocationIds[LocationId].Spies[TargetColor] = false;
 
             board.Players[TargetColor].Spies++;
         }
 
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.CARD_OR_FREE_ACTION;
-        }
-
         public override string GetOptionText()
         {
-            return $"Return {TargetColor} spy from {LocationId} by 3 swords";
+            if (IsBaseAction)
+            {
+                return $"Return {TargetColor} spy from {LocationId} by 3 swords";
+            }
+
+            return $"Return {TargetColor} spy from {LocationId}";
         }
     }
 }

@@ -36,7 +36,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                         continue;
                     }
 
-                    ret.Add(new AssassinateBySwordOption(location.Id, color) { Weight = 1.0d });
+                    ret.Add(new AssassinateBySwordOption(location.Id, color, isBaseAction: true) { Weight = 1.0d });
                 }
             }
 
@@ -50,16 +50,23 @@ namespace UnderdarkAI.AI.OptionGenerators
         public Color TargetColor { get; }
         public override int MinVerbosity => 0;
         public bool IsCityTaken { get; private set; }
-        public AssassinateBySwordOption(LocationId locationId, Color targetColor)
+        public bool IsBaseAction { get; }
+        public AssassinateBySwordOption(LocationId locationId, Color targetColor, bool isBaseAction = false)
         {
             LocationId = locationId;
             TargetColor = targetColor;
             IsCityTaken = false;
+
+            NextState = SelectionState.CARD_OR_FREE_ACTION;
+            IsBaseAction = isBaseAction;
         }
 
         public override void ApplyOption(Board board, Turn turn)
         {
-            turn.Swords -= 3;
+            if (IsBaseAction)
+            {
+                turn.Swords -= 3;
+            }
 
             var location = board.LocationIds[LocationId];
 
@@ -84,18 +91,13 @@ namespace UnderdarkAI.AI.OptionGenerators
             }
         }
 
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.CARD_OR_FREE_ACTION;
-        }
-
         public override string GetOptionText()
         {
-            if (IsCityTaken)
-            {
-                return $"Assassinate {TargetColor} troop in {LocationId} by 3 swords, gain 1 mana for control this site";
-            }
-            return $"Assassinate {TargetColor} troop in {LocationId} by 3 swords";
+            string price = IsBaseAction ? " by 3 swords" : "";
+            string manaGet = IsCityTaken ? ", gain 1 mana for control this site" : "";
+            string prefix = IsBaseAction ? "" : "\t";
+
+            return $"{prefix}Assassinate {TargetColor} troop in {LocationId}{price}{manaGet}";
         }
     }
 }

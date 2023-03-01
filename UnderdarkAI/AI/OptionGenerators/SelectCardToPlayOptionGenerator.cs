@@ -37,9 +37,10 @@ namespace UnderdarkAI.AI.OptionGenerators
     internal class SelectCardToPlayGameOption : PlayableOption
     {
         public CardSpecificType SpecificType { get; }
-        public SelectCardToPlayGameOption(CardSpecificType cardSpecificType)
+        public SelectCardToPlayGameOption(CardSpecificType cardSpecificType) : base()
         {
             SpecificType = cardSpecificType;
+            NextState = SelectionState.SELECT_CARD_OPTION;
         }
         public override int MinVerbosity => 0;
         public override void ApplyOption(Board board, Turn turn)
@@ -48,11 +49,6 @@ namespace UnderdarkAI.AI.OptionGenerators
                 .First(s => s.SpecificType == SpecificType 
                     && s.State == CardState.IN_HAND)
                 .State = CardState.NOW_PLAYING;
-        }
-
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.SELECT_CARD_OPTION;
         }
 
         public override string GetOptionText()

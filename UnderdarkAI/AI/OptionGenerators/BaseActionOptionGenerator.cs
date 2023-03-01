@@ -41,17 +41,16 @@ namespace UnderdarkAI.AI.OptionGenerators
 
     internal class SwitchToBuyingOption : PlayableOption
     {
+        public SwitchToBuyingOption() : base()
+        {
+            NextState = SelectionState.BUY_CARD_BY_MANA;
+        }
         public override void ApplyOption(Board board, Turn turn)
         {
 
         }
 
         public override int MinVerbosity => 10;
-
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.BUY_CARD_BY_MANA;
-        }
 
         public override string GetOptionText()
         {
@@ -61,17 +60,13 @@ namespace UnderdarkAI.AI.OptionGenerators
 
     internal class SwitchToDeployBySwordOption : PlayableOption
     {
+        public SwitchToDeployBySwordOption() : base() { }
         public override void ApplyOption(Board board, Turn turn)
         {
-
+            NextState = SelectionState.DEPLOY_BY_SWORD;
         }
 
         public override int MinVerbosity => 10;
-
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.DEPLOY_BY_SWORD;
-        }
 
         public override string GetOptionText()
         {
@@ -81,16 +76,16 @@ namespace UnderdarkAI.AI.OptionGenerators
 
     internal class SwitchToAssassinateBySwordOption : PlayableOption
     {
+        public SwitchToAssassinateBySwordOption() : base()
+        {
+            NextState = SelectionState.ASSASSINATE_BY_SWORD;
+        }
         public override void ApplyOption(Board board, Turn turn)
         {
 
         }
 
         public override int MinVerbosity => 0;
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.ASSASSINATE_BY_SWORD;
-        }
 
         public override string GetOptionText()
         {
@@ -100,17 +95,16 @@ namespace UnderdarkAI.AI.OptionGenerators
 
     internal class SwitchToReturnEnemySpyBySwordOption : PlayableOption
     {
+        public SwitchToReturnEnemySpyBySwordOption() : base() 
+        {
+            NextState = SelectionState.RETURN_ENEMY_SPY_BY_SWORD;
+        }
         public override void ApplyOption(Board board, Turn turn)
         {
 
         }
 
         public override int MinVerbosity => 0;
-
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.RETURN_ENEMY_SPY_BY_SWORD;
-        }
 
         public override string GetOptionText()
         {

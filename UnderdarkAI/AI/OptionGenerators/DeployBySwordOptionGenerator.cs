@@ -22,7 +22,7 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             if (board.Players[turn.Color].Troops == 0)
             {
-                ret.Add(new DeployBySwordWithOutTroopsOption() { Weight = 1.0d });
+                ret.Add(new DeployBySwordWithOutTroopsOption(isBaseAction: true) { Weight = 1.0d });
             }
             else
             {
@@ -33,7 +33,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                         continue;
                     }
 
-                    ret.Add(new DeployBySwordOption(location.Id) { Weight = 1.0d });
+                    ret.Add(new DeployBySwordOption(location.Id, isBaseAction: true) { Weight = 1.0d });
                 }
             }
 
@@ -47,10 +47,12 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         public override int MinVerbosity => 0;
         public bool IsCityTaken { get; private set; }
-
-        public DeployBySwordOption(LocationId locationId)
+        public bool IsBaseAction { get; }
+        public DeployBySwordOption(LocationId locationId, bool isBaseAction) : base()
         {
             LocationId = locationId;
+            IsBaseAction = isBaseAction;
+            NextState = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         public override void ApplyOption(Board board, Turn turn)
@@ -88,25 +90,27 @@ namespace UnderdarkAI.AI.OptionGenerators
             turn.Swords--;
         }
 
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.CARD_OR_FREE_ACTION;
-        }
-
         public override string GetOptionText()
         {
+            string prefix = IsBaseAction ? "" : "\t";
+
             if (IsCityTaken)
             {
-                return $"Deploying troop in {LocationId} by 1 sword, gain 1 mana for control this site";
+                return $"{prefix}Deploying troop in {LocationId} by 1 sword, gain 1 mana for control this site";
             }
 
-            return $"Deploying troop in {LocationId} by 1 sword";
+            return $"{prefix}Deploying troop in {LocationId} by 1 sword";
         }
     }
 
     internal class DeployBySwordWithOutTroopsOption : PlayableOption
     {
-        public DeployBySwordWithOutTroopsOption() { }
+        public bool IsBaseAction { get; }
+        public DeployBySwordWithOutTroopsOption(bool isBaseAction = false) : base()
+        {
+            NextState = SelectionState.CARD_OR_FREE_ACTION;
+            IsBaseAction = isBaseAction;
+        }
 
         public override int MinVerbosity => 0;
 
@@ -117,14 +121,10 @@ namespace UnderdarkAI.AI.OptionGenerators
             turn.Swords--;
         }
 
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.CARD_OR_FREE_ACTION;
-        }
-
         public override string GetOptionText()
         {
-            return $"Try deploying troop by 1 sword but out of troops then gain 1 VP";
+            string prefix = IsBaseAction ? "" : "\t";
+            return $"{prefix}Try deploying troop but out of troops then gain 1 VP";
         }
     }
 }

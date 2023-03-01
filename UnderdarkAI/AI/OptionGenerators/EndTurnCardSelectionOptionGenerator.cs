@@ -42,9 +42,10 @@ namespace UnderdarkAI.AI.OptionGenerators
     internal class PlayCardInTheEndOption : PlayableOption
     {
         public CardSpecificType SpecificType { get; }
-        public PlayCardInTheEndOption(CardSpecificType specificType)
+        public PlayCardInTheEndOption(CardSpecificType specificType) : base()
         {
             SpecificType = specificType;
+            NextState = SelectionState.SELECT_END_TURN_CARD_OPTION;
         }
 
         public override int MinVerbosity => 10;
@@ -56,10 +57,6 @@ namespace UnderdarkAI.AI.OptionGenerators
                 .EndTurnState = CardState.NOW_PLAYING;
         }
 
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.SELECT_END_TURN_CARD_OPTION;
-        }
 
         public override string GetOptionText()
         {
@@ -69,16 +66,15 @@ namespace UnderdarkAI.AI.OptionGenerators
 
     internal class NoToPlayInTheEndOption : PlayableOption
     {
+        public NoToPlayInTheEndOption() : base()
+        {
+            NextState = SelectionState.FINISH_SELECTION;
+        }
         public override int MinVerbosity => 10;
 
         public override void ApplyOption(Board board, Turn turn)
         {
             
-        }
-
-        public override void UpdateTurnState(Turn turn)
-        {
-            turn.State = SelectionState.FINISH_SELECTION;
         }
 
         public override string GetOptionText()

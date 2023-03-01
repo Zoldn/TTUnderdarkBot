@@ -16,7 +16,12 @@ namespace UnderdarkAI.AI
         /// <summary>
         /// Следующее состояние конечного автомата выбора после выполнения этой опции
         /// </summary>
-        public abstract void UpdateTurnState(Turn turn);
+        public void UpdateTurnState(Turn turn) 
+        {
+            turn.State = NextState;
+            turn.CardStateIteration = NextCardIteration;
+            turn.CardOption = NextCardOption;
+        }
         /// <summary>
         /// Вероятность выбора этой опции
         /// </summary>
@@ -25,6 +30,16 @@ namespace UnderdarkAI.AI
         public abstract string GetOptionText();
         public abstract int MinVerbosity { get; }
         public MonteCarloSelectionStatus MonteCarloStatus { get; set; }
+        public CardOption NextCardOption { get; set; }
+        public int NextCardIteration { get; set; }
+        public SelectionState NextState { get; set; }
+
+        public PlayableOption()
+        {
+            NextCardOption = CardOption.NONE_OPTION;
+            NextCardIteration = 0;
+            NextState = SelectionState.CARD_OR_FREE_ACTION;
+        }
 
         public override string ToString()
         {

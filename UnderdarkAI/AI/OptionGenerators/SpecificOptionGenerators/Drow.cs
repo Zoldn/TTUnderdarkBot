@@ -44,4 +44,71 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
             return options;
         }
     }
+
+    internal class DrowNegotiatorOptionGenerator : OptionGenerator
+    {
+        public override SelectionState State => SelectionState.SELECT_CARD_OPTION;
+
+        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
+        {
+            var options = new List<PlayableOption>();
+
+            if (turn.State == SelectionState.SELECT_CARD_OPTION)
+            {
+                if (turn.CardStateIteration == 0)
+                {
+                    if (board.Players[turn.Color].InnerCircle.Count >= 3)
+                    {
+                        options.Add(new ResourceGainOption(mana: 3) { 
+                            Weight = 1.0d,
+                            NextCardIteration = 1,
+                            NextState = SelectionState.SELECT_CARD_OPTION,
+                        });
+                    }
+                    else
+                    {
+                        options.Add(new ResourceGainOption(mana: 0)
+                        {
+                            Weight = 1.0d,
+                            NextCardIteration = 1,
+                            NextState = SelectionState.SELECT_CARD_OPTION,
+                        });
+                    }
+                }
+                else if (turn.CardStateIteration == 1)
+                {
+                    options.Add(new EnablePromoteEndTurnOption(CardSpecificType.DROW_NEGOTIATOR) { Weight = 1.0d });
+                }   
+            }
+
+            if (turn.State == SelectionState.SELECT_END_TURN_CARD_OPTION)
+            {
+                options.AddRange(
+                    OptionUtils.GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(turn, CardSpecificType.ADVOCATE)
+                    );
+            }
+
+            return options;
+        }
+    }
+
+    //internal class DrowNegotiatorPlayableOption : PlayableOption
+    //{
+    //    public override int MinVerbosity => 0;
+
+    //    public override void ApplyOption(Board board, Turn turn)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public override string GetOptionText()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    public override void UpdateTurnState(Turn turn)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 }
