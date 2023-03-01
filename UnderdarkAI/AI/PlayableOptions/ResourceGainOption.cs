@@ -12,6 +12,7 @@ namespace UnderdarkAI.AI.PlayableOptions
         public int Mana { get; }
         public int Swords { get; }
         public override int MinVerbosity => 0;
+        public bool MakeCurrentCardPlayed { get; set; }
         public ResourceGainOption(int mana = 0, int swords = 0) : base()
         {
             Mana = mana;
@@ -22,8 +23,6 @@ namespace UnderdarkAI.AI.PlayableOptions
         {
             turn.Mana += Mana;
             turn.Swords += Swords;
-
-            turn.CardStates.Single(s => s.State == CardState.NOW_PLAYING).State = CardState.PLAYED;
         }
 
 

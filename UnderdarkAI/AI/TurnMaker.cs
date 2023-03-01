@@ -224,12 +224,6 @@ namespace UnderdarkAI.AI
                         //Console.WriteLine(selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED));
 
                         selectedOption.UpdateTurnState(turn);
-
-                        if (turn.State == SelectionState.CARD_OR_FREE_ACTION)
-                        {
-                            turn.CardOption = CardOption.NONE_OPTION;
-                            turn.CardStateIteration = 0;
-                        }
                     }
                     else
                     {

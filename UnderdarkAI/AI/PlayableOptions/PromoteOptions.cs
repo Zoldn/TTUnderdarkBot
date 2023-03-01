@@ -32,7 +32,7 @@ namespace UnderdarkAI.AI.PlayableOptions
 
             target.IsPromotedInTheEnd = true;
 
-            turn.CardStates.Single(s => s.EndTurnState == CardState.NOW_PLAYING).EndTurnState = CardState.PLAYED;
+            turn.MakeCurrentCardPlayedEndTurn();
         }
 
         public override string GetOptionText()
@@ -46,7 +46,7 @@ namespace UnderdarkAI.AI.PlayableOptions
     {
         public override int MinVerbosity => 0;
         public CardSpecificType SpecificType { get; }
-        public EnablePromoteEndTurnOption(CardSpecificType specificType)
+        public EnablePromoteEndTurnOption(CardSpecificType specificType) : base()
         {
             SpecificType = specificType;
             NextState = SelectionState.CARD_OR_FREE_ACTION;
@@ -57,8 +57,6 @@ namespace UnderdarkAI.AI.PlayableOptions
             turn.CardStates
                 .Single(s => s.State == CardState.NOW_PLAYING)
                 .EndTurnState = CardState.IN_HAND;
-
-            turn.CardStates.Single(s => s.State == CardState.NOW_PLAYING).State = CardState.PLAYED;
         }
 
         public override string GetOptionText()

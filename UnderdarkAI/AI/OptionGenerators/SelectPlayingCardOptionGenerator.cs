@@ -26,6 +26,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.HOUSEGUARD, new ResourceGainOptionSelector(swords: 2) },
 
                 { CardSpecificType.ADVOCATE, new AdvocateOptionGenerator() },
+                { CardSpecificType.DROW_NEGOTIATOR, new DrowNegotiatorOptionGenerator() },
             };
         }
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)

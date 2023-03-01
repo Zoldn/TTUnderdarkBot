@@ -23,7 +23,14 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
 
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
-            return new List<PlayableOption>(1) { new ResourceGainOption(Mana, Swords) { Weight = 1.0d } };
+            return new List<PlayableOption>(1) 
+            { 
+                new ResourceGainOption(Mana, Swords) 
+                { 
+                    Weight = 1.0d,
+                    WillMakeCurrentCardPlayed = true,
+                } 
+            };
         }
     }
 }

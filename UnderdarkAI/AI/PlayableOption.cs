@@ -21,6 +21,11 @@ namespace UnderdarkAI.AI
             turn.State = NextState;
             turn.CardStateIteration = NextCardIteration;
             turn.CardOption = NextCardOption;
+
+            if (WillMakeCurrentCardPlayed)
+            {
+                turn.MakeCurrentCardPlayed();
+            }
         }
         /// <summary>
         /// Вероятность выбора этой опции
@@ -29,9 +34,13 @@ namespace UnderdarkAI.AI
         public abstract void ApplyOption(Board board, Turn turn);
         public abstract string GetOptionText();
         public abstract int MinVerbosity { get; }
+
+        #region Next State update
         public MonteCarloSelectionStatus MonteCarloStatus { get; set; }
         public CardOption NextCardOption { get; set; }
         public int NextCardIteration { get; set; }
+        public bool WillMakeCurrentCardPlayed { get; set; }
+        #endregion
         public SelectionState NextState { get; set; }
 
         public PlayableOption()
@@ -39,6 +48,7 @@ namespace UnderdarkAI.AI
             NextCardOption = CardOption.NONE_OPTION;
             NextCardIteration = 0;
             NextState = SelectionState.CARD_OR_FREE_ACTION;
+            WillMakeCurrentCardPlayed = false; 
         }
 
         public override string ToString()

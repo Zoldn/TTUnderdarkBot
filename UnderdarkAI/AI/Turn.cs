@@ -214,5 +214,17 @@ namespace UnderdarkAI.AI
 
             return turn;
         }
+
+        internal void MakeCurrentCardPlayed()
+        {
+            CardStates.Single(s => s.State == CardState.NOW_PLAYING).State = CardState.PLAYED;
+        }
+
+        internal void MakeCurrentCardPlayedEndTurn()
+        {
+            CardStates.Single(s => s.EndTurnState == CardState.NOW_PLAYING).EndTurnState = CardState.PLAYED;
+            CardOption = CardOption.NONE_OPTION;
+            CardStateIteration = 0;
+        }
     }
 }

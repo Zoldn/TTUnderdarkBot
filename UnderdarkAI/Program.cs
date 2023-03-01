@@ -11,7 +11,7 @@ namespace UnderdarkAI
         {
             CardMapper.ReadCards();
 
-            ArgumentParser.Parse("-color=y -turn=1 -iters=50", out var parseResultInfo, out var parsedArgs);
+            //ArgumentParser.Parse("-color=y -turn=1 -iters=50", out var parseResultInfo, out var parsedArgs);
 
             Console.WriteLine("Reading current save");
 
@@ -23,7 +23,11 @@ namespace UnderdarkAI
 
             //TestRandom();
 
-            board.Players[Color.YELLOW].Hand.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.ADVOCATE]);
+            board.Players[Color.YELLOW].Hand.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.DROW_NEGOTIATOR]);
+
+            board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
+            board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
+            board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
 
             var turnMaker = new TurnMaker(board, Color.YELLOW) 
             {

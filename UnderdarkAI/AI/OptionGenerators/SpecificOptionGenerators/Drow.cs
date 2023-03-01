@@ -26,10 +26,18 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
                         options.Add(new CardOptionBSelection() { Weight = 1.0d });
                         break;
                     case CardOption.OPTION_A:
-                        options.Add(new ResourceGainOption(mana: 2) { Weight = 1.0d });
+                        options.Add(new ResourceGainOption(mana: 2) 
+                        { 
+                            Weight = 1.0d ,
+                            WillMakeCurrentCardPlayed = true
+                        });
                         break;
                     case CardOption.OPTION_B:
-                        options.Add(new EnablePromoteEndTurnOption(CardSpecificType.ADVOCATE) { Weight = 1.0d });
+                        options.Add(new EnablePromoteEndTurnOption(CardSpecificType.ADVOCATE) 
+                        { 
+                            Weight = 1.0d ,
+                            WillMakeCurrentCardPlayed = true
+                        });
                         break;
                 }
             }
@@ -53,62 +61,51 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
         {
             var options = new List<PlayableOption>();
 
-            if (turn.State == SelectionState.SELECT_CARD_OPTION)
+            switch (turn.State)
             {
-                if (turn.CardStateIteration == 0)
-                {
-                    if (board.Players[turn.Color].InnerCircle.Count >= 3)
+                case SelectionState.SELECT_CARD_OPTION:
+                    switch (turn.CardStateIteration)
                     {
-                        options.Add(new ResourceGainOption(mana: 3) { 
-                            Weight = 1.0d,
-                            NextCardIteration = 1,
-                            NextState = SelectionState.SELECT_CARD_OPTION,
-                        });
+                        case 0:
+                            if (board.Players[turn.Color].InnerCircle.Count >= 3)
+                            {
+                                options.Add(new ResourceGainOption(mana: 3) { 
+                                    Weight = 1.0d,
+                                    NextCardIteration = 1,
+                                    NextState = SelectionState.SELECT_CARD_OPTION,
+                                });
+                            }
+                            else
+                            {
+                                options.Add(new DoNothingOption()
+                                {
+                                    Weight = 1.0d,
+                                    NextCardIteration = 1,
+                                    NextState = SelectionState.SELECT_CARD_OPTION,
+                                });
+                            }
+                            break;
+                        case 1:
+                            options.Add(new EnablePromoteEndTurnOption(CardSpecificType.DROW_NEGOTIATOR) 
+                            { 
+                                Weight = 1.0d,
+                                WillMakeCurrentCardPlayed = true,
+                            });
+                            break;
+                        default:
+                            throw new IndexOutOfRangeException();
                     }
-                    else
-                    {
-                        options.Add(new ResourceGainOption(mana: 0)
-                        {
-                            Weight = 1.0d,
-                            NextCardIteration = 1,
-                            NextState = SelectionState.SELECT_CARD_OPTION,
-                        });
-                    }
-                }
-                else if (turn.CardStateIteration == 1)
-                {
-                    options.Add(new EnablePromoteEndTurnOption(CardSpecificType.DROW_NEGOTIATOR) { Weight = 1.0d });
-                }   
-            }
-
-            if (turn.State == SelectionState.SELECT_END_TURN_CARD_OPTION)
-            {
-                options.AddRange(
-                    OptionUtils.GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(turn, CardSpecificType.ADVOCATE)
-                    );
+                    break;
+                case SelectionState.SELECT_END_TURN_CARD_OPTION:
+                    options.AddRange(
+                        OptionUtils.GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(turn, CardSpecificType.DROW_NEGOTIATOR)
+                        );
+                    break;
+                default:
+                    throw new IndexOutOfRangeException();
             }
 
             return options;
         }
     }
-
-    //internal class DrowNegotiatorPlayableOption : PlayableOption
-    //{
-    //    public override int MinVerbosity => 0;
-
-    //    public override void ApplyOption(Board board, Turn turn)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public override string GetOptionText()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    public override void UpdateTurnState(Turn turn)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
 }
