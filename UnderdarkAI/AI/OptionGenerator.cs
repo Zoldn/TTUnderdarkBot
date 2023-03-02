@@ -12,7 +12,7 @@ namespace UnderdarkAI.AI
         /// <summary>
         /// К какому состоянию применяется генератор опций
         /// </summary>
-        public abstract SelectionState State { get; }
+        //public abstract SelectionState State { get; }
         /// <summary>
         /// Опции 
         /// </summary>

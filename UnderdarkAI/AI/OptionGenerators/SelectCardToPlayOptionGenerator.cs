@@ -10,8 +10,6 @@ namespace UnderdarkAI.AI.OptionGenerators
 {
     internal class SelectCardToPlayOptionGenerator : OptionGenerator
     {
-        public override SelectionState State => SelectionState.SELECT_CARD;
-
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             var ret = new List<PlayableOption>();

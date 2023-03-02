@@ -12,9 +12,6 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
     {
         public int Mana { get; }
         public int Swords { get; }
-
-        public override SelectionState State => throw new NotImplementedException();
-
         public ResourceGainOptionSelector(int mana = 0, int swords = 0)
         {
             Mana = mana;

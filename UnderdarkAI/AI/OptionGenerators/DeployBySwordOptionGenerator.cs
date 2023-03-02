@@ -9,8 +9,6 @@ namespace UnderdarkAI.AI.OptionGenerators
 {
     internal class DeployBySwordOptionGenerator : OptionGenerator
     {
-        public override SelectionState State => SelectionState.DEPLOY_BY_SWORD;
-
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             var ret = new List<PlayableOption>();

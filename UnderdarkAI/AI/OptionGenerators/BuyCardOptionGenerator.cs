@@ -10,8 +10,6 @@ namespace UnderdarkAI.AI.OptionGenerators
 {
     internal class BuyCardOptionGenerator : OptionGenerator
     {
-        public override SelectionState State => SelectionState.BUY_CARD_BY_MANA;
-
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             var ret = new List<PlayableOption>();

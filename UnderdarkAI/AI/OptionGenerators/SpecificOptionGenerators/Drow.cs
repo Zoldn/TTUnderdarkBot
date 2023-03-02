@@ -12,8 +12,6 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
 {
     internal class AdvocateOptionGenerator : OptionGenerator
     {
-        public override SelectionState State => SelectionState.SELECT_CARD_OPTION;
-
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             var options = new List<PlayableOption>();
@@ -56,8 +54,6 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
 
     internal class DrowNegotiatorOptionGenerator : OptionGenerator
     {
-        public override SelectionState State => SelectionState.SELECT_CARD_OPTION;
-
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             var options = new List<PlayableOption>();
@@ -112,8 +108,6 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
 
     internal class ChosenOfLolthOptionGenetator : OptionGenerator
     {
-        public override SelectionState State => throw new NotImplementedException();
-
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             var options = new List<PlayableOption>();
@@ -154,8 +148,6 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
 
     internal class CouncilMemberOptionGenetator : OptionGenerator
     {
-        public override SelectionState State => throw new NotImplementedException();
-
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             throw new NotImplementedException();

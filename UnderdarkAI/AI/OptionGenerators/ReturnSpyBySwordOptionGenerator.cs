@@ -10,8 +10,6 @@ namespace UnderdarkAI.AI.OptionGenerators
 {
     internal class ReturnSpyBySwordOptionGenerator : OptionGenerator
     {
-        public override SelectionState State => SelectionState.RETURN_ENEMY_SPY_BY_SWORD;
-
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             if (turn.Swords < 3)

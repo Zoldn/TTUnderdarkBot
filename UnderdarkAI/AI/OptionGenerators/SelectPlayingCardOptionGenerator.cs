@@ -14,8 +14,6 @@ namespace UnderdarkAI.AI.OptionGenerators
     internal class SelectPlayingCardOptionGenerator : OptionGenerator
     {
         public Dictionary<CardSpecificType, OptionGenerator> SpecificCardSelectors { get; private set; }
-        public override SelectionState State => SelectionState.SELECT_CARD_OPTION;
-
         public SelectPlayingCardOptionGenerator()
         {
             SpecificCardSelectors = new()

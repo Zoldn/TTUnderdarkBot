@@ -11,8 +11,6 @@ namespace UnderdarkAI.AI.OptionGenerators
 {
     internal class AssasinateBySwordOptionGenerator : OptionGenerator
     {
-        public override SelectionState State => SelectionState.ASSASSINATE_BY_SWORD;
-
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             if (turn.Swords < 3)
