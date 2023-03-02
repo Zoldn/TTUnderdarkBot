@@ -23,7 +23,7 @@ namespace UnderdarkAI
 
             //TestRandom();
 
-            board.Players[Color.YELLOW].Hand.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.CHOSEN_OF_LOLTH]);
+            board.Players[Color.YELLOW].Hand.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.COUNCIL_MEMBER]);
             board.LocationIds[LocationId.ChedNasad].Spies[Color.RED] = true;
 
             var turnMaker = new TurnMaker(board, Color.YELLOW) 

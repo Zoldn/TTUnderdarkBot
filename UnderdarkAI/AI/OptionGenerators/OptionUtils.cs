@@ -11,6 +11,48 @@ namespace UnderdarkAI.AI.OptionGenerators
 {
     internal static class OptionUtils
     {
+        internal static List<PlayableOption> GetMoveFromOptions(Board board, Turn turn)
+        {
+            var options = new List<PlayableOption>();
+
+            foreach (var (location, locationState) in turn.LocationStates)
+            {
+                if (!locationState.HasPresence)
+                {
+                    continue;
+                }
+
+                foreach (var (color, count) in location.Troops)
+                {
+                    if (color == turn.Color || count == 0)
+                    {
+                        continue;
+                    }
+
+                    options.Add(new MoveFromOption(location.Id, color));
+                }
+            }
+
+            return options;
+        }
+
+        internal static List<PlayableOption> GetMoveToOptions(Board board, Turn turn)
+        {
+            var options = new List<PlayableOption>();
+
+            foreach (var (location, _) in turn.LocationStates)
+            {
+                if (location.Id == turn.LocationMoveFrom || location.FreeSpaces == 0)
+                {
+                    continue;
+                }
+
+                options.Add(new MoveToOption(location.Id));
+            }
+
+            return options;
+        }
+
         /// <summary>
         /// Опции для промоута другой карты в конце хода
         /// </summary>
@@ -85,6 +127,32 @@ namespace UnderdarkAI.AI.OptionGenerators
             }
 
             return options;
+        }
+
+        internal static bool IsMoveAvailable(Board board, Turn turn)
+        {
+            bool isEmptyLocation = false;
+            bool isMovableTargets = false;
+
+            foreach (var (location, locationState) in turn.LocationStates)
+            {
+                if (locationState.HasPresence && location.Troops.Any(kv => kv.Key != turn.Color && kv.Value > 0))
+                {
+                    isMovableTargets = true;
+                }
+
+                if (location.FreeSpaces > 0)
+                {
+                    isEmptyLocation = true;
+                }
+
+                if (isEmptyLocation && isMovableTargets)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
 

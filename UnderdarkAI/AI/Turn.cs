@@ -158,6 +158,11 @@ namespace UnderdarkAI.AI
         public List<TurnCardState> CardStates { get; private set; }
         public Dictionary<Location, LocationState> LocationStates { get; private set; }
         public bool IsOriginal { get; private set; }
+        #region Moving state
+        public LocationId? LocationMoveFrom { get; internal set; }
+        public Color? ColorMove { get; internal set; }
+
+        #endregion
         public Turn(Color color, bool isOriginal = true)
         {
             Color = color;
@@ -210,6 +215,8 @@ namespace UnderdarkAI.AI
                 Value = Value,
                 CardStateIteration = CardStateIteration,
                 CardOption = CardOption,
+                ColorMove = ColorMove,
+                LocationMoveFrom = LocationMoveFrom,
             };
 
             return turn;

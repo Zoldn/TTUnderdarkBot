@@ -58,48 +58,51 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
         {
             var options = new List<PlayableOption>();
 
-            switch (turn.State)
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == 0)
             {
-                case SelectionState.SELECT_CARD_OPTION:
-                    switch (turn.CardStateIteration)
+                if (board.Players[turn.Color].InnerCircle.Count >= 3)
+                {
+                    options.Add(new ResourceGainOption(mana: 3)
                     {
-                        case 0:
-                            if (board.Players[turn.Color].InnerCircle.Count >= 3)
-                            {
-                                options.Add(new ResourceGainOption(mana: 3) { 
-                                    Weight = 1.0d,
-                                    NextCardIteration = 1,
-                                    NextState = SelectionState.SELECT_CARD_OPTION,
-                                });
-                            }
-                            else
-                            {
-                                options.Add(new DoNothingOption()
-                                {
-                                    Weight = 1.0d,
-                                    NextCardIteration = 1,
-                                    NextState = SelectionState.SELECT_CARD_OPTION,
-                                });
-                            }
-                            break;
-                        case 1:
-                            options.Add(new EnablePromoteEndTurnOption(CardSpecificType.DROW_NEGOTIATOR) 
-                            { 
-                                Weight = 1.0d,
-                                WillMakeCurrentCardPlayed = true,
-                            });
-                            break;
-                        default:
-                            throw new IndexOutOfRangeException();
-                    }
-                    break;
-                case SelectionState.SELECT_END_TURN_CARD_OPTION:
-                    options.AddRange(
-                        OptionUtils.GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(turn, CardSpecificType.DROW_NEGOTIATOR)
-                        );
-                    break;
-                default:
-                    throw new IndexOutOfRangeException();
+                        Weight = 1.0d,
+                        NextCardIteration = 1,
+                        NextState = SelectionState.SELECT_CARD_OPTION,
+                    });
+                }
+                else
+                {
+                    options.Add(new DoNothingOption()
+                    {
+                        Weight = 1.0d,
+                        NextCardIteration = 1,
+                        NextState = SelectionState.SELECT_CARD_OPTION,
+                    });
+                }
+
+                return options;
+            }
+
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == 1)
+            {
+                options.Add(new EnablePromoteEndTurnOption(CardSpecificType.DROW_NEGOTIATOR)
+                {
+                    Weight = 1.0d,
+                    WillMakeCurrentCardPlayed = true,
+                });
+
+                return options;
+            }
+
+            ///Выбор промоута в конце хода
+            if (turn.State == SelectionState.SELECT_END_TURN_CARD_OPTION)
+            {
+                options.AddRange(
+                    OptionUtils.GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(turn, CardSpecificType.DROW_NEGOTIATOR)
+                    );
+
+                return options;
             }
 
             return options;
@@ -150,7 +153,35 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
     {
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
-            throw new NotImplementedException();
+            var options = new List<PlayableOption>();
+
+            options.AddRange(MoveTroopHelper.MoveTroopHandler(board, turn, 0, 1, 2));
+            options.AddRange(MoveTroopHelper.MoveTroopHandler(board, turn, 2, 3, 4));
+
+            /// Запоминаем промоут в конце хода и завершаем карту
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == 4)
+            {
+                options.Add(new EnablePromoteEndTurnOption(CardSpecificType.COUNCIL_MEMBER)
+                {
+                    Weight = 1.0d,
+                    WillMakeCurrentCardPlayed = true,
+                });
+
+                return options;
+            }
+
+            ///Выбор промоута в конце хода
+            if (turn.State == SelectionState.SELECT_END_TURN_CARD_OPTION)
+            {
+                options.AddRange(
+                    OptionUtils.GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(turn, CardSpecificType.COUNCIL_MEMBER)
+                    );
+
+                return options;
+            }
+
+            return options;
         }
     }
 }
