@@ -77,26 +77,6 @@ namespace UnderdarkAI.AI.OptionGenerators
         }
 
         /// <summary>
-        /// Можно ли вернуть шпиона
-        /// </summary>
-        /// <param name="board"></param>
-        /// <param name="turn"></param>
-        /// <returns></returns>
-        //public static bool IsReturnEnemySpyBySwords(Board board, Turn turn)
-        //{
-        //    if (turn.Swords < 3)
-        //    {
-        //        return false;
-        //    }
-
-        //    var possibleSpiesRemoval = turn.LocationStates
-        //        .Where(l => l.Value.HasPresence && l.Key.Spies.Any(kv => kv.Value && kv.Key != turn.Color))
-        //        .ToList();
-
-        //    return possibleSpiesRemoval.Any();
-        //}
-
-        /// <summary>
         /// Можно ли убить за мечи
         /// </summary>
         /// <param name="board"></param>

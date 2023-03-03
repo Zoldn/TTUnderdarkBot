@@ -20,12 +20,12 @@ namespace UnderdarkAI.AI
         {
             turn.State = NextState;
             turn.CardStateIteration = NextCardIteration;
-            turn.CardOption = NextCardOption;
+            //turn.CardOption = NextCardOption;
 
-            if (WillMakeCurrentCardPlayed)
-            {
-                turn.MakeCurrentCardPlayed();
-            }
+            //if (WillMakeCurrentCardPlayed)
+            //{
+            //    turn.MakeCurrentCardPlayed();
+            //}
         }
         /// <summary>
         /// Вероятность выбора этой опции
@@ -37,18 +37,19 @@ namespace UnderdarkAI.AI
 
         #region Next State update
         public MonteCarloSelectionStatus MonteCarloStatus { get; set; }
-        public CardOption NextCardOption { get; set; }
+        //public CardOption NextCardOption { get; set; }
         public int NextCardIteration { get; set; }
-        public bool WillMakeCurrentCardPlayed { get; set; }
+        //public bool WillMakeCurrentCardPlayed { get; /*set;*/ }
         #endregion
         public SelectionState NextState { get; set; }
 
         public PlayableOption()
         {
-            NextCardOption = CardOption.NONE_OPTION;
+            //NextCardOption = CardOption.NONE_OPTION;
             NextCardIteration = 0;
-            NextState = SelectionState.CARD_OR_FREE_ACTION;
-            WillMakeCurrentCardPlayed = false; 
+            NextState = SelectionState.SELECT_CARD_OPTION;
+            Weight = 1.0d;
+            //WillMakeCurrentCardPlayed = false; 
         }
 
         public override string ToString()

@@ -14,7 +14,7 @@ namespace UnderdarkAI.AI.PlayableOptions
         public LocationId LocationId { get; }
         public Color Color { get; }
         public bool IsCityTaken { get; private set; }
-        public ReturnTroopOption(LocationId locationId, Color color)
+        public ReturnTroopOption(LocationId locationId, Color color) : base()
         {
             LocationId = locationId;
             Color = color;

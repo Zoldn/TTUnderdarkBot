@@ -11,10 +11,9 @@ namespace UnderdarkAI.AI.OptionGenerators
 {
     internal static class OptionUtils
     {
-        internal static List<PlayableOption> GetMoveFromOptions(Board board, Turn turn)
+        internal static List<PlayableOption> GetMoveFromOptions(List<PlayableOption> options, 
+            Board board, Turn turn, int nextIteration, int outIteration)
         {
-            var options = new List<PlayableOption>();
-
             foreach (var (location, locationState) in turn.LocationStates)
             {
                 if (!locationState.HasPresence)
@@ -29,17 +28,21 @@ namespace UnderdarkAI.AI.OptionGenerators
                         continue;
                     }
 
-                    options.Add(new MoveFromOption(location.Id, color));
+                    options.Add(new MoveFromOption(location.Id, color) { NextCardIteration = nextIteration});
                 }
+            }
+
+            if (options.Count == 0)
+            {
+                options.Add(new DoNothingOption() { NextCardIteration = outIteration });
             }
 
             return options;
         }
 
-        internal static List<PlayableOption> GetMoveToOptions(Board board, Turn turn)
+        internal static List<PlayableOption> GetMoveToOptions(List<PlayableOption> options, Board board, Turn turn, 
+            int outChoiceCardStateIteration)
         {
-            var options = new List<PlayableOption>();
-
             foreach (var (location, _) in turn.LocationStates)
             {
                 if (location.Id == turn.LocationMoveFrom || location.FreeSpaces == 0)
@@ -47,7 +50,10 @@ namespace UnderdarkAI.AI.OptionGenerators
                     continue;
                 }
 
-                options.Add(new MoveToOption(location.Id));
+                options.Add(new MoveToOption(location.Id)
+                {
+                    NextCardIteration = outChoiceCardStateIteration,
+                });
             }
 
             return options;
@@ -59,22 +65,24 @@ namespace UnderdarkAI.AI.OptionGenerators
         /// <param name="turn"></param>
         /// <param name="promoter"></param>
         /// <returns></returns>
-        internal static List<PlayableOption> GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(Turn turn,
-            CardSpecificType promoter)
+        internal static List<PlayableOption> GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(
+            Turn turn, CardSpecificType promoter, int outIteration)
         {
             var options = turn.CardStates
-                    .Where(s => !s.IsPromotedInTheEnd
-                        && s.State == CardState.PLAYED
-                        && s.EndTurnState != CardState.NOW_PLAYING
-                    )
-                    .Select(s => s.SpecificType)
-                    .Distinct()
-                    .Select(s => new PromoteAnotherCardOption(promoter, s) 
-                    { Weight = 1.0d +
+                .Where(s => !s.IsPromotedInTheEnd
+                    && s.State == CardState.PLAYED
+                    && s.EndTurnState != CardState.NOW_PLAYING
+                )
+                .Select(s => s.SpecificType)
+                .Distinct()
+                .Select(s => new PromoteAnotherCardOption(promoter, s) 
+                {   
+                    Weight = 1.0d +
                         CardMapper.SpecificTypeCardMakers[s].PromoteVP -
-                        CardMapper.SpecificTypeCardMakers[s].VP
-                    })
-                    .ToList();
+                        CardMapper.SpecificTypeCardMakers[s].VP,
+                    NextCardIteration = outIteration,
+                })
+                .ToList();
 
             return new List<PlayableOption>(options);
         }

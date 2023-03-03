@@ -12,53 +12,33 @@ namespace UnderdarkAI.AI.PlayableOptions
 {
     internal static class ReturnEnemyTroopOrSpyHelper
     {
-        public static List<PlayableOption> ReturnEnemyTroopOrSpyHandler(Board board, Turn turn,
-                int inChoiceCardStateIteration,
-                int outChoiceCardStateIteration
+        public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
+                int inIteration,
+                int returnSpyIteration,
+                int returnTroopsIteration,
+                int outIteration
             )
         {
-            var options = new List<PlayableOption>();
-
             ///Выбор возвращать трупса или шпиона
-            if (turn.State == SelectionState.SELECT_CARD_OPTION
-                && turn.CardStateIteration == inChoiceCardStateIteration
-                && turn.CardOption == CardOption.NONE_OPTION)
-            {
-                // На опцию А возвращаем трупсов
-                if (OptionUtils.IsReturnableTroops(board, turn))
-                {
-                    options.Add(new CardOptionASelection() { Weight = 1.0d });
-                }
-
-                // На опцию Б возвращаем шпионов
-                if (OptionUtils.IsReturnableSpies(board, turn))
-                {
-                    options.Add(new CardOptionBSelection() { Weight = 1.0d });
-                }
-
-                if (options.Count == 0)
-                {
-                    options.Add(new DoNothingOption()
-                    {
-                        Weight = 1.0d,
-                        NextCardIteration = outChoiceCardStateIteration,
-                    });
-                }
-
-                return options;
-            }
+            ABCSelectHelper.Run(options, board, turn,
+                inIteration,
+                (board, turn) => OptionUtils.IsReturnableTroops(board, turn), returnTroopsIteration,
+                (board, turn) => OptionUtils.IsReturnableSpies(board, turn), returnSpyIteration,
+                outIteration
+                );
 
             // На опцию А возвращаем трупсов
             if (turn.State == SelectionState.SELECT_CARD_OPTION
-                && turn.CardStateIteration == inChoiceCardStateIteration
-                && turn.CardOption == CardOption.OPTION_A)
+                && turn.CardStateIteration == returnTroopsIteration
+                //&& turn.CardOption == CardOption.OPTION_A
+                )
             {
                 options.AddRange(OptionUtils
                     .GetReturnTroopOptions(board, turn)
                     .Apply(p => {
-                        p.NextCardIteration = outChoiceCardStateIteration;
-                        p.NextCardOption = CardOption.NONE_OPTION;
-                        p.NextState = SelectionState.SELECT_CARD_OPTION;
+                        p.NextCardIteration = outIteration;
+                        //p.NextCardOption = CardOption.NONE_OPTION;
+                        //p.NextState = SelectionState.SELECT_CARD_OPTION;
                     }));
 
                 return options;
@@ -66,15 +46,16 @@ namespace UnderdarkAI.AI.PlayableOptions
 
             // На опцию B возвращаем шпионов
             if (turn.State == SelectionState.SELECT_CARD_OPTION
-                && turn.CardStateIteration == 0
-                && turn.CardOption == CardOption.OPTION_B)
+                && turn.CardStateIteration == returnSpyIteration
+               // && turn.CardOption == CardOption.OPTION_B
+                )
             {
                 options.AddRange(OptionUtils
                     .GetReturnEnemySpyOptions(board, turn)
                     .Apply(p => {
-                        p.NextCardIteration = outChoiceCardStateIteration;
-                        p.NextCardOption = CardOption.NONE_OPTION;
-                        p.NextState = SelectionState.SELECT_CARD_OPTION;
+                        p.NextCardIteration = outIteration;
+                        //p.NextCardOption = CardOption.NONE_OPTION;
+                        //p.NextState = SelectionState.SELECT_CARD_OPTION;
                     }));
 
                 return options;

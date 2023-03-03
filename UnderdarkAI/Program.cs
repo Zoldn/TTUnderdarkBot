@@ -23,8 +23,14 @@ namespace UnderdarkAI
 
             //TestRandom();
 
-            board.Players[Color.YELLOW].Hand.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.COUNCIL_MEMBER]);
-            board.LocationIds[LocationId.ChedNasad].Spies[Color.RED] = true;
+            board.Players[Color.YELLOW].Hand.Add(
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.ADVOCATE]
+                );
+            //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
+            //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
+            //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
+            //board.LocationIds[LocationId.ChedNasad].Spies[Color.RED] = true;
+            //board.LocationIds[LocationId.ChedNasad].Troops[Color.RED] = 1;
 
             var turnMaker = new TurnMaker(board, Color.YELLOW) 
             {

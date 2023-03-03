@@ -11,50 +11,24 @@ namespace UnderdarkAI.AI.PlayableOptions
 {
     internal static class MoveTroopHelper
     {
-        public static List<PlayableOption> MoveTroopHandler(Board board, Turn turn,
-                int inChoiceCardStateIteration,
-                int midChoiceCardStateIteration,
-                int outChoiceCardStateIteration
+        public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
+                int inIteration,
+                int targetIteration,
+                int outIteration
             )
         {
-            var options = new List<PlayableOption>();
-
             if (turn.State == SelectionState.SELECT_CARD_OPTION
-                && turn.CardStateIteration == inChoiceCardStateIteration)
+                && turn.CardStateIteration == inIteration)
             {
-                if (!OptionUtils.IsMoveAvailable(board, turn))
-                {
-                    options.Add(new DoNothingOption()
-                    {
-                        Weight = 1.0d,
-                        NextCardIteration = outChoiceCardStateIteration,
-                        NextState = SelectionState.SELECT_CARD_OPTION,
-                    });
-
-                    return options;
-                }
-
-                options.AddRange(OptionUtils.GetMoveFromOptions(board, turn)
-                    .Apply(option => {
-                        option.NextCardIteration = midChoiceCardStateIteration;
-                        option.NextState = SelectionState.SELECT_CARD_OPTION;
-                        option.Weight = 1.0d;
-                    }));
-
-                return options;
+                OptionUtils.GetMoveFromOptions(options, board, turn,
+                    targetIteration,
+                    outIteration);
             }
 
             if (turn.State == SelectionState.SELECT_CARD_OPTION
-                && turn.CardStateIteration == midChoiceCardStateIteration)
+                && turn.CardStateIteration == targetIteration)
             {
-                options.AddRange(OptionUtils.GetMoveToOptions(board, turn)
-                    .Apply(option => {
-                        option.NextCardIteration = outChoiceCardStateIteration;
-                        option.NextState = SelectionState.SELECT_CARD_OPTION;
-                        option.Weight = 1.0d;
-                    }));
-
-                return options;
+                OptionUtils.GetMoveToOptions(options, board, turn, outIteration);
             }
 
             return options;

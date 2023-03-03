@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
+using TUnderdark.TTSParser;
 
 namespace UnderdarkAI.AI
 {
@@ -99,6 +100,10 @@ namespace UnderdarkAI.AI
                 IsPromotedInTheEnd = IsPromotedInTheEnd,
             };
         }
+        public override string ToString()
+        {
+            return $"{CardMapper.SpecificTypeCardMakers[SpecificType].Name} - State: {State}; EndState: {EndTurnState}";
+        }
     }
 
     /// <summary>
@@ -146,7 +151,7 @@ namespace UnderdarkAI.AI
         /// <summary>
         /// Опция на карте
         /// </summary>
-        public CardOption CardOption { get; set; }
+        //public CardOption CardOption { get; set; }
         #endregion
         public List<PlayableOption> EndTurnEffects { get; set; }
         public CardSpecificType? ActiveCard => CardStates
@@ -173,7 +178,7 @@ namespace UnderdarkAI.AI
 
             IsBuyingEnabled = true;
             State = SelectionState.CARD_OR_FREE_ACTION;
-            CardOption = CardOption.NONE_OPTION;
+            //CardOption = CardOption.NONE_OPTION;
             CardStateIteration = 0;
 
             LocationStates = new();
@@ -214,7 +219,7 @@ namespace UnderdarkAI.AI
                 //VPs = VPs,
                 Value = Value,
                 CardStateIteration = CardStateIteration,
-                CardOption = CardOption,
+                //CardOption = CardOption,
                 ColorMove = ColorMove,
                 LocationMoveFrom = LocationMoveFrom,
             };
@@ -225,13 +230,16 @@ namespace UnderdarkAI.AI
         internal void MakeCurrentCardPlayed()
         {
             CardStates.Single(s => s.State == CardState.NOW_PLAYING).State = CardState.PLAYED;
+            //CardStateIteration = 0;
+            //State = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         internal void MakeCurrentCardPlayedEndTurn()
         {
             CardStates.Single(s => s.EndTurnState == CardState.NOW_PLAYING).EndTurnState = CardState.PLAYED;
-            CardOption = CardOption.NONE_OPTION;
-            CardStateIteration = 0;
+            //CardOption = CardOption.NONE_OPTION;
+            //CardStateIteration = 0;
+            //State = SelectionState.SELECT_CARD_END_TURN;
         }
     }
 }

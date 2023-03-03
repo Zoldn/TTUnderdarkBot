@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Discord;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +21,17 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
 
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
-            return new List<PlayableOption>(1) 
-            { 
-                new ResourceGainOption(Mana, Swords) 
-                { 
-                    Weight = 1.0d,
-                    WillMakeCurrentCardPlayed = true,
-                } 
-            };
+            var options = new List<PlayableOption>();
+
+            OptionalResourceGainHelper.Run(options, board, turn,
+                inIteration: 0,
+                outIteration: 1,
+                (board, turn) => true,
+                mana: Mana, swords: Swords);
+
+            EndCardHelper.Run(options, board, turn, 1);
+
+            return options;
         }
     }
 }

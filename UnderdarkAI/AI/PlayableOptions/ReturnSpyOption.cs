@@ -17,7 +17,14 @@ namespace UnderdarkAI.AI.PlayableOptions
         {
             LocationId = locationId;
             TargetColor = targetColor;
-            NextState = SelectionState.CARD_OR_FREE_ACTION;
+            if (isBaseAction)
+            {
+                NextState = SelectionState.CARD_OR_FREE_ACTION;
+            }
+            else
+            {
+                NextState = SelectionState.SELECT_CARD_OPTION;
+            }
             IsBaseAction = isBaseAction;
         }
 
