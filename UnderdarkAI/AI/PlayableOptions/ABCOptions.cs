@@ -36,7 +36,7 @@ namespace UnderdarkAI.AI.PlayableOptions
 
             if (options.Count == 0)
             {
-                options.Add(new DoNothingOption() { Weight = 1.0d, NextCardIteration = outIteration3 });
+                options.Add(new DoNothingOption(outIteration3));
             }
 
             return options;

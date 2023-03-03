@@ -27,6 +27,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.DROW_NEGOTIATOR, new DrowNegotiatorOptionGenerator() },
                 { CardSpecificType.CHOSEN_OF_LOLTH, new ChosenOfLolthOptionGenetator() },
                 { CardSpecificType.COUNCIL_MEMBER, new CouncilMemberOptionGenetator() },
+                { CardSpecificType.MATRON_MOTHER, new MatronMotherOptionGenetator() },
 #endregion
             };
         }

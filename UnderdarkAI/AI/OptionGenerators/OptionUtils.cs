@@ -34,7 +34,7 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             if (options.Count == 0)
             {
-                options.Add(new DoNothingOption() { NextCardIteration = outIteration });
+                options.Add(new DoNothingOption(outIteration));
             }
 
             return options;

@@ -29,12 +29,7 @@ namespace UnderdarkAI.AI.PlayableOptions
                 }
                 else
                 {
-                    options.Add(new DoNothingOption()
-                    {
-                        Weight = 1.0d,
-                        NextCardIteration = outIteration,
-                        NextState = SelectionState.SELECT_CARD_OPTION,
-                    });
+                    options.Add(new DoNothingOption(outIteration));
                 }
             }
 
