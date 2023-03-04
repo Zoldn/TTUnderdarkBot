@@ -7,13 +7,13 @@ using TUnderdark.Model;
 
 namespace UnderdarkAI.AI.PlayableOptions
 {
-    internal class ReturnSpyOption : PlayableOption
+    internal class ReturnEnemySpyOption : PlayableOption
     {
         public LocationId LocationId { get; }
         public Color TargetColor { get; }
         public override int MinVerbosity => 0;
         public bool IsBaseAction { get; }
-        public ReturnSpyOption(LocationId locationId, Color targetColor, bool isBaseAction = false) : base()
+        public ReturnEnemySpyOption(LocationId locationId, Color targetColor, bool isBaseAction = false) : base()
         {
             LocationId = locationId;
             TargetColor = targetColor;

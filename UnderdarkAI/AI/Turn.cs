@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 using TUnderdark.TTSParser;
+using UnderdarkAI.AI.WeightGenerators;
 
 namespace UnderdarkAI.AI
 {
@@ -112,9 +113,14 @@ namespace UnderdarkAI.AI
     internal class Turn
     {
         /// <summary>
+        /// Генератор весов для опций выбора
+        /// </summary>
+        public IWeightGenerator WeightGenerator { get; }
+
+        /// <summary>
         /// Цвет текущего игрока
         /// </summary>
-        public Color Color { get; }
+        public Color Color { get; private set; }
         /// <summary>
         /// Current Mana Points
         /// </summary>
@@ -168,8 +174,9 @@ namespace UnderdarkAI.AI
         public Color? ColorMove { get; internal set; }
 
         #endregion
-        public Turn(Color color, bool isOriginal = true)
+        public Turn(Color color, IWeightGenerator weightGenerator, bool isOriginal = true)
         {
+            WeightGenerator = weightGenerator;
             Color = color;
 
             //SelectionSequence = new(50);
@@ -200,7 +207,7 @@ namespace UnderdarkAI.AI
 
         public Turn Clone(Board board)
         {
-            var turn = new Turn(Color, isOriginal: false)
+            var turn = new Turn(Color, WeightGenerator, isOriginal: false)
             {
                 CardStates = CardStates
                     .Select(s => s.Clone()).ToList(),

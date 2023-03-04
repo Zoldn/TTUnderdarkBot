@@ -24,7 +24,7 @@ namespace UnderdarkAI
             //TestRandom();
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.MATRON_MOTHER]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.CHOSEN_OF_LOLTH]
                 );
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);

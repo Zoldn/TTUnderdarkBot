@@ -7,6 +7,32 @@ using TUnderdark.Model;
 
 namespace UnderdarkAI.AI.PlayableOptions
 {
+    internal class ResourceGainOptionSelector : OptionGenerator
+    {
+        public int Mana { get; }
+        public int Swords { get; }
+        public ResourceGainOptionSelector(int mana = 0, int swords = 0)
+        {
+            Mana = mana;
+            Swords = swords;
+        }
+
+        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
+        {
+            var options = new List<PlayableOption>();
+
+            OptionalResourceGainHelper.Run(options, board, turn,
+                inIteration: 0,
+                outIteration: 1,
+                (board, turn) => true,
+                mana: Mana, swords: Swords);
+
+            EndCardHelper.Run(options, board, turn, 1);
+
+            return options;
+        }
+    }
+
     internal static class OptionalResourceGainHelper
     {
         public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn, 

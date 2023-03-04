@@ -66,25 +66,29 @@ namespace UnderdarkAI.AI.OptionGenerators
         /// <param name="promoter"></param>
         /// <returns></returns>
         internal static List<PlayableOption> GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(
-            Turn turn, CardSpecificType promoter, int outIteration)
+            List<PlayableOption> options, Board board, Turn turn, 
+            CardSpecificType promoter, int outIteration)
         {
-            var options = turn.CardStates
+            var ret = turn.CardStates
                 .Where(s => !s.IsPromotedInTheEnd
                     && s.State == CardState.PLAYED
                     && s.EndTurnState != CardState.NOW_PLAYING
                 )
                 .Select(s => s.SpecificType)
                 .Distinct()
-                .Select(s => new PromoteAnotherCardOption(promoter, s) 
-                {   
-                    Weight = 1.0d +
-                        CardMapper.SpecificTypeCardMakers[s].PromoteVP -
-                        CardMapper.SpecificTypeCardMakers[s].VP,
-                    NextCardIteration = outIteration,
-                })
+                .Select(s => new PromotePlayedCardOption(promoter, s, outIteration))
                 .ToList();
 
-            return new List<PlayableOption>(options);
+            turn.WeightGenerator.FillPromoteOptions(board, turn, ret);
+
+            if (ret.Count == 0)
+            {
+                options.Add(new DoNothingEndTurnOption(outIteration));
+            }
+
+            options.AddRange(ret);
+
+            return options;
         }
 
         internal static List<PlayableOption> GetReturnEnemySpyOptions(Board board, Turn turn, bool isBaseAction = false)
@@ -105,7 +109,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                         continue;
                     }
 
-                    ret.Add(new ReturnSpyOption(location.Id, color, isBaseAction: isBaseAction) { Weight = 1.0d });
+                    ret.Add(new ReturnEnemySpyOption(location.Id, color, isBaseAction: isBaseAction) { Weight = 1.0d });
                 }
             }
 

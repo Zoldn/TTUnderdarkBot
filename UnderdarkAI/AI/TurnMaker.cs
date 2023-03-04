@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TUnderdark.Model;
 using UnderdarkAI.AI.OptionGenerators;
 using UnderdarkAI.AI.TargetFunctions;
+using UnderdarkAI.AI.WeightGenerators;
 using UnderdarkAI.MetricUtils;
 using UnderdarkAI.Utils;
 
@@ -277,7 +278,9 @@ namespace UnderdarkAI.AI
 
         private Turn InitializeNewTurn(Board board)
         {
-            var turn = new Turn(Color);
+            IWeightGenerator weightGenerator = new StaticWeightGenerator();
+
+            var turn = new Turn(Color, weightGenerator);
 
             foreach (var card in board.Players[Color].Hand)
             {

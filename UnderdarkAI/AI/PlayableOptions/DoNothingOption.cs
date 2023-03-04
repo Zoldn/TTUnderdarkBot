@@ -25,4 +25,24 @@ namespace UnderdarkAI.AI.PlayableOptions
             return $"Do nothing";
         }
     }
+
+    internal class DoNothingEndTurnOption : PlayableOption
+    {
+        public DoNothingEndTurnOption(int outIteration) : base()
+        {
+            NextCardIteration = outIteration;
+            NextState = SelectionState.SELECT_END_TURN_CARD_OPTION;
+        }
+        public override int MinVerbosity => 10;
+
+        public override void ApplyOption(Board board, Turn turn)
+        {
+
+        }
+
+        public override string GetOptionText()
+        {
+            return $"Do nothing end turn";
+        }
+    }
 }

@@ -7,12 +7,17 @@ using TUnderdark.Model;
 
 namespace UnderdarkAI.AI
 {
-    internal abstract class PlayableOption
+    internal interface IPlayableOption
+    {
+        public double Weight { get; set; }
+    }
+
+    internal abstract class PlayableOption : IPlayableOption
     {
         /// <summary>
         /// Порядковый номер опции для быстрой группировки
         /// </summary>
-        public int Index { get; set; }
+        //public int Index { get; set; }
         /// <summary>
         /// Следующее состояние конечного автомата выбора после выполнения этой опции
         /// </summary>

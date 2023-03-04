@@ -10,6 +10,11 @@ using UnderdarkAI.AI.OptionGenerators;
 
 namespace UnderdarkAI.AI.PlayableOptions
 {
+    internal interface IPromoteCardOption : IPlayableOption
+    {
+        public CardSpecificType PromoteTarget { get; }
+    }
+
     internal static class PromoteAnotherCardPlayedThisTurnHelper
     {
         internal static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn, 
@@ -36,25 +41,27 @@ namespace UnderdarkAI.AI.PlayableOptions
             if (turn.State == SelectionState.SELECT_END_TURN_CARD_OPTION
                 && turn.CardStateIteration == inIteration)
             {
-                options.AddRange(
-                    OptionUtils.GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(turn, promoter, outIteration)
-                    );
+                //options.AddRange(
+                OptionUtils.GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(options, board, turn, promoter,
+                    outIteration);
+                   // );
             }
 
             return options;
         }
     }
 
-    internal class PromoteAnotherCardOption : PlayableOption
+    internal class PromotePlayedCardOption : PlayableOption, IPromoteCardOption
     {
         public override int MinVerbosity => 0;
         public CardSpecificType Promoter { get; }
-        public CardSpecificType Target { get; }
-        public PromoteAnotherCardOption(CardSpecificType promoter, CardSpecificType target) : base()
+        public CardSpecificType PromoteTarget { get; }
+        public PromotePlayedCardOption(CardSpecificType promoter, CardSpecificType target, int outIteration) : base()
         {
             Promoter = promoter;
-            Target = target;
+            PromoteTarget = target;
             NextState = SelectionState.SELECT_END_TURN_CARD_OPTION;
+            NextCardIteration = outIteration;
         }
 
 
@@ -64,7 +71,7 @@ namespace UnderdarkAI.AI.PlayableOptions
                 .First(s => !s.IsPromotedInTheEnd
                     && s.State == CardState.PLAYED
                     && s.EndTurnState != CardState.NOW_PLAYING
-                    && s.SpecificType == Target
+                    && s.SpecificType == PromoteTarget
                 );
 
             target.IsPromotedInTheEnd = true;
@@ -72,7 +79,7 @@ namespace UnderdarkAI.AI.PlayableOptions
 
         public override string GetOptionText()
         {
-            return $"\tPromote {CardMapper.SpecificTypeCardMakers[Target].Name} by " +
+            return $"\tPromote {CardMapper.SpecificTypeCardMakers[PromoteTarget].Name} by " +
                 $"{CardMapper.SpecificTypeCardMakers[Promoter].Name}";
         }
     }
@@ -99,5 +106,71 @@ namespace UnderdarkAI.AI.PlayableOptions
             return $"\tAt end of turn promote another card played this turn";
         }
 
+    }
+
+    internal class PromoteCardFromDiscard : PlayableOption, IPromoteCardOption
+    {
+        public CardSpecificType PromoteTarget { get; set; }
+        public CardSpecificType Promoter { get; set; }
+        public PromoteCardFromDiscard(CardSpecificType target, CardSpecificType promoter, int outIteration) : base()
+        {
+            NextCardIteration = outIteration;
+            PromoteTarget = target;
+            Promoter = promoter;
+        }
+
+        public override int MinVerbosity => 0;
+
+        public override void ApplyOption(Board board, Turn turn)
+        {
+            var player = board.Players[turn.Color];
+            var card = player.Discard.First(c => c.SpecificType == PromoteTarget);
+            player.Discard.Remove(card);
+            player.InnerCircle.Add(card);
+        }
+
+        public override string GetOptionText()
+        {
+            return $"\tPromote {CardMapper.SpecificTypeCardMakers[PromoteTarget]} " +
+                $"from discard by {CardMapper.SpecificTypeCardMakers[Promoter]}";
+        }
+    }
+
+    internal static class PromoteFromDiscardHelper
+    {
+        public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
+            CardSpecificType promoter,
+            int inIteration, int outIteration)
+        {
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == inIteration)
+            {
+                var targets = board.Players[turn.Color]
+                    .Discard
+                    .Select(c => c.SpecificType)
+                    .Distinct()
+                    .ToList();
+
+                var ret = new List<PromoteCardFromDiscard>();
+
+                foreach (var target in targets)
+                {
+                    ret.Add(new PromoteCardFromDiscard(target, promoter, outIteration));
+                }
+
+                turn.WeightGenerator.FillPromoteOptions(board, turn, ret);
+
+                if (ret.Count == 0)
+                {
+                    options.Add(new DoNothingOption(outIteration));
+                }
+                else
+                {
+                    options.AddRange(ret);
+                }
+            }
+
+            return options;
+        } 
     }
 }

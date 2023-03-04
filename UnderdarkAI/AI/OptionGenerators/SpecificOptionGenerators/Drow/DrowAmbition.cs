@@ -8,7 +8,7 @@ using TUnderdark.TTSParser;
 using UnderdarkAI.AI.PlayableOptions;
 using UnderdarkAI.Utils;
 
-namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
+namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow
 {
     internal class AdvocateOptionGenerator : OptionGenerator
     {
@@ -16,10 +16,10 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
         {
             var options = new List<PlayableOption>();
 
-            ABCSelectHelper.Run(options, board, turn, 
+            ABCSelectHelper.Run(options, board, turn,
                 inIteration: 0,
-                (b, t) => true, outIteration1: 1, 
-                (b, t) => true, outIteration2: 2, 
+                (b, t) => true, outIteration1: 1,
+                (b, t) => true, outIteration2: 2,
                 outIteration3: 3
                 );
 
@@ -53,15 +53,15 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
         {
             var options = new List<PlayableOption>();
 
-            OptionalResourceGainHelper.Run(options, board, turn, 
-                inIteration: 0, 
-                outIteration: 1, 
+            OptionalResourceGainHelper.Run(options, board, turn,
+                inIteration: 0,
+                outIteration: 1,
                 (board, turn) => board.Players[turn.Color].InnerCircle.Count >= 3,
                 mana: 3);
 
-            PromoteAnotherCardPlayedThisTurnHelper.Run(options, board, turn, 
-                inIteration: 1, 
-                outIteration: 2, 
+            PromoteAnotherCardPlayedThisTurnHelper.Run(options, board, turn,
+                inIteration: 1,
+                outIteration: 2,
                 CardSpecificType.DROW_NEGOTIATOR);
 
             EndCardHelper.Run(options, board, turn, 2);
@@ -69,7 +69,7 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
             /// Промоут карты в конце хода
             PromoteAnotherCardPlayedThisTurnHelper.RunEndTurn(options, board, turn,
                 inIteration: 0,
-                outIteration: 1, 
+                outIteration: 1,
                 CardSpecificType.CHOSEN_OF_LOLTH);
             EndCardHelper.RunEndTurn(options, board, turn, 1);
 
@@ -92,13 +92,13 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
             /// Промоут карты в конце хода
             PromoteAnotherCardPlayedThisTurnHelper.Run(options, board, turn,
                 inIteration: 3,
-                outIteration: 4, 
+                outIteration: 4,
                 CardSpecificType.CHOSEN_OF_LOLTH);
-            EndCardHelper.Run(options, board, turn, 
+            EndCardHelper.Run(options, board, turn,
                 endIteration: 4);
 
             /// Промоут карты в конце хода
-            PromoteAnotherCardPlayedThisTurnHelper.RunEndTurn(options, board, turn, 
+            PromoteAnotherCardPlayedThisTurnHelper.RunEndTurn(options, board, turn,
                 0, 1, CardSpecificType.CHOSEN_OF_LOLTH);
 
             EndCardHelper.RunEndTurn(options, board, turn, 1);
@@ -114,8 +114,8 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
             var options = new List<PlayableOption>();
 
             MoveTroopHelper.Run(options, board, turn,
-                inIteration: 0, 
-                targetIteration: 1, 
+                inIteration: 0,
+                targetIteration: 1,
                 outIteration: 2);
             MoveTroopHelper.Run(options, board, turn,
                 inIteration: 2,
@@ -154,45 +154,45 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators
             }
         }
 
-        internal class PromoteCardFromDiscard : PlayableOption
-        {
-            public CardSpecificType Target { get; set; }
-            public CardSpecificType Promoter { get; set; }
-            public PromoteCardFromDiscard(CardSpecificType target, CardSpecificType promoter, int outIteration) : base()
-            {
-                NextCardIteration = outIteration;
-                Target = target;
-                Promoter = promoter;
-            }
+        //internal class PromoteCardFromDiscard : PlayableOption
+        //{
+        //    public CardSpecificType Target { get; set; }
+        //    public CardSpecificType Promoter { get; set; }
+        //    public PromoteCardFromDiscard(CardSpecificType target, CardSpecificType promoter, int outIteration) : base()
+        //    {
+        //        NextCardIteration = outIteration;
+        //        Target = target;
+        //        Promoter = promoter;
+        //    }
 
-            public override int MinVerbosity => 0;
+        //    public override int MinVerbosity => 0;
 
-            public override void ApplyOption(Board board, Turn turn)
-            {
-                var player = board.Players[turn.Color];
-                var card = player.Discard.First(c => c.SpecificType == Target);
-                player.Discard.Remove(card);
-                player.InnerCircle.Add(card);
-            }
+        //    public override void ApplyOption(Board board, Turn turn)
+        //    {
+        //        var player = board.Players[turn.Color];
+        //        var card = player.Discard.First(c => c.SpecificType == Target);
+        //        player.Discard.Remove(card);
+        //        player.InnerCircle.Add(card);
+        //    }
 
-            public override string GetOptionText()
-            {
-                return $"\tPromote {CardMapper.SpecificTypeCardMakers[Target]} " +
-                    $"from discard by {CardMapper.SpecificTypeCardMakers[Promoter]}";
-            }
-        }
+        //    public override string GetOptionText()
+        //    {
+        //        return $"\tPromote {CardMapper.SpecificTypeCardMakers[Target]} " +
+        //            $"from discard by {CardMapper.SpecificTypeCardMakers[Promoter]}";
+        //    }
+        //}
 
-        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn) 
+        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             var options = new List<PlayableOption>();
 
-            if (turn.State == SelectionState.SELECT_CARD_OPTION 
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == 0)
             {
                 options.Add(new MoveDeckToDiscard(1));
             }
 
-            if (turn.State == SelectionState.SELECT_CARD_OPTION 
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == 1)
             {
                 var targets = board.Players[turn.Color]
