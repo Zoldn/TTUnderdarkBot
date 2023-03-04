@@ -93,7 +93,7 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         internal static List<PlayableOption> GetReturnEnemySpyOptions(Board board, Turn turn, bool isBaseAction = false)
         {
-            var ret = new List<PlayableOption>();
+            var ret = new List<ReturnEnemySpyOption>();
 
             foreach (var (location, locationState) in turn.LocationStates)
             {
@@ -113,7 +113,9 @@ namespace UnderdarkAI.AI.OptionGenerators
                 }
             }
 
-            return ret;
+            turn.WeightGenerator.FillReturnEnemySpyOptions(board, turn, ret);
+
+            return ret.Select(o => o as PlayableOption).ToList();
         }
 
         internal static List<PlayableOption> GetReturnTroopOptions(Board board, Turn turn)

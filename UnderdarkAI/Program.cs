@@ -29,7 +29,7 @@ namespace UnderdarkAI
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
-            //board.LocationIds[LocationId.ChedNasad].Spies[Color.RED] = true;
+            board.LocationIds[LocationId.ChedNasad].Spies[Color.RED] = true;
             //board.LocationIds[LocationId.ChedNasad].Troops[Color.RED] = 1;
 
             var turnMaker = new TurnMaker(board, Color.YELLOW) 
