@@ -92,7 +92,8 @@ namespace UnderdarkAI.AI.OptionGenerators
             return options;
         }
 
-        internal static List<PlayableOption> GetReturnEnemySpyOptions(Board board, Turn turn, bool isBaseAction = false)
+        internal static List<PlayableOption> GetReturnEnemySpyOptions(Board board, Turn turn, 
+            int outIteration, bool isBaseAction = false)
         {
             var ret = new List<ReturnEnemySpyOption>();
 
@@ -110,7 +111,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                         continue;
                     }
 
-                    ret.Add(new ReturnEnemySpyOption(location.Id, color, isBaseAction: isBaseAction) { Weight = 1.0d });
+                    ret.Add(new ReturnEnemySpyOption(location.Id, color, outIteration, isBaseAction: isBaseAction) { Weight = 1.0d });
                 }
             }
 
@@ -119,7 +120,7 @@ namespace UnderdarkAI.AI.OptionGenerators
             return ret.Select(o => o as PlayableOption).ToList();
         }
 
-        internal static List<PlayableOption> GetReturnTroopOptions(Board board, Turn turn)
+        internal static List<PlayableOption> GetReturnTroopOptions(Board board, Turn turn, int outIteration)
         {
             var options = new List<PlayableOption>();
 
@@ -137,7 +138,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                         continue;
                     }
 
-                    options.Add(new ReturnTroopOption(location.Id, color));
+                    options.Add(new ReturnTroopOption(location.Id, color, outIteration));
                 }
             }
 

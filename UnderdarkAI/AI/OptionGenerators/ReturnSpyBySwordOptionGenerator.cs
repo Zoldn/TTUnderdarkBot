@@ -16,7 +16,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                 throw new ArgumentOutOfRangeException();
             }
 
-            return OptionUtils.GetReturnEnemySpyOptions(board, turn, isBaseAction: true);
+            return OptionUtils.GetReturnEnemySpyOptions(board, turn, outIteration: 0, isBaseAction: true);
         }
     }
 }

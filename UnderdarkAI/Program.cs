@@ -24,7 +24,7 @@ namespace UnderdarkAI
             //TestRandom();
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.RATH_MODAR]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.SEVERIN_SILRAJIN]
                 );
 
             //board.Players[Color.YELLOW].Hand.Add(

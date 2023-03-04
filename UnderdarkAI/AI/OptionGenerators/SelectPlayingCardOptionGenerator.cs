@@ -58,6 +58,16 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.GREEN_DRAGON, new GreenDragonOptionGenerator() },
                 { CardSpecificType.GREEN_WYRMLING, new GreenWyrmlingOptionGenerator() },
                 { CardSpecificType.RATH_MODAR, new RathModarOptionGenerator() },
+                { CardSpecificType.BLACK_DRAGON, new BlackDragonOptionGenetator() },
+                { CardSpecificType.BLACK_WYRMLING, new BlackWyrmlingOptionGenetator() },
+                { CardSpecificType.KOBOLD, new KoboldOptionGenerator() },
+                { CardSpecificType.WHITE_DRAGON, new WhiteDragonOptionGenetator() },
+                { CardSpecificType.WHITE_WYRMLING, new WhiteWyrmlingOptionGenetator() },
+                { CardSpecificType.DRAGON_CULTIST, new DragonCultistOptionGenerator() },
+                { CardSpecificType.DRAGONCLAW, new DragonclawOptionGenetator() },
+                { CardSpecificType.RED_DRAGON, new RedDragonOptionGenetator() },
+                { CardSpecificType.RED_WYRMLING, new RedWyrmlingOptionGenerator() },
+                { CardSpecificType.SEVERIN_SILRAJIN, new SeverinSilrajinOptionGenerator() },
                 #endregion
             };
         }

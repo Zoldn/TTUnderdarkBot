@@ -13,7 +13,7 @@ namespace UnderdarkAI.AI.PlayableOptions
         public Color TargetColor { get; }
         public override int MinVerbosity => 0;
         public bool IsBaseAction { get; }
-        public ReturnEnemySpyOption(LocationId locationId, Color targetColor, bool isBaseAction = false) : base()
+        public ReturnEnemySpyOption(LocationId locationId, Color targetColor, int outIteration, bool isBaseAction = false) : base()
         {
             LocationId = locationId;
             TargetColor = targetColor;
@@ -25,6 +25,7 @@ namespace UnderdarkAI.AI.PlayableOptions
             {
                 NextState = SelectionState.SELECT_CARD_OPTION;
             }
+            NextCardIteration = outIteration;
             IsBaseAction = isBaseAction;
         }
 

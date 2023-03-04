@@ -30,16 +30,10 @@ namespace UnderdarkAI.AI.PlayableOptions
             // На опцию А возвращаем трупсов
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == returnTroopsIteration
-                //&& turn.CardOption == CardOption.OPTION_A
                 )
             {
                 options.AddRange(OptionUtils
-                    .GetReturnTroopOptions(board, turn)
-                    .Apply(p => {
-                        p.NextCardIteration = outIteration;
-                        //p.NextCardOption = CardOption.NONE_OPTION;
-                        //p.NextState = SelectionState.SELECT_CARD_OPTION;
-                    }));
+                    .GetReturnTroopOptions(board, turn, outIteration));
 
                 return options;
             }
@@ -47,16 +41,32 @@ namespace UnderdarkAI.AI.PlayableOptions
             // На опцию B возвращаем шпионов
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == returnSpyIteration
-               // && turn.CardOption == CardOption.OPTION_B
                 )
             {
                 options.AddRange(OptionUtils
-                    .GetReturnEnemySpyOptions(board, turn)
-                    .Apply(p => {
-                        p.NextCardIteration = outIteration;
-                        //p.NextCardOption = CardOption.NONE_OPTION;
-                        //p.NextState = SelectionState.SELECT_CARD_OPTION;
-                    }));
+                    .GetReturnEnemySpyOptions(board, turn, outIteration));
+
+                return options;
+            }
+
+            return options;
+        }
+    }
+
+    internal static class ReturnEnemySpyHelper
+    {
+        public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
+                int inIteration,
+                int outIteration
+            )
+        {
+            // На опцию B возвращаем шпионов
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == inIteration
+                )
+            {
+                options.AddRange(OptionUtils
+                    .GetReturnEnemySpyOptions(board, turn, outIteration));
 
                 return options;
             }

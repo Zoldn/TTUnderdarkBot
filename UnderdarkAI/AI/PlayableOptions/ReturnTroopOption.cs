@@ -14,11 +14,12 @@ namespace UnderdarkAI.AI.PlayableOptions
         public LocationId LocationId { get; }
         public Color Color { get; }
         public bool IsCityTaken { get; private set; }
-        public ReturnTroopOption(LocationId locationId, Color color) : base()
+        public ReturnTroopOption(LocationId locationId, Color color, int outIteration) : base()
         {
             LocationId = locationId;
             Color = color;
             IsCityTaken = false;
+            NextCardIteration = outIteration;
         }
 
         public override void ApplyOption(Board board, Turn turn)
