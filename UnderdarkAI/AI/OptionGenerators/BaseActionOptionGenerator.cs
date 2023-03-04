@@ -83,7 +83,7 @@ namespace UnderdarkAI.AI.OptionGenerators
 
         }
 
-        public override int MinVerbosity => 0;
+        public override int MinVerbosity => 10;
 
         public override string GetOptionText()
         {

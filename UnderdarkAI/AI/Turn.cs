@@ -176,6 +176,10 @@ namespace UnderdarkAI.AI
         /// Только что поставленные шпионы
         /// </summary>
         public List<LocationId> PlacedSpies { get; internal set; }
+        /// <summary>
+        /// Возвращенные шпионы
+        /// </summary>
+        public List<LocationId> ReturnedSpies { get; internal set; }
 
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, bool isOriginal = true)
@@ -196,6 +200,7 @@ namespace UnderdarkAI.AI
             IsOriginal = isOriginal;
 
             PlacedSpies = new();
+            ReturnedSpies = new();
         }
 
         public void DebugPrintDistances()
@@ -236,6 +241,7 @@ namespace UnderdarkAI.AI
                 ColorMove = ColorMove,
                 LocationMoveFrom = LocationMoveFrom,
                 PlacedSpies = PlacedSpies.Select(s => s).ToList(),
+                ReturnedSpies = ReturnedSpies.Select(s => s).ToList(),
             };
 
             return turn;
@@ -246,6 +252,7 @@ namespace UnderdarkAI.AI
             CardStates.Single(s => s.State == CardState.NOW_PLAYING).State = CardState.PLAYED;
 
             PlacedSpies.Clear();
+            ReturnedSpies.Clear();
         }
 
         internal void MakeCurrentCardPlayedEndTurn()

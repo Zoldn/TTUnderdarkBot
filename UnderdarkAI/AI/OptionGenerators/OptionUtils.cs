@@ -237,5 +237,18 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             return false;
         }
+
+        internal static bool IsSpiesForReturn(Board board, Turn turn)
+        {
+            foreach (var location in board.Locations)
+            {
+                if (location.Spies[turn.Color])
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
