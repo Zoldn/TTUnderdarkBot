@@ -153,11 +153,6 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Dragons
                 inIteration: 1,
                 outIteration: 2);
 
-            //PromoteAnotherCardPlayedThisTurnHelper.Run(options, board, turn,
-            //    inIteration: 1,
-            //    outIteration: 2,
-            //    CardSpecificType.WYRMSPEAKER);
-
             EndCardHelper.Run(options, board, turn, 2);
 
             return options;
