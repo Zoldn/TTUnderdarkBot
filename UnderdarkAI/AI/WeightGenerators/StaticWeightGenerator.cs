@@ -50,5 +50,27 @@ namespace UnderdarkAI.AI.WeightGenerators
                 option.Weight = 1.0d;
             }
         }
+
+        public void FillPlaceSpyOptions(Board board, Turn turn, List<PlaceSpyOption> options)
+        {
+            foreach (var option in options)
+            {
+                option.Weight = 1.0d;
+
+                var location = board.LocationIds[option.LocationId];
+
+                var fullController = location.GetFullControl();
+
+                if (location.BonusVP > 0 && fullController != turn.Color && fullController != null)
+                {
+                    option.Weight += location.BonusVP;
+                }
+
+                if (location.IsSpyPlacable && fullController != turn.Color && fullController != null)
+                {
+                    option.Weight += 1.0d;
+                }
+            }
+        }
     }
 }

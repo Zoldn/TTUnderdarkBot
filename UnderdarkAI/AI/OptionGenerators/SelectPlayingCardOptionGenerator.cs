@@ -30,6 +30,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.CHOSEN_OF_LOLTH, new ChosenOfLolthOptionGenetator() },
                 { CardSpecificType.COUNCIL_MEMBER, new CouncilMemberOptionGenetator() },
                 { CardSpecificType.MATRON_MOTHER, new MatronMotherOptionGenetator() },
+                { CardSpecificType.SPY_MASTER, new SpyMasterOptionGenetator() },
 #endregion
             };
         }

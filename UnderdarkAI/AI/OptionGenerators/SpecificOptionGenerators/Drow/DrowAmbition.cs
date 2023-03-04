@@ -154,34 +154,6 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow
             }
         }
 
-        //internal class PromoteCardFromDiscard : PlayableOption
-        //{
-        //    public CardSpecificType Target { get; set; }
-        //    public CardSpecificType Promoter { get; set; }
-        //    public PromoteCardFromDiscard(CardSpecificType target, CardSpecificType promoter, int outIteration) : base()
-        //    {
-        //        NextCardIteration = outIteration;
-        //        Target = target;
-        //        Promoter = promoter;
-        //    }
-
-        //    public override int MinVerbosity => 0;
-
-        //    public override void ApplyOption(Board board, Turn turn)
-        //    {
-        //        var player = board.Players[turn.Color];
-        //        var card = player.Discard.First(c => c.SpecificType == Target);
-        //        player.Discard.Remove(card);
-        //        player.InnerCircle.Add(card);
-        //    }
-
-        //    public override string GetOptionText()
-        //    {
-        //        return $"\tPromote {CardMapper.SpecificTypeCardMakers[Target]} " +
-        //            $"from discard by {CardMapper.SpecificTypeCardMakers[Promoter]}";
-        //    }
-        //}
-
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             var options = new List<PlayableOption>();
@@ -192,25 +164,7 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow
                 options.Add(new MoveDeckToDiscard(1));
             }
 
-            if (turn.State == SelectionState.SELECT_CARD_OPTION
-                && turn.CardStateIteration == 1)
-            {
-                var targets = board.Players[turn.Color]
-                    .Discard
-                    .Select(c => c.SpecificType)
-                    .Distinct()
-                    .ToList();
-
-                foreach (var target in targets)
-                {
-                    options.Add(new PromoteCardFromDiscard(target, CardSpecificType.MATRON_MOTHER, 2));
-                }
-
-                if (options.Count == 0)
-                {
-                    options.Add(new DoNothingOption(2));
-                }
-            }
+            PromoteFromDiscardHelper.Run(options, board, turn, CardSpecificType.MATRON_MOTHER, 1, 2);
 
             EndCardHelper.Run(options, board, turn, 2);
 
