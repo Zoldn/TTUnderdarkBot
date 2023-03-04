@@ -13,7 +13,7 @@ namespace UnderdarkAI.AI.WeightGenerators
     {
         public void FillPromoteOptions<T>(Board board, Turn turn, List<T> options)
             where T : IPromoteCardOption;
-        public void FillDeployOptions(Board board, Turn turn, List<DeployBySwordOption> options);
+        public void FillDeployOptions(Board board, Turn turn, List<DeployOption> options);
         public void FillReturnEnemySpyOptions(Board board, Turn turn, List<ReturnEnemySpyOption> options);
         public void FillPlaceSpyOptions(Board board, Turn turn, List<PlaceSpyOption> options);
     }

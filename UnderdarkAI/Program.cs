@@ -24,12 +24,16 @@ namespace UnderdarkAI
             //TestRandom();
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.SPELL_SPINNER]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.MERCENARY_SQUAD]
                 );
 
-            board.LocationIds[LocationId.SSZuraassnee].Spies[Color.YELLOW] = true;
+            //board.Players[Color.YELLOW].Hand.Add(
+            //    CardMapper.SpecificTypeCardMakers[CardSpecificType.SPY_MASTER]
+            //    );
 
-            board.Players[Color.YELLOW].Spies = 4;
+            //board.LocationIds[LocationId.SSZuraassnee].Spies[Color.YELLOW] = true;
+
+            //board.Players[Color.YELLOW].Spies = 4;
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);

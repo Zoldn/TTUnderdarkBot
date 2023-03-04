@@ -110,12 +110,12 @@
       "Race": "DROW"
     },
     {
-      "SpecificType": "ADVANCED_SCOUT",
+      "SpecificType": "ADVANCE_SCOUT",
       "ManaCost": 3,
       "VP": 1,
       "PromoteVP": 3,
       "CardType": "CONQUEST",
-      "Name": "Advanced Scout",
+      "Name": "Advance Scout",
       "Race": "DROW"
     },
     {

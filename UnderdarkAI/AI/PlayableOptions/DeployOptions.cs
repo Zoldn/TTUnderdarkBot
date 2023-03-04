@@ -1,56 +1,61 @@
-﻿using System;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 
-namespace UnderdarkAI.AI.OptionGenerators
+namespace UnderdarkAI.AI.PlayableOptions
 {
-    internal class DeployBySwordOptionGenerator : OptionGenerator
+    internal static class DeployOptionHelper
     {
-        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
+        public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
+            int inIteration, 
+            int outIteration)
         {
-            var ret = new List<PlayableOption>();
-
-            if (turn.Swords < 1)
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == inIteration)
             {
-                throw new ArgumentOutOfRangeException();
-            }
-
-            if (board.Players[turn.Color].Troops == 0)
-            {
-                ret.Add(new DeployBySwordWithOutTroopsOption(isBaseAction: true) { Weight = 1.0d });
-            }
-            else
-            {
-                foreach (var (location, locationState) in turn.LocationStates)
+                if (board.Players[turn.Color].Troops == 0)
                 {
-                    if (!locationState.HasPresence || location.FreeSpaces == 0)
+                    options.Add(new DeployWithOutTroopsOption(outIteration) { Weight = 1.0d });
+                }
+                else
+                {
+                    foreach (var (location, locationState) in turn.LocationStates)
                     {
-                        continue;
+                        if (!locationState.HasPresence || location.FreeSpaces == 0)
+                        {
+                            continue;
+                        }
+
+                        options.Add(new DeployOption(location.Id, outIteration));
                     }
 
-                    ret.Add(new DeployBySwordOption(location.Id, isBaseAction: true) { Weight = 1.0d });
+                    if (options.Count == 0)
+                    {
+                        options.Add(new DoNothingOption(outIteration));
+                    }
                 }
             }
 
-            return ret;
+            return options;
         }
     }
 
-    internal class DeployBySwordOption : PlayableOption
+    internal class DeployOption : PlayableOption
     {
         public LocationId LocationId { get; }
-
         public override int MinVerbosity => 0;
         public bool IsCityTaken { get; private set; }
         public bool IsBaseAction { get; }
-        public DeployBySwordOption(LocationId locationId, bool isBaseAction) : base()
+        public DeployOption(LocationId locationId, int outIteration, bool isBaseAction = false) : base()
         {
+            NextState = isBaseAction ? SelectionState.CARD_OR_FREE_ACTION : SelectionState.SELECT_CARD_OPTION;
+            NextCardIteration = outIteration;
             LocationId = locationId;
             IsBaseAction = isBaseAction;
-            NextState = SelectionState.CARD_OR_FREE_ACTION;
         }
 
         public override void ApplyOption(Board board, Turn turn)
@@ -85,7 +90,10 @@ namespace UnderdarkAI.AI.OptionGenerators
                 IsCityTaken = false;
             }
 
-            turn.Swords--;
+            if (IsBaseAction)
+            {
+                turn.Swords--;
+            }
         }
 
         public override string GetOptionText()
@@ -98,12 +106,13 @@ namespace UnderdarkAI.AI.OptionGenerators
         }
     }
 
-    internal class DeployBySwordWithOutTroopsOption : PlayableOption
+    internal class DeployWithOutTroopsOption : PlayableOption
     {
         public bool IsBaseAction { get; }
-        public DeployBySwordWithOutTroopsOption(bool isBaseAction = false) : base()
+        public DeployWithOutTroopsOption(int outIteration, bool isBaseAction = false) : base()
         {
-            NextState = SelectionState.CARD_OR_FREE_ACTION;
+            NextState = isBaseAction ? SelectionState.CARD_OR_FREE_ACTION : SelectionState.SELECT_CARD_OPTION;
+            NextCardIteration = outIteration;
             IsBaseAction = isBaseAction;
         }
 
@@ -113,7 +122,10 @@ namespace UnderdarkAI.AI.OptionGenerators
         {
             board.Players[turn.Color].VPTokens++;
 
-            turn.Swords--;
+            if (IsBaseAction)
+            {
+                turn.Swords--;
+            }
         }
 
         public override string GetOptionText()

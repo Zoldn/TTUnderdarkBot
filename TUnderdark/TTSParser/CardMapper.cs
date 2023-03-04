@@ -83,7 +83,7 @@ namespace TUnderdark.TTSParser
             { new HashSet<int>() { 235, 236 },          CardSpecificType.SPY_MASTER }, 
             { new HashSet<int>() { 213, 214 },          CardSpecificType.CHOSEN_OF_LOLTH }, 
             { new HashSet<int>() { 237, 238 },          CardSpecificType.UNDERDARK_RANGER }, 
-            { new HashSet<int>() { 200, 201, 202 },     CardSpecificType.ADVANCED_SCOUT }, 
+            { new HashSet<int>() { 200, 201, 202 },     CardSpecificType.ADVANCE_SCOUT }, 
             { new HashSet<int>() { 226, 227 },          CardSpecificType.MASTER_OF_MELEE_MAGTHERE }, 
             { new HashSet<int>() { 223, 224 },          CardSpecificType.INFORMATION_BROCKER }, 
             { new HashSet<int>() { 230, 231 },          CardSpecificType.MERCENARY_SQUAD }, 

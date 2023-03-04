@@ -48,7 +48,7 @@ namespace TUnderdark.Model
         SPY_MASTER,
         CHOSEN_OF_LOLTH,
         UNDERDARK_RANGER,
-        ADVANCED_SCOUT,
+        ADVANCE_SCOUT,
         MASTER_OF_MELEE_MAGTHERE,
         INFORMATION_BROCKER,
         MERCENARY_SQUAD,

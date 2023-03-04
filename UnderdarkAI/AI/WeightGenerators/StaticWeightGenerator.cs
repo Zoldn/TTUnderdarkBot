@@ -43,7 +43,7 @@ namespace UnderdarkAI.AI.WeightGenerators
             }
         }
 
-        public void FillDeployOptions(Board board, Turn turn, List<DeployBySwordOption> options)
+        public void FillDeployOptions(Board board, Turn turn, List<DeployOption> options)
         {
             foreach (var option in options)
             {

@@ -35,6 +35,8 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.MASTER_OF_SORCERE, new MasterOfSorcereOptionGenetator() },
                 { CardSpecificType.INFORMATION_BROCKER, new InformationBrockerOptionGenetator() },
                 { CardSpecificType.SPELL_SPINNER, new SpellSpinnerOptionGenetator() },
+                { CardSpecificType.ADVANCE_SCOUT, new AdvanceScoutOptionGenetator() },
+                { CardSpecificType.MERCENARY_SQUAD, new MercenarySquadOptionGenetator() },
 #endregion
             };
         }

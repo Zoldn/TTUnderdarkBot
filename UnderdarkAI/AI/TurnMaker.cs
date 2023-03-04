@@ -68,7 +68,7 @@ namespace UnderdarkAI.AI
                 { SelectionState.SELECT_CARD_OPTION, new SelectPlayingCardOptionGenerator() },
                 { SelectionState.SELECT_BASE_ACTION, new BaseActionOptionGenerator() },
                 { SelectionState.BUY_CARD_BY_MANA, new BuyCardOptionGenerator() },
-                { SelectionState.DEPLOY_BY_SWORD, new DeployBySwordOptionGenerator() },
+                { SelectionState.DEPLOY_BY_SWORD, new DeployOptionGenerator() },
                 { SelectionState.ASSASSINATE_BY_SWORD, new AssasinateBySwordOptionGenerator() },
                 { SelectionState.RETURN_ENEMY_SPY_BY_SWORD, new ReturnSpyBySwordOptionGenerator() },
                 { SelectionState.SELECT_CARD_END_TURN, new EndTurnCardSelectionOptionGenerator() },
