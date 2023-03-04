@@ -289,5 +289,10 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             return false;
         }
+
+        internal static int GetTotalWhiteTroopsOnBoard(Board b, Turn t)
+        {
+            return b.Locations.Sum(l => l.Troops[Color.WHITE]);
+        }
     }
 }

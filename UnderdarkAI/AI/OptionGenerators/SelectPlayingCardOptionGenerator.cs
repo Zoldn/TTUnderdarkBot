@@ -38,6 +38,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.ADVANCE_SCOUT, new AdvanceScoutOptionGenetator() },
                 { CardSpecificType.MERCENARY_SQUAD, new MercenarySquadOptionGenetator() },
                 { CardSpecificType.UNDERDARK_RANGER, new UnderdarkRangerOptionGenetator() },
+                { CardSpecificType.MASTER_OF_MELEE_MAGTHERE, new MasterOfMeleeMagthere() },
 #endregion
             };
         }
