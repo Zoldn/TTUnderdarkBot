@@ -250,5 +250,44 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             return false;
         }
+
+        public static bool IsSupplantTargets(Board board, Turn turn,
+            bool isAnywhere = false,
+            bool isOnlyWhite = false,
+            LocationId? specificLocation = null
+            )
+        {
+            Debug.Assert(!isAnywhere || !specificLocation.HasValue);
+
+            foreach (var (location, locationState) in turn.LocationStates)
+            {
+                if (!locationState.HasPresence && !isAnywhere)
+                {
+                    continue;
+                }
+
+                if (specificLocation.HasValue && location.Id != specificLocation.Value)
+                {
+                    continue;
+                }
+
+                foreach (var (color, count) in location.Troops)
+                {
+                    if (count == 0 || color == turn.Color)
+                    {
+                        continue;
+                    }
+
+                    if (color != Color.WHITE && isOnlyWhite)
+                    {
+                        continue;
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

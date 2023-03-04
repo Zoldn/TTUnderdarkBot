@@ -24,10 +24,10 @@ namespace UnderdarkAI
             //TestRandom();
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.INFORMATION_BROCKER]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.SPELL_SPINNER]
                 );
 
-            board.LocationIds[LocationId.OldYathchol].Spies[Color.YELLOW] = true;
+            board.LocationIds[LocationId.SSZuraassnee].Spies[Color.YELLOW] = true;
 
             board.Players[Color.YELLOW].Spies = 4;
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
