@@ -53,6 +53,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.CLERIC_OF_LAOGZED, new ClericOfLaogzedOptionGenerator() },
                 { CardSpecificType.WYRMSPEAKER, new WyrmSpeakerOptionGenerator() },
                 { CardSpecificType.CULT_FANATIC, new CultFanaticOptionGenerator() },
+                { CardSpecificType.ENCHANTER_OF_THAY, new EnchanterOfThayOptionGenerator() },
+                { CardSpecificType.WATCHER_OF_THAY, new WatcherOfThayOptionGenerator() },
+                { CardSpecificType.GREEN_DRAGON, new GreenDragonOptionGenerator() },
+                { CardSpecificType.GREEN_WYRMLING, new GreenWyrmlingOptionGenerator() },
+                { CardSpecificType.RATH_MODAR, new RathModarOptionGenerator() },
                 #endregion
             };
         }
