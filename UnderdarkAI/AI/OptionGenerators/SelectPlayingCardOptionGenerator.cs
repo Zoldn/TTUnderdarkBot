@@ -37,6 +37,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.SPELL_SPINNER, new SpellSpinnerOptionGenetator() },
                 { CardSpecificType.ADVANCE_SCOUT, new AdvanceScoutOptionGenetator() },
                 { CardSpecificType.MERCENARY_SQUAD, new MercenarySquadOptionGenetator() },
+                { CardSpecificType.UNDERDARK_RANGER, new UnderdarkRangerOptionGenetator() },
 #endregion
             };
         }

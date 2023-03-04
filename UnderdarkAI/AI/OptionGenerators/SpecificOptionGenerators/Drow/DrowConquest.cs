@@ -46,4 +46,26 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow
             return options;
         }
     }
+
+    internal class UnderdarkRangerOptionGenetator : OptionGenerator
+    {
+        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
+        {
+            var options = new List<PlayableOption>();
+
+            AssassinateOptionHelper.Run(options, board, turn,
+                inIteration: 0,
+                outIteration: 1,
+                isOnlyWhite: true);
+            AssassinateOptionHelper.Run(options, board, turn,
+                inIteration: 1,
+                outIteration: 2,
+                isOnlyWhite: true);
+
+            EndCardHelper.Run(options, board, turn,
+                endIteration: 2);
+
+            return options;
+        }
+    }
 }

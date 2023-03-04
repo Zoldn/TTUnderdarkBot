@@ -24,7 +24,7 @@ namespace UnderdarkAI
             //TestRandom();
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.MERCENARY_SQUAD]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.UNDERDARK_RANGER]
                 );
 
             //board.Players[Color.YELLOW].Hand.Add(
