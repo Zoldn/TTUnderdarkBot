@@ -31,6 +31,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.COUNCIL_MEMBER, new CouncilMemberOptionGenetator() },
                 { CardSpecificType.MATRON_MOTHER, new MatronMotherOptionGenetator() },
                 { CardSpecificType.SPY_MASTER, new SpyMasterOptionGenetator() },
+                { CardSpecificType.INFILTRATOR, new InfiltratorOptionGenetator() },
 #endregion
             };
         }

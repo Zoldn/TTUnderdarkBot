@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -208,6 +209,30 @@ namespace UnderdarkAI.AI.OptionGenerators
 
                     return true;
                 }
+            }
+
+            return false;
+        }
+
+        internal static bool IsPlacedSpyContainsEnemyPlayerTroop(Board board, Turn turn)
+        {
+            Debug.Assert(turn.PlacedSpies.Count <= 1);
+
+            if (turn.PlacedSpies.Count == 0)
+            {
+                return false;
+            }
+
+            var locationId = turn.PlacedSpies.Single();
+
+            foreach (var (color, count) in board.LocationIds[locationId].Troops)
+            {
+                if (color == Color.WHITE || color == turn.Color || count == 0)
+                {
+                    continue;
+                }
+
+                return true;
             }
 
             return false;

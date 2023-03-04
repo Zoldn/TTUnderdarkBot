@@ -103,6 +103,8 @@ namespace UnderdarkAI.AI.PlayableOptions
         {
             board.LocationIds[LocationId].Spies[turn.Color] = true;
             board.Players[turn.Color].Spies--;
+
+            turn.PlacedSpies.Add(LocationId);
         }
 
         public override string GetOptionText()

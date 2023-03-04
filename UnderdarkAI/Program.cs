@@ -24,10 +24,10 @@ namespace UnderdarkAI
             //TestRandom();
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.SPY_MASTER]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.INFILTRATOR]
                 );
 
-            board.LocationIds[LocationId.Araumycos].Spies[Color.YELLOW] = true;
+            board.LocationIds[LocationId.OldYathchol].Spies[Color.YELLOW] = true;
 
             board.Players[Color.YELLOW].Spies = 4;
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);

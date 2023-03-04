@@ -172,6 +172,10 @@ namespace UnderdarkAI.AI
         #region Moving state
         public LocationId? LocationMoveFrom { get; internal set; }
         public Color? ColorMove { get; internal set; }
+        /// <summary>
+        /// Только что поставленные шпионы
+        /// </summary>
+        public List<LocationId> PlacedSpies { get; internal set; }
 
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, bool isOriginal = true)
@@ -190,6 +194,8 @@ namespace UnderdarkAI.AI
 
             LocationStates = new();
             IsOriginal = isOriginal;
+
+            PlacedSpies = new();
         }
 
         public void DebugPrintDistances()
@@ -215,7 +221,7 @@ namespace UnderdarkAI.AI
                 FutureScore = FutureScore,
                 LocationStates = LocationStates
                     .ToDictionary(
-                        kv => board.LocationIds[kv.Key.Id], 
+                        kv => board.LocationIds[kv.Key.Id],
                         kv => kv.Value.Clone()
                         ),
                 Mana = Mana,
@@ -229,6 +235,7 @@ namespace UnderdarkAI.AI
                 //CardOption = CardOption,
                 ColorMove = ColorMove,
                 LocationMoveFrom = LocationMoveFrom,
+                PlacedSpies = PlacedSpies.Select(s => s).ToList(),
             };
 
             return turn;
@@ -237,16 +244,13 @@ namespace UnderdarkAI.AI
         internal void MakeCurrentCardPlayed()
         {
             CardStates.Single(s => s.State == CardState.NOW_PLAYING).State = CardState.PLAYED;
-            //CardStateIteration = 0;
-            //State = SelectionState.CARD_OR_FREE_ACTION;
+
+            PlacedSpies.Clear();
         }
 
         internal void MakeCurrentCardPlayedEndTurn()
         {
             CardStates.Single(s => s.EndTurnState == CardState.NOW_PLAYING).EndTurnState = CardState.PLAYED;
-            //CardOption = CardOption.NONE_OPTION;
-            //CardStateIteration = 0;
-            //State = SelectionState.SELECT_CARD_END_TURN;
         }
     }
 }
