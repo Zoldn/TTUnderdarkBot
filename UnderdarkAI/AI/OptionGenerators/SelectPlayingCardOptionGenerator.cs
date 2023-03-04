@@ -40,6 +40,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.UNDERDARK_RANGER, new UnderdarkRangerOptionGenetator() },
                 { CardSpecificType.MASTER_OF_MELEE_MAGTHERE, new MasterOfMeleeMagthereOptionGenerator() },
                 { CardSpecificType.WEAPONMASTER, new WeaponMasterOptionGenerator() },
+                { CardSpecificType.BLACKGUARD, new BlackguardOptionGenerator() },
+                { CardSpecificType.BOUNTY_HUNTER, new BountyHunterOptionGenerator() },
+                { CardSpecificType.DEATHBLADE, new DeathbladeOptionGenetator() },
+                { CardSpecificType.DOPPELGANGER, new DoppelgangerOptionGenetator() },
+                { CardSpecificType.INQUISITOR, new InquisitorOptionGenerator() },
 #endregion
             };
         }

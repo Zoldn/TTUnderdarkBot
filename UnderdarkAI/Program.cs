@@ -24,7 +24,7 @@ namespace UnderdarkAI
             //TestRandom();
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.WEAPONMASTER]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.INQUISITOR]
                 );
 
             //board.Players[Color.YELLOW].Hand.Add(
