@@ -68,7 +68,7 @@ namespace UnderdarkAI.AI.OptionGenerators
         /// <returns></returns>
         internal static List<PlayableOption> GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(
             List<PlayableOption> options, Board board, Turn turn, 
-            CardSpecificType promoter, int outIteration)
+            CardSpecificType promoter, int outIteration, bool canBeSkipped = false)
         {
             var ret = turn.CardStates
                 .Where(s => !s.IsPromotedInTheEnd
@@ -82,7 +82,7 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             turn.WeightGenerator.FillPromoteOptions(board, turn, ret);
 
-            if (ret.Count == 0)
+            if (ret.Count == 0 || canBeSkipped)
             {
                 options.Add(new DoNothingEndTurnOption(outIteration));
             }

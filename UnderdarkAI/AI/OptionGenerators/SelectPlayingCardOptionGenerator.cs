@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators;
+using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Dragons;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow;
 using UnderdarkAI.AI.PlayableOptions;
 
@@ -24,7 +25,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.SOLDIER, new ResourceGainOptionSelector(swords: 1) },
                 { CardSpecificType.LOLTH, new ResourceGainOptionSelector(mana: 2) },
                 { CardSpecificType.HOUSEGUARD, new ResourceGainOptionSelector(swords: 2) },
-#region Drow
+                #region Drow
                 { CardSpecificType.ADVOCATE, new AdvocateOptionGenerator() },
                 { CardSpecificType.DROW_NEGOTIATOR, new DrowNegotiatorOptionGenerator() },
                 { CardSpecificType.CHOSEN_OF_LOLTH, new ChosenOfLolthOptionGenetator() },
@@ -45,7 +46,14 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.DEATHBLADE, new DeathbladeOptionGenetator() },
                 { CardSpecificType.DOPPELGANGER, new DoppelgangerOptionGenetator() },
                 { CardSpecificType.INQUISITOR, new InquisitorOptionGenerator() },
-#endregion
+                #endregion
+                #region Dragons
+                { CardSpecificType.BLUE_DRAGON, new BlueDragonOptionGenerator() },
+                { CardSpecificType.BLUE_WYRMLING, new BlueWyrmlingOptionGenerator() },
+                { CardSpecificType.CLERIC_OF_LAOGZED, new ClericOfLaogzedOptionGenerator() },
+                { CardSpecificType.WYRMSPEAKER, new WyrmSpeakerOptionGenerator() },
+                { CardSpecificType.CULT_FANATIC, new CultFanaticOptionGenerator() },
+                #endregion
             };
         }
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)

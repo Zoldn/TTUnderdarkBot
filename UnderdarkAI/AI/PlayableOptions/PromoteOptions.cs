@@ -35,16 +35,16 @@ namespace UnderdarkAI.AI.PlayableOptions
         internal static List<PlayableOption> RunEndTurn(List<PlayableOption> options, Board board, Turn turn,
             int inIteration,
             int outIteration,
-            CardSpecificType promoter)
+            CardSpecificType promoter,
+            bool canBeSkipped = false)
         {
             ///Выбор промоута в конце хода
             if (turn.State == SelectionState.SELECT_END_TURN_CARD_OPTION
                 && turn.CardStateIteration == inIteration)
             {
-                //options.AddRange(
                 OptionUtils.GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(options, board, turn, promoter,
-                    outIteration);
-                   // );
+                    outIteration,
+                    canBeSkipped: canBeSkipped);
             }
 
             return options;
@@ -103,7 +103,7 @@ namespace UnderdarkAI.AI.PlayableOptions
 
         public override string GetOptionText()
         {
-            return $"\tAt end of turn promote another card played this turn";
+            return $"\tAt end of turn promote another card(s) played this turn";
         }
 
     }

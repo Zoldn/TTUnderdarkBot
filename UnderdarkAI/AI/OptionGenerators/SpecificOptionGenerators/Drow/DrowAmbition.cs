@@ -32,7 +32,7 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow
             PromoteAnotherCardPlayedThisTurnHelper.Run(options, board, turn,
                 inIteration: 2,
                 outIteration: 3,
-                CardSpecificType.DROW_NEGOTIATOR);
+                CardSpecificType.ADVOCATE);
 
             EndCardHelper.Run(options, board, turn, 3);
 
@@ -70,7 +70,7 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow
             PromoteAnotherCardPlayedThisTurnHelper.RunEndTurn(options, board, turn,
                 inIteration: 0,
                 outIteration: 1,
-                CardSpecificType.CHOSEN_OF_LOLTH);
+                CardSpecificType.DROW_NEGOTIATOR);
             EndCardHelper.RunEndTurn(options, board, turn, 1);
 
             return options;
