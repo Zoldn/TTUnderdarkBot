@@ -24,7 +24,7 @@ namespace UnderdarkAI
             //TestRandom();
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.MASTER_OF_SORCERE]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.INFORMATION_BROCKER]
                 );
 
             board.LocationIds[LocationId.OldYathchol].Spies[Color.YELLOW] = true;

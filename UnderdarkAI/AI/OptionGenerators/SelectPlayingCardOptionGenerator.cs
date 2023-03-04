@@ -33,6 +33,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.SPY_MASTER, new SpyMasterOptionGenetator() },
                 { CardSpecificType.INFILTRATOR, new InfiltratorOptionGenetator() },
                 { CardSpecificType.MASTER_OF_SORCERE, new MasterOfSorcereOptionGenetator() },
+                { CardSpecificType.INFORMATION_BROCKER, new InformationBrockerOptionGenetator() },
 #endregion
             };
         }

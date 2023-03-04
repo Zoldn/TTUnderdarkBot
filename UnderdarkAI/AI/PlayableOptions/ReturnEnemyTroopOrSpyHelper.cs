@@ -23,7 +23,7 @@ namespace UnderdarkAI.AI.PlayableOptions
             ABCSelectHelper.Run(options, board, turn,
                 inIteration,
                 (board, turn) => OptionUtils.IsReturnableTroops(board, turn), returnTroopsIteration,
-                (board, turn) => OptionUtils.IsReturnableSpies(board, turn), returnSpyIteration,
+                (board, turn) => OptionUtils.IsReturnableEnemySpies(board, turn), returnSpyIteration,
                 outIteration
                 );
 

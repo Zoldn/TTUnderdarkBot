@@ -91,4 +91,35 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow
             return options;
         }
     }
+
+    internal class InformationBrockerOptionGenetator : OptionGenerator
+    {
+        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
+        {
+            var options = new List<PlayableOption>();
+
+            PlaceOrReturnSpyHelper.Run(options, board, turn,
+                inIteration: 0,
+                outPlaceSpyIteration: 1,
+                returnSpyIteration: 4,
+                outReturnSpyIteration: 5);
+
+            PlaceSpyHelper.Run(options, board, turn,
+                inIteration: 1,
+                returnIteration: 2,
+                placeIteration: 3,
+                outIteration: 6);
+
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == 5)
+            {
+                options.Add(new DrawCardsOption(cardCount: 3, outIteration: 6));
+            }
+
+            EndCardHelper.Run(options, board, turn,
+                endIteration: 6);
+
+            return options;
+        }
+    }
 }

@@ -178,7 +178,7 @@ namespace UnderdarkAI.AI.OptionGenerators
         /// <param name="turn"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        internal static bool IsReturnableSpies(Board board, Turn turn)
+        internal static bool IsReturnableEnemySpies(Board board, Turn turn)
         {
             return turn.LocationStates
                 .Any(l => l.Value.HasPresence && l.Key.Spies.Any(kv => kv.Value && kv.Key != turn.Color));
@@ -238,7 +238,7 @@ namespace UnderdarkAI.AI.OptionGenerators
             return false;
         }
 
-        internal static bool IsSpiesForReturn(Board board, Turn turn)
+        internal static bool IsReturnableOwnSpies(Board board, Turn turn)
         {
             foreach (var location in board.Locations)
             {

@@ -47,9 +47,6 @@ namespace UnderdarkAI.AI
             Color = color;
             RestartLimit = 1;
 
-            FixedBoard = InitialBoard.Clone();
-            FixedTurn = InitializeNewTurn(FixedBoard);
-
             if (seed.HasValue)
             {
                 Seed = seed.Value;
@@ -60,6 +57,9 @@ namespace UnderdarkAI.AI
             }
 
             random = new Random(Seed);
+
+            FixedBoard = InitialBoard.Clone();
+            FixedTurn = InitializeNewTurn(FixedBoard, random);
 
             StateSelectors = new Dictionary<SelectionState, OptionGenerator>()
             {
@@ -276,11 +276,11 @@ namespace UnderdarkAI.AI
             turn = FixedTurn.Clone(board);
         }
 
-        private Turn InitializeNewTurn(Board board)
+        private Turn InitializeNewTurn(Board board, Random random)
         {
             IWeightGenerator weightGenerator = new StaticWeightGenerator();
 
-            var turn = new Turn(Color, weightGenerator);
+            var turn = new Turn(Color, weightGenerator, random);
 
             foreach (var card in board.Players[Color].Hand)
             {

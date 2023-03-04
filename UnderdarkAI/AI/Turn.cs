@@ -117,6 +117,8 @@ namespace UnderdarkAI.AI
         /// </summary>
         public IWeightGenerator WeightGenerator { get; }
 
+        public Random Random { get; }
+
         /// <summary>
         /// Цвет текущего игрока
         /// </summary>
@@ -182,8 +184,9 @@ namespace UnderdarkAI.AI
         public List<LocationId> ReturnedSpies { get; internal set; }
 
         #endregion
-        public Turn(Color color, IWeightGenerator weightGenerator, bool isOriginal = true)
+        public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
         {
+            Random = random;
             WeightGenerator = weightGenerator;
             Color = color;
 
@@ -218,7 +221,7 @@ namespace UnderdarkAI.AI
 
         public Turn Clone(Board board)
         {
-            var turn = new Turn(Color, WeightGenerator, isOriginal: false)
+            var turn = new Turn(Color, WeightGenerator, Random, isOriginal: false)
             {
                 CardStates = CardStates
                     .Select(s => s.Clone()).ToList(),

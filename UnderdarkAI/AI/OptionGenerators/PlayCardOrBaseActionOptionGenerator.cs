@@ -100,7 +100,7 @@ namespace UnderdarkAI.AI.OptionGenerators
         {
             return IsAvailableBuy(board, turn)
                 || IsPlaceActionAvailable(board, turn)
-                || (OptionUtils.IsReturnableSpies(board, turn) && turn.Swords >= 3)
+                || (OptionUtils.IsReturnableEnemySpies(board, turn) && turn.Swords >= 3)
                 || IsAssassinateBySwords(board, turn);
         }
 

@@ -173,7 +173,7 @@ namespace UnderdarkAI.AI.PlayableOptions
             ABCSelectHelper.Run(options, board, turn,
                 inIteration: inIteration,
                 (b, t) => true, outIteration1: outPlaceSpyIteration, // Ставим шпиона(шпионов)
-                (b, t) => OptionUtils.IsSpiesForReturn(b, t), outIteration2: returnSpyIteration,
+                (b, t) => OptionUtils.IsReturnableOwnSpies(b, t), outIteration2: returnSpyIteration,
                 outIteration3: -1); // Unreachable
 
             if (turn.State == SelectionState.SELECT_CARD_OPTION

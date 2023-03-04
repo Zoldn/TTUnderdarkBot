@@ -28,7 +28,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                 ret.Add(new SwitchToAssassinateBySwordOption() { Weight = 1.0d });
             }
 
-            if (OptionUtils.IsReturnableSpies(board, turn) && turn.Swords >= 3)
+            if (OptionUtils.IsReturnableEnemySpies(board, turn) && turn.Swords >= 3)
             {
                 ret.Add(new SwitchToReturnEnemySpyBySwordOption() { Weight = 1.0d });
             }
