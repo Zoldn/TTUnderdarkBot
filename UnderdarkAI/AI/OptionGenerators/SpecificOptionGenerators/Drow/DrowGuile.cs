@@ -110,11 +110,9 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow
                 placeIteration: 3,
                 outIteration: 6);
 
-            if (turn.State == SelectionState.SELECT_CARD_OPTION
-                && turn.CardStateIteration == 5)
-            {
-                options.Add(new DrawCardsOption(cardCount: 3, outIteration: 6));
-            }
+            DrawCardHelper.Run(options, board, turn, cardCount: 3,
+                inIteration: 5, 
+                outIteration: 6);
 
             EndCardHelper.Run(options, board, turn,
                 endIteration: 6);

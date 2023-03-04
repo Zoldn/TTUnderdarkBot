@@ -10,6 +10,23 @@ using UnderdarkAI.Utils;
 
 namespace UnderdarkAI.AI.PlayableOptions
 {
+    internal static class DrawCardHelper
+    {
+        public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
+            int cardCount, 
+            int inIteration,
+            int outIteration)
+        {
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == inIteration)
+            {
+                options.Add(new DrawCardsOption(cardCount: cardCount, outIteration: outIteration));
+            }
+
+            return options;
+        }
+    }
+
     internal class DrawCardsOption : PlayableOption
     {
         public int CardsToDraw { get; }
