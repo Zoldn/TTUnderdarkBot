@@ -24,7 +24,7 @@ namespace UnderdarkAI
             //TestRandom();
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.MASTER_OF_MELEE_MAGTHERE]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.WEAPONMASTER]
                 );
 
             //board.Players[Color.YELLOW].Hand.Add(

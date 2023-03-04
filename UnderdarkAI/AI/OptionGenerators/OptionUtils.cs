@@ -290,9 +290,44 @@ namespace UnderdarkAI.AI.OptionGenerators
             return false;
         }
 
-        internal static int GetTotalWhiteTroopsOnBoard(Board b, Turn t)
+        internal static int GetTotalWhiteTroopsOnBoard(Board board, Turn _)
         {
-            return b.Locations.Sum(l => l.Troops[Color.WHITE]);
+            return board.Locations.Sum(l => l.Troops[Color.WHITE]);
+        }
+
+        public static bool IsAssassinateTargets(Board board, Turn turn,
+            bool isOnlyWhite = false,
+            HashSet<LocationId>? specificLocation = null)
+        {
+            foreach (var (location, locationState) in turn.LocationStates)
+            {
+                if (!locationState.HasPresence)
+                {
+                    continue;
+                }
+
+                if (specificLocation != null && !specificLocation.Contains(location.Id))
+                {
+                    continue;
+                }
+
+                foreach (var (color, count) in location.Troops)
+                {
+                    if (count == 0 || color == turn.Color)
+                    {
+                        continue;
+                    }
+
+                    if (color != Color.WHITE && isOnlyWhite)
+                    {
+                        continue;
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
