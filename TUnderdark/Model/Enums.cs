@@ -81,6 +81,27 @@ namespace TUnderdark.Model
         RATH_MODAR,
         SEVERIN_SILRAJIN,
         RED_DRAGON,
+
+        OGRE_ZOMBIE,
+        CONJURER,
+        WIGHT,
+        BANSHEE,
+        CULTIST_OF_MYRKUL,
+        MINOTUAR_SKELETON,
+        WRAITH,
+        CARRION_CRAWLER,
+        SKELETAL_HORDE,
+        RAVENOUS_ZOMBIE,
+        VAMPIRE_SPAWN,
+        FLESH_GOLEM,
+        GHOST,
+        NECROMANCER,
+        VAMPIRE,
+        MUMMY_LORD,
+        DEATH_KNIGHT,
+        REVENANT,
+        HIGH_PRIEST_OF_MYRKUL,
+        LICH,
     }
 
     public enum CardType

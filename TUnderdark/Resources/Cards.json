@@ -396,6 +396,186 @@
       "CardType": "MALICE",
       "Name": "Red Dragon",
       "Race": "DRAGON"
+    },
+    {
+      "SpecificType": "OGRE_ZOMBIE",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "CONQUEST",
+      "Name": "Ogre Zombie",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "CONJURER",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 3,
+      "CardType": "GUILE",
+      "Name": "Conjurer",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "WIGHT",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "MALICE",
+      "Name": "Wight",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "BANSHEE",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "GUILE",
+      "Name": "Banshee",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "CULTIST_OF_MYRKUL",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "AMBITION",
+      "Name": "Cultist of Myrkul",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "MINOTUAR_SKELETON",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "CONQUEST",
+      "Name": "Minotuar Skeleton",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "WRAITH",
+      "ManaCost": 2,
+      "VP": 0,
+      "PromoteVP": 1,
+      "CardType": "GUILE",
+      "Name": "Wraith",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "CARRION_CRAWLER",
+      "ManaCost": 2,
+      "VP": 0,
+      "PromoteVP": 2,
+      "CardType": "MALICE",
+      "Name": "Carrion Crawler",
+      "Race": "MONSTROSITY"
+    },
+    {
+      "SpecificType": "SKELETAL_HORDE",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "CONQUEST",
+      "Name": "Skeletal Horde",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "RAVENOUS_ZOMBIE",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "CONQUEST",
+      "Name": "Ravenous Zombie",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "VAMPIRE_SPAWN",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "AMBITION",
+      "Name": "VampireSpawn",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "FLESH_GOLEM",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "MALICE",
+      "Name": "FleshGolem",
+      "Race": "CONSTRUCT"
+    },
+    {
+      "SpecificType": "GHOST",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "GUILE",
+      "Name": "Ghost",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "NECROMANCER",
+      "ManaCost": 5,
+      "VP": 1,
+      "PromoteVP": 4,
+      "CardType": "AMBITION",
+      "Name": "Necromancer",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "VAMPIRE",
+      "ManaCost": 7,
+      "VP": 4,
+      "PromoteVP": 7,
+      "CardType": "AMBITION",
+      "Name": "Vampire",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "MUMMY_LORD",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "CONQUEST",
+      "Name": "Mummy Lord",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "DEATH_KNIGHT",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 7,
+      "CardType": "MALICE",
+      "Name": "Death Knight",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "REVENANT",
+      "ManaCost": 4,
+      "VP": 1,
+      "PromoteVP": 4,
+      "CardType": "MALICE",
+      "Name": "Revenant",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "HIGH_PRIEST_OF_MYRKUL",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "AMBITION",
+      "Name": "High Priest of Myrkul",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "LICH",
+      "ManaCost": 7,
+      "VP": 4,
+      "PromoteVP": 7,
+      "CardType": "GUILE",
+      "Name": "Lich",
+      "Race": "UNDEAD"
     }
   ]
 }
