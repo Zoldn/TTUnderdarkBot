@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using TUnderdark.AI;
-using TUnderdark.Model.Cards;
 
 namespace TUnderdark.Model
 {

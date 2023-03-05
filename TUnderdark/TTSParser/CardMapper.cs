@@ -7,14 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
-using TUnderdark.Model.Cards;
-using TUnderdark.Model.Cards.Aberrations;
-using TUnderdark.Model.Cards.Demons;
-using TUnderdark.Model.Cards.Dragons;
-using TUnderdark.Model.Cards.Drow;
-using TUnderdark.Model.Cards.Elementals;
-using TUnderdark.Model.Cards.Obedience;
-using TUnderdark.Model.Cards.Undeads;
 using TUnderdark.RatingSystem;
 
 namespace TUnderdark.TTSParser

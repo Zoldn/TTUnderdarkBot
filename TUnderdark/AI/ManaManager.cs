@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
-using TUnderdark.Model.Cards.Obedience;
 
 namespace TUnderdark.AI
 {
