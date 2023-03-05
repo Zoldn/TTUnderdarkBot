@@ -102,6 +102,27 @@ namespace TUnderdark.Model
         REVENANT,
         HIGH_PRIEST_OF_MYRKUL,
         LICH,
+
+        AIR_ELEMENTAL,
+        CRUSHING_WAVE_CULTIST,
+        FIRE_ELEMENTAL,
+        ETERNAL_FLAME_CULTIST,
+        WATER_ELEMENTAL,
+        BLACK_EARTH_CULTIST,
+        HOWLING_HATRED_CULTIST,
+        WATER_ELEMENTAL_MYRMIDON,
+        GAR_SHATTERKEEL,
+        AERISI_KALINOTH,
+        MARLOS_URNRAYLE,
+        VANIFER,
+        FIRE_ELEMENTAL_MYRMIDON,
+        EARTH_ELEMENTAL,
+        AIR_ELEMENTAL_MYRMIDON,
+        EARTH_ELEMENTA_MYRMIDON,
+        OGREMOCH,
+        IMIX,
+        YANCBIN,
+        OLHYDRA,
     }
 
     public enum CardType

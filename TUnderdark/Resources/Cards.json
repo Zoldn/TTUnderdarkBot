@@ -576,6 +576,186 @@
       "CardType": "GUILE",
       "Name": "Lich",
       "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "AIR_ELEMENTAL",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "GUILE",
+      "Name": "Air Elemental",
+      "Race": "ELEMENTAL"
+    },
+    {
+      "SpecificType": "CRUSHING_WAVE_CULTIST",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 4,
+      "CardType": "CONQUEST",
+      "Name": "Crushing Wave Cultist",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "FIRE_ELEMENTAL",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "MALICE",
+      "Name": "Fire Elemental",
+      "Race": "ELEMENTAL"
+    },
+    {
+      "SpecificType": "ETERNAL_FLAME_CULTIST",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "MALICE",
+      "Name": "Eternal Flame Cultist",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "WATER_ELEMENTAL",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "CONQUEST",
+      "Name": "Water Elemental",
+      "Race": "ELEMENTAL"
+    },
+    {
+      "SpecificType": "BLACK_EARTH_CULTIST",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "AMBITION",
+      "Name": "Black Earth Cultist",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "HOWLING_HATRED_CULTIST",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "GUILE",
+      "Name": "Howling Hatred Cultist",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "WATER_ELEMENTAL_MYRMIDON",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "CONQUEST",
+      "Name": "Water Elemental Myrmidon",
+      "Race": "ELEMENTAL"
+    },
+    {
+      "SpecificType": "GAR_SHATTERKEEL",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "CONQUEST",
+      "Name": "Gar Shatterkeel",
+      "Race": "HUMAN"
+    },
+    {
+      "SpecificType": "AERISI_KALINOTH",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "GUILE",
+      "Name": "Aerisi Kalinoth",
+      "Race": "ELF"
+    },
+    {
+      "SpecificType": "MARLOS_URNRAYLE",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "AMBITION",
+      "Name": "Marlos Urnrayle",
+      "Race": "MEDUSA"
+    },
+    {
+      "SpecificType": "VANIFER",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "MALICE",
+      "Name": "Vanifer",
+      "Race": "TIEFLING"
+    },
+    {
+      "SpecificType": "FIRE_ELEMENTAL_MYRMIDON",
+      "ManaCost": 4,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "MALICE",
+      "Name": "Fire Elemental Myrmidon",
+      "Race": "ELEMENTAL"
+    },
+    {
+      "SpecificType": "EARTH_ELEMENTAL",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "AMBITION",
+      "Name": "Earth Elemental",
+      "Race": "ELEMENTAL"
+    },
+    {
+      "SpecificType": "AIR_ELEMENTAL_MYRMIDON",
+      "ManaCost": 4,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "GUILE",
+      "Name": "Air Elemental Myrmidon",
+      "Race": "ELEMENTAL"
+    },
+    {
+      "SpecificType": "EARTH_ELEMENTA_MYRMIDON",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "AMBITION",
+      "Name": "Earth Elemental Myrmidon",
+      "Race": "ELEMENTAL"
+    },
+    {
+      "SpecificType": "OGREMOCH",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 7,
+      "CardType": "AMBITION",
+      "Name": "Ogremoch",
+      "Race": "ELEMENTALPRINCE"
+    },
+    {
+      "SpecificType": "IMIX",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "MALICE",
+      "Name": "Imix",
+      "Race": "ELEMENTALPRINCE"
+    },
+    {
+      "SpecificType": "YANCBIN",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "GUILE",
+      "Name": "Yan-C-Bin",
+      "Race": "ELEMENTALPRINCE"
+    },
+    {
+      "SpecificType": "OLHYDRA",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "CONQUEST",
+      "Name": "Olhydra",
+      "Race": "ELEMENTALPRINCE"
     }
   ]
 }
