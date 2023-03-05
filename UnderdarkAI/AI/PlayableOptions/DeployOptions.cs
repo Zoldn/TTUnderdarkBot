@@ -12,25 +12,35 @@ namespace UnderdarkAI.AI.PlayableOptions
     {
         public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
             int inIteration, 
-            int outIteration)
+            int outIteration, 
+            bool isFromTrophy = false, bool isAnywhere = false)
         {
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == inIteration)
             {
-                if (board.Players[turn.Color].Troops == 0)
+                if (board.Players[turn.Color].Troops == 0 && !isFromTrophy)
                 {
+
                     options.Add(new DeployWithOutTroopsOption(outIteration) { Weight = 1.0d });
                 }
                 else
                 {
+                    Color deployableColor = isFromTrophy ? turn.TakeFromTroopsColor.Value : turn.Color;
+
                     foreach (var (location, locationState) in turn.LocationStates)
                     {
-                        if (!locationState.HasPresence || location.FreeSpaces == 0)
+                        if (!isAnywhere && !locationState.HasPresence)
                         {
                             continue;
                         }
 
-                        options.Add(new DeployOption(location.Id, outIteration));
+                        if (location.FreeSpaces == 0)
+                        {
+                            continue;
+                        }
+
+                        options.Add(new DeployOption(location.Id, outIteration, 
+                            color: deployableColor));
                     }
 
                     if (options.Count == 0)
@@ -46,16 +56,19 @@ namespace UnderdarkAI.AI.PlayableOptions
 
     internal class DeployOption : PlayableOption
     {
+        public Color DeployColor { get; }
         public LocationId LocationId { get; }
         public override int MinVerbosity => 0;
         public bool IsCityTaken { get; private set; }
         public bool IsBaseAction { get; }
-        public DeployOption(LocationId locationId, int outIteration, bool isBaseAction = false) : base()
+        public DeployOption(LocationId locationId, int outIteration, Color color, bool isBaseAction = false) : base()
         {
             NextState = isBaseAction ? SelectionState.CARD_OR_FREE_ACTION : SelectionState.SELECT_CARD_OPTION;
             NextCardIteration = outIteration;
             LocationId = locationId;
             IsBaseAction = isBaseAction;
+
+            DeployColor = color; 
         }
 
         public override void ApplyOption(Board board, Turn turn)
@@ -94,6 +107,8 @@ namespace UnderdarkAI.AI.PlayableOptions
             {
                 turn.Swords--;
             }
+
+            turn.TakeFromTroopsColor = null;
         }
 
         public override string GetOptionText()
@@ -102,7 +117,7 @@ namespace UnderdarkAI.AI.PlayableOptions
             string suffix = IsBaseAction ? " by 1 sword" : "";
             string citySuffix = IsCityTaken ? ", gain 1 mana for control this site" : "";
 
-            return $"{prefix}Deploying troop in {LocationId}{suffix}{citySuffix}";
+            return $"{prefix}Deploying {DeployColor} troop in {LocationId}{suffix}{citySuffix}";
         }
     }
 

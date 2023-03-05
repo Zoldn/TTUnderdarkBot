@@ -32,7 +32,8 @@ namespace UnderdarkAI.AI.OptionGenerators
                         continue;
                     }
 
-                    ret.Add(new DeployOption(location.Id, isBaseAction: true, outIteration: 0) { Weight = 1.0d });
+                    ret.Add(new DeployOption(location.Id, color: turn.Color, 
+                        isBaseAction: true, outIteration: 0) { Weight = 1.0d });
                 }
             }
 

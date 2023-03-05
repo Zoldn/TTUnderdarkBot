@@ -194,6 +194,10 @@ namespace UnderdarkAI.AI
         /// Можно ли покупать карту с devoured
         /// </summary>
         public bool IsBuyTopDevouredEnabled { get; internal set; }
+        /// <summary>
+        /// Забранный юнит из trophy hall-а
+        /// </summary>
+        public Color? TakeFromTroopsColor { get; internal set; }
 
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
@@ -217,6 +221,8 @@ namespace UnderdarkAI.AI
 
             PlacedSpies = new();
             ReturnedSpies = new();
+
+            TakeFromTroopsColor = null;
         }
 
         public void DebugPrintDistances()
@@ -259,6 +265,7 @@ namespace UnderdarkAI.AI
                 PlacedSpies = PlacedSpies.Select(s => s).ToList(),
                 ReturnedSpies = ReturnedSpies.Select(s => s).ToList(),
                 IsBuyTopDevouredEnabled = IsBuyTopDevouredEnabled,
+                TakeFromTroopsColor = TakeFromTroopsColor,
             };
 
             return turn;

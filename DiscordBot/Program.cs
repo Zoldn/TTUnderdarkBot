@@ -34,7 +34,7 @@ namespace DiscordBot
 			{
                 token = File.ReadAllText("token.txt");
             }
-			catch (FileNotFoundException e)
+			catch (FileNotFoundException)
 			{
 				throw new FileNotFoundException("You need token.txt file with token for this bot");
 			}

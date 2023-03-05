@@ -79,6 +79,7 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.BANSHEE, new BansheeOptionGenetator() },
                 { CardSpecificType.CONJURER, new ConjurerOptionGenetator() },
                 { CardSpecificType.GHOST, new GhostOptionGenetator() },
+                { CardSpecificType.LICH, new LichOptionGenetator() },
                 #endregion
             };
         }

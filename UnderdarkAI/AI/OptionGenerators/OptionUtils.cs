@@ -357,5 +357,25 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             return false;
         }
+
+        internal static bool IsDeployAvailable(Board board, Turn turn, bool isAnywhere)
+        {
+            foreach (var (location, locationState) in turn.LocationStates)
+            {
+                if (!isAnywhere && !locationState.HasPresence)
+                {
+                    continue;
+                }
+
+                if (location.FreeSpaces == 0)
+                {
+                    continue;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

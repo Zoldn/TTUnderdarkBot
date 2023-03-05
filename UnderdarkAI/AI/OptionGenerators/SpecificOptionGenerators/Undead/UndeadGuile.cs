@@ -97,4 +97,66 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Undead
             return options;
         }
     }
+
+    internal class LichOptionGenetator : OptionGenerator
+    {
+        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
+        {
+            var options = new List<PlayableOption>();
+
+            PlaceSpyHelper.Run(options, board, turn,
+                inIteration: 0,
+                returnIteration: 1,
+                placeIteration: 2,
+                outIteration: 3);
+
+            var playerColors = new HashSet<Color>();
+
+            if (turn.PlacedSpies.Count == 1)
+            {
+                var locationId = turn.PlacedSpies.Single();
+                var location = board.LocationIds[locationId];
+                playerColors = location.Troops
+                    .Where(kv => kv.Key != turn.Color && kv.Key != Color.WHITE && kv.Value > 0)
+                    .Select(kv => kv.Key)
+                    .ToHashSet();
+            }
+            else if (turn.PlacedSpies.Count > 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+          
+
+            TakeTroopFromEnemyTrophyAndDeploy.Run(options, board, turn,
+                inIteration: 3,
+                outIteration: 4,
+                exitIteration: 99,
+                filterPlayerColors: playerColors
+                );
+
+            DeployOptionHelper.Run(options, board, turn,
+                inIteration: 4,
+                outIteration: 5,
+                isFromTrophy: true,
+                isAnywhere: false);
+
+            TakeTroopFromEnemyTrophyAndDeploy.Run(options, board, turn,
+                inIteration: 5,
+                outIteration: 6,
+                exitIteration: 99,
+                filterPlayerColors: playerColors
+                );
+
+            DeployOptionHelper.Run(options, board, turn,
+                inIteration: 6,
+                outIteration: 99,
+                isFromTrophy: true,
+                isAnywhere: false);
+
+            EndCardHelper.Run(options, board, turn,
+                endIteration: 99);
+
+            return options;
+        }
+    }
 }
