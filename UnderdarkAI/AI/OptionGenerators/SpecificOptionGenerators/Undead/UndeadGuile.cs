@@ -159,4 +159,43 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Undead
             return options;
         }
     }
+
+    internal class WraithOptionGenetator : OptionGenerator
+    {
+        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
+        {
+            var options = new List<PlayableOption>();
+
+            PlaceSpyHelper.Run(options, board, turn,
+                inIteration: 0,
+                returnIteration: 1,
+                placeIteration: 2,
+                outIteration: 3);
+
+            ABCSelectHelper.Run(options, board, turn,
+                inIteration: 3,
+                (b, t) => 
+                {
+                    var location = b.LocationIds[t.PlacedSpies.Single()];
+                    return location.Troops.Any(kv => kv.Key != t.Color && kv.Value > 0);
+                }, outIteration1: 4, // Съесть себя и убить в этой локации
+                (b, t) => true, outIteration2: 99, // ничего не делать
+                outIteration3: 99
+                );
+
+            DevourSelfHelper.Run(options, board, turn,
+                inIteration: 4,
+                outIteration: 5);
+
+            AssassinateOptionHelper.Run(options, board, turn,
+                inIteration: 5,
+                outIteration: 99,
+                specificLocation: turn.PlacedSpies.ToHashSet());
+
+            EndCardHelper.Run(options, board, turn,
+                endIteration: 99);
+
+            return options;
+        }
+    }
 }

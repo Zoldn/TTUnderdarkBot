@@ -28,7 +28,7 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.LICH]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.WRAITH]
                 );
 
             board.Devoured.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.WATCHER_OF_THAY]);
@@ -45,7 +45,7 @@ namespace UnderdarkAI
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
             board.LocationIds[LocationId.ChedNasad].Spies[Color.RED] = true;
             board.Players[Color.RED].Spies = 4;
-            board.Players[Color.RED].TrophyHall[Color.YELLOW] = 2;
+            board.Players[Color.RED].TrophyHall[Color.WHITE] = 2;
             //board.LocationIds[LocationId.ChedNasad].Troops[Color.RED] = 1;
 
             var turnMaker = new TurnMaker(board, Color.YELLOW) 
