@@ -198,6 +198,10 @@ namespace UnderdarkAI.AI
         /// Забранный юнит из trophy hall-а
         /// </summary>
         public Color? TakeFromTroopsColor { get; internal set; }
+        /// <summary>
+        /// Фиксация следующего убийства в этой локации
+        /// </summary>
+        public LocationId? LockedAssasinationLocation { get; internal set; }
 
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
@@ -222,7 +226,8 @@ namespace UnderdarkAI.AI
             PlacedSpies = new();
             ReturnedSpies = new();
 
-            TakeFromTroopsColor = null;
+            TakeFromTroopsColor = null; 
+            LockedAssasinationLocation = null;
         }
 
         public void DebugPrintDistances()
@@ -266,6 +271,7 @@ namespace UnderdarkAI.AI
                 ReturnedSpies = ReturnedSpies.Select(s => s).ToList(),
                 IsBuyTopDevouredEnabled = IsBuyTopDevouredEnabled,
                 TakeFromTroopsColor = TakeFromTroopsColor,
+                LockedAssasinationLocation = LockedAssasinationLocation,
             };
 
             return turn;
@@ -290,6 +296,8 @@ namespace UnderdarkAI.AI
 
             PlacedSpies.Clear();
             ReturnedSpies.Clear();
+
+            LockedAssasinationLocation = null;
         }
 
         internal void MakeCurrentCardPlayedEndTurn()

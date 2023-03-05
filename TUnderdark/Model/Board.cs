@@ -18,6 +18,8 @@ namespace TUnderdark.Model
         public int Lolths { get; set; }
         public int HouseGuards { get; set; }
         public int InsaneOutcats { get; set; }
+        public HashSet<LocationId> Sites { get; set; }
+
         public Board()
         {
             Players = Enum.GetValues(typeof(Color)).Cast<Color>()
@@ -395,6 +397,12 @@ namespace TUnderdark.Model
                     .Select(id => locationDict[id])
                     .ToHashSet();
             }
+
+            copyBoard.Sites = copyBoard
+                .Locations
+                .Where(l => l.IsSite)
+                .Select(l => l.Id)
+                .ToHashSet();
 
             return copyBoard;
         }

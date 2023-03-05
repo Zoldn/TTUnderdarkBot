@@ -28,10 +28,10 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.WRAITH]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.SKELETAL_HORDE]
                 );
 
-            board.Devoured.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.WATCHER_OF_THAY]);
+            // board.Devoured.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.WATCHER_OF_THAY]);
 
             //board.Players[Color.YELLOW].Hand.Add(
             //    CardMapper.SpecificTypeCardMakers[CardSpecificType.SPY_MASTER]

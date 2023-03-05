@@ -797,6 +797,12 @@ namespace TUnderdark.Model
             board.LocationIds = board
                 .Locations
                 .ToDictionary(l => l.Id);
+
+            board.Sites = board
+                .Locations
+                .Where(l => l.IsSite)
+                .Select(l => l.Id)
+                .ToHashSet();
         }
 
         private static void LinkLocations(Board board)

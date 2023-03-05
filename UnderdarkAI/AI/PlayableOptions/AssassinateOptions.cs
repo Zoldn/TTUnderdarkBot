@@ -14,7 +14,8 @@ namespace UnderdarkAI.AI.PlayableOptions
             int inIteration,
             int outIteration,
             bool isOnlyWhite = false,
-            HashSet<LocationId>? specificLocation = null)
+            HashSet<LocationId>? specificLocation = null, 
+            bool isLockingNextAssassination = false)
         {
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == inIteration)
@@ -43,7 +44,8 @@ namespace UnderdarkAI.AI.PlayableOptions
                             continue;
                         }
 
-                        options.Add(new AssassinateOption(location.Id, color, outIteration));
+                        options.Add(new AssassinateOption(location.Id, color, outIteration,
+                            isLockingNextAssassination: isLockingNextAssassination));
                     }
                 }
 
@@ -64,12 +66,15 @@ namespace UnderdarkAI.AI.PlayableOptions
         public override int MinVerbosity => 0;
         public bool IsCityTaken { get; private set; }
         public bool IsBaseAction { get; }
-        public AssassinateOption(LocationId locationId, Color targetColor, int outIteration, bool isBaseAction = false) : base()
+        public bool IsLockingNextAssassinateLocation { get; private set; }
+        public AssassinateOption(LocationId locationId, Color targetColor, int outIteration, bool isBaseAction = false, 
+            bool isLockingNextAssassination = false) : base()
         {
             LocationId = locationId;
             TargetColor = targetColor;
             IsBaseAction = isBaseAction;
             IsCityTaken = false;
+            IsLockingNextAssassinateLocation = isLockingNextAssassination;
 
             NextState = isBaseAction ? SelectionState.CARD_OR_FREE_ACTION : SelectionState.SELECT_CARD_OPTION;
             NextCardIteration = outIteration;
@@ -102,6 +107,11 @@ namespace UnderdarkAI.AI.PlayableOptions
             else
             {
                 IsCityTaken = false;
+            }
+
+            if (IsLockingNextAssassinateLocation)
+            {
+                turn.LockedAssasinationLocation = LocationId;
             }
         }
 

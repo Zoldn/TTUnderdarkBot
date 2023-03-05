@@ -15,6 +15,7 @@ namespace UnderdarkAI.AI.PlayableOptions
             int outIteration,
             int exitIteration,
             HashSet<Color>? filterPlayerColors = null,
+            bool isOnlyWhite = false,
             bool isAnywhere = false)
         {
             if (turn.State == SelectionState.SELECT_CARD_OPTION
@@ -40,6 +41,11 @@ namespace UnderdarkAI.AI.PlayableOptions
                     foreach (var (troopColor, count) in player.TrophyHall)
                     {
                         if (count == 0)
+                        {
+                            continue;
+                        }
+
+                        if (isOnlyWhite && troopColor != Color.WHITE)
                         {
                             continue;
                         }
