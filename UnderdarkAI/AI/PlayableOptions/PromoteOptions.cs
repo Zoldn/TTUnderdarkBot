@@ -38,7 +38,8 @@ namespace UnderdarkAI.AI.PlayableOptions
             int outIteration,
             CardSpecificType promoter,
             bool canBeSkipped = false,
-            Race? specificRaceOnly = null)
+            Race? specificRaceOnly = null,
+            CardType? specificCardType = null)
         {
             ///Выбор промоута в конце хода
             if (turn.State == SelectionState.SELECT_END_TURN_CARD_OPTION
@@ -47,7 +48,8 @@ namespace UnderdarkAI.AI.PlayableOptions
                 OptionUtils.GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(options, board, turn, promoter,
                     outIteration,
                     canBeSkipped: canBeSkipped,
-                    specificRaceOnly: specificRaceOnly);
+                    specificRaceOnly: specificRaceOnly,
+                    specificCardType: specificCardType);
             }
 
             return options;

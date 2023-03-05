@@ -28,11 +28,11 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.OGREMOCH]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.AIR_ELEMENTAL_MYRMIDON]
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.EARTH_ELEMENTAL_MYRMIDON]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.YANCBIN]
                 );
 
             // board.Devoured.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.WATCHER_OF_THAY]);

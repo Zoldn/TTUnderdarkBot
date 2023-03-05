@@ -99,6 +99,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.EARTH_ELEMENTAL, new EarthElementalOptionGenerator() },
                 { CardSpecificType.MARLOS_URNRAYLE, new MarlosUrnrayleOptionGenerator() },
                 { CardSpecificType.OGREMOCH, new OgremochOptionGenerator() },
+                { CardSpecificType.AERISI_KALINOTH, new AerisiKalinothOptionGenerator() },
+                { CardSpecificType.AIR_ELEMENTAL_MYRMIDON, new AirElementalMyrmidonOptionGenerator() },
+                { CardSpecificType.AIR_ELEMENTAL, new AirElementalOptionGenerator() },
+                { CardSpecificType.HOWLING_HATRED_CULTIST, new HowlingHatredCultistOptionGenerator() },
+                { CardSpecificType.YANCBIN, new YinCBinOptionGenerator() },
                 #endregion
             };
         }
