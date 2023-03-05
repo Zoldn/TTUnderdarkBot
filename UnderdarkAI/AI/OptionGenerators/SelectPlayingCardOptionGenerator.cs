@@ -109,6 +109,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.OLHYDRA, new OlhydraOptionGenetator() },
                 { CardSpecificType.WATER_ELEMENTAL_MYRMIDON, new WaterElementalMyrmidonOptionGenerator() },
                 { CardSpecificType.WATER_ELEMENTAL, new WaterElementalOptionGenerator() },
+                { CardSpecificType.ETERNAL_FLAME_CULTIST, new EternalFlameCultistOptionGenerator() },
+                { CardSpecificType.FIRE_ELEMENTAL_MYRMIDON, new FireElementalMyrmidonOptionGenerator() },
+                { CardSpecificType.FIRE_ELEMENTAL, new FireElementalOptionGenerator() },
+                { CardSpecificType.IMIX, new ImyxOptionGenerator() },
+                { CardSpecificType.VANIFER, new VanyferOptionGenetator() },
                 #endregion
             };
         }
