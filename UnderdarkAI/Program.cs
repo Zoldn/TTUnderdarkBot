@@ -23,8 +23,12 @@ namespace UnderdarkAI
 
             //TestRandom();
 
+            board.Players[Color.YELLOW].Hand.Remove(
+                board.Players[Color.YELLOW].Hand.First(d => d.SpecificType == CardSpecificType.NOBLE)
+                );
+
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.SEVERIN_SILRAJIN]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.VAMPIRE]
                 );
 
             //board.Players[Color.YELLOW].Hand.Add(

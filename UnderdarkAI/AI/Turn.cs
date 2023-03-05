@@ -19,16 +19,17 @@ namespace UnderdarkAI.AI
         PLAYED,
         DEVOURED,
         DISCARDED,
+        PROMOTED,
     }
-    /// <summary>
-    /// Режим выбора опции на карте Choose one
-    /// </summary>
-    internal enum CardOption
+    internal enum CardLocation
     {
-        NONE_OPTION,
-        OPTION_A,
-        OPTION_B,
+        IN_HAND = 0,
+        DISCARD,
+        DEVOURED,
+        MARKET,
+        INNER_CIRCLE,
     }
+
     /// <summary>
     /// Режим выбора конечного автомата
     /// </summary>
@@ -84,6 +85,10 @@ namespace UnderdarkAI.AI
         /// Состояние конца хода (для опций "promote in the end of turn")
         /// </summary>
         public CardState EndTurnState { get; set; }
+        /// <summary>
+        /// Где физически сейчас находится сыгранная карта
+        /// </summary>
+        public CardLocation CardLocation { get; set; }
         public bool IsPromotedInTheEnd { get; set; }
 
         public TurnCardState(CardSpecificType specificType, CardState state = CardState.IN_HAND)
@@ -91,6 +96,7 @@ namespace UnderdarkAI.AI
             SpecificType = specificType;
             State = state;
             EndTurnState = CardState.DISCARDED;
+            CardLocation = CardLocation.IN_HAND;
             IsPromotedInTheEnd = false;
         }
         public TurnCardState Clone()
@@ -99,11 +105,13 @@ namespace UnderdarkAI.AI
             {
                 EndTurnState = EndTurnState,
                 IsPromotedInTheEnd = IsPromotedInTheEnd,
+                CardLocation = CardLocation,
             };
         }
         public override string ToString()
         {
-            return $"{CardMapper.SpecificTypeCardMakers[SpecificType].Name} - State: {State}; EndState: {EndTurnState}";
+            return $"{CardMapper.SpecificTypeCardMakers[SpecificType].Name} - State: {State}; EndState: {EndTurnState};" +
+                $" Location {CardLocation}";
         }
     }
 
@@ -252,7 +260,20 @@ namespace UnderdarkAI.AI
 
         internal void MakeCurrentCardPlayed()
         {
-            CardStates.Single(s => s.State == CardState.NOW_PLAYING).State = CardState.PLAYED;
+            var cardState = CardStates.Single(s => s.State == CardState.NOW_PLAYING);
+
+            if (cardState.CardLocation == CardLocation.DEVOURED)
+            {
+                cardState.State = CardState.DEVOURED;
+            }
+            else if (cardState.CardLocation == CardLocation.INNER_CIRCLE)
+            {
+                cardState.State = CardState.PROMOTED;
+            }
+            else
+            {
+                cardState.State = CardState.PLAYED;
+            }
 
             PlacedSpies.Clear();
             ReturnedSpies.Clear();

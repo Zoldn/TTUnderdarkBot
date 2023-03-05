@@ -77,4 +77,53 @@ namespace UnderdarkAI.AI.PlayableOptions
             }
         }
     }
+
+    internal static class DevourSelfHelper
+    {
+        public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
+            int inIteration,
+            int outIteration)
+        {
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == inIteration)
+            {
+                options.Add(new DevourSelfOption(turn.ActiveCard.Value, outIteration));
+            }
+
+            return options;
+        }
+    }
+
+    internal class DevourSelfOption : PlayableOption
+    {
+        public CardSpecificType TargetCard { get; }
+        public override int MinVerbosity => 0;
+        public DevourSelfOption(CardSpecificType target, int outIteration)
+        {
+            TargetCard = target;
+            NextCardIteration = outIteration;
+        }
+
+        public override void ApplyOption(Board board, Turn turn)
+        {
+            var card = board.Players[turn.Color].Hand
+                .First(c => c.SpecificType == TargetCard);
+
+            board.Players[turn.Color].Hand.Remove(card);
+
+            var cardState = turn
+                .CardStates
+                .Single(s => s.State == CardState.NOW_PLAYING);
+
+            //cardState.State = CardState.DEVOURED;
+            cardState.CardLocation = CardLocation.DEVOURED;
+
+            board.Devoured.Add(card);
+        }
+
+        public override string GetOptionText()
+        {
+            return $"\tDevouring this card";
+        }
+    }
 }

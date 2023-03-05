@@ -7,6 +7,7 @@ using TUnderdark.Model;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Dragons;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow;
+using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Undead;
 using UnderdarkAI.AI.PlayableOptions;
 
 namespace UnderdarkAI.AI.OptionGenerators
@@ -68,6 +69,13 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.RED_DRAGON, new RedDragonOptionGenetator() },
                 { CardSpecificType.RED_WYRMLING, new RedWyrmlingOptionGenerator() },
                 { CardSpecificType.SEVERIN_SILRAJIN, new SeverinSilrajinOptionGenerator() },
+                #endregion
+                #region Undead
+                { CardSpecificType.CULTIST_OF_MYRKUL, new CultistOfMyrkulOptionGenerator() },
+                { CardSpecificType.HIGH_PRIEST_OF_MYRKUL, new HighPriestOfMyrkulOptionGenerator() },
+                { CardSpecificType.NECROMANCER, new NecromancerOptionGenerator() },
+                { CardSpecificType.VAMPIRE_SPAWN, new VampireSpawnOptionGenerator() },
+                { CardSpecificType.VAMPIRE, new VampireOptionGenerator() },
                 #endregion
             };
         }

@@ -68,12 +68,15 @@ namespace UnderdarkAI.AI.OptionGenerators
         /// <returns></returns>
         internal static List<PlayableOption> GetPromoteAnotherCardPlayedThisTurnInTheEndOptions(
             List<PlayableOption> options, Board board, Turn turn, 
-            CardSpecificType promoter, int outIteration, bool canBeSkipped = false)
+            CardSpecificType promoter, int outIteration, bool canBeSkipped = false, 
+            Race? specificRaceOnly = null)
         {
             var ret = turn.CardStates
                 .Where(s => !s.IsPromotedInTheEnd
                     && s.State == CardState.PLAYED
                     && s.EndTurnState != CardState.NOW_PLAYING
+                    && (!specificRaceOnly.HasValue 
+                        || specificRaceOnly.Value == CardMapper.SpecificTypeCardMakers[s.SpecificType].Race)
                 )
                 .Select(s => s.SpecificType)
                 .Distinct()
