@@ -187,14 +187,12 @@ namespace UnderdarkAI.AI.PlayableOptions
         public CardSpecificType? NewSpecificType { get; private set; }
         public override int MinVerbosity => 0;
         public bool IsBaseAction { get; }
-        //public bool IsSpendMana => IsBaseAction;
         public BuyingOption(CardSpecificType specificType, CardLocation cardLocatoin, int outIteration,
             bool isBaseAction) : base()
         {
             SpecificType = specificType;
 
             IsBaseAction = isBaseAction;
-            //IsSpendMana = isBaseAction;
             CardLocation = cardLocatoin;
             NextState = isBaseAction ? SelectionState.CARD_OR_FREE_ACTION : SelectionState.SELECT_CARD_OPTION;
             NextCardIteration = outIteration;
@@ -277,6 +275,40 @@ namespace UnderdarkAI.AI.PlayableOptions
         public override string GetOptionText()
         {
             return $"Disable buying";
+        }
+    }
+
+    internal static class EnableBuyFromDevouredHelper
+    {
+        public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
+            int inIteration, int outIteration)
+        {
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == inIteration)
+            {
+                options.Add(new EnableBuyFromDevouredOption(outIteration));
+            }
+
+            return options;
+        }
+    }
+
+    internal class EnableBuyFromDevouredOption : PlayableOption
+    {
+        public override int MinVerbosity => 0;
+        public EnableBuyFromDevouredOption(int outIteration) : base()
+        {
+            NextCardIteration = outIteration;
+        }
+
+        public override void ApplyOption(Board board, Turn turn)
+        {
+            turn.IsBuyTopDevouredEnabled = true;
+        }
+
+        public override string GetOptionText()
+        {
+            return $"\tUntil end of turn enable buying top card on devoured deck";
         }
     }
 }

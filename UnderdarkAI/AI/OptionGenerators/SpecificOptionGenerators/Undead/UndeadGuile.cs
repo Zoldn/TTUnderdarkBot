@@ -69,4 +69,32 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Undead
             return options;
         }
     }
+
+    internal class GhostOptionGenetator : OptionGenerator
+    {
+        public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
+        {
+            var options = new List<PlayableOption>();
+
+            PlaceOrReturnSpyHelper.Run(options, board, turn,
+                inIteration: 0,
+                outPlaceSpyIteration: 1,
+                returnSpyIteration: 4,
+                outReturnSpyIteration: 5);
+
+            PlaceSpyHelper.Run(options, board, turn,
+                inIteration: 1,
+                returnIteration: 2,
+                placeIteration: 3,
+                outIteration: 99);
+
+            EnableBuyFromDevouredHelper.Run(options, board, turn,
+                inIteration: 5, outIteration: 99);
+
+            EndCardHelper.Run(options, board, turn,
+                endIteration: 99);
+
+            return options;
+        }
+    }
 }
