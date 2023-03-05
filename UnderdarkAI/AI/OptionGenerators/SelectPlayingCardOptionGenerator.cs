@@ -104,6 +104,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.AIR_ELEMENTAL, new AirElementalOptionGenerator() },
                 { CardSpecificType.HOWLING_HATRED_CULTIST, new HowlingHatredCultistOptionGenerator() },
                 { CardSpecificType.YANCBIN, new YinCBinOptionGenerator() },
+                { CardSpecificType.CRUSHING_WAVE_CULTIST, new CrushingWaveCultistOptionGenerator() },
+                { CardSpecificType.GAR_SHATTERKEEL, new GarShatterkeelOptionGenetator() },
+                { CardSpecificType.OLHYDRA, new OlhydraOptionGenetator() },
+                { CardSpecificType.WATER_ELEMENTAL_MYRMIDON, new WaterElementalMyrmidonOptionGenerator() },
+                { CardSpecificType.WATER_ELEMENTAL, new WaterElementalOptionGenerator() },
                 #endregion
             };
         }
