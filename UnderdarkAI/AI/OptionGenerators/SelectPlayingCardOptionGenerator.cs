@@ -86,6 +86,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.OGRE_ZOMBIE, new OgreZombieOptionGenerator() },
                 { CardSpecificType.RAVENOUS_ZOMBIE, new RavenousZombieOptionGenetator() },
                 { CardSpecificType.SKELETAL_HORDE, new SkeletalHordeOptionGenetator() },
+                { CardSpecificType.CARRION_CRAWLER, new CarrionCrawlerOptionGenerator() },
+                { CardSpecificType.DEATH_KNIGHT, new DeathKnightOptionGenetator() },
+                { CardSpecificType.FLESH_GOLEM, new FleshGolemOptionGenetator() },
+                { CardSpecificType.REVENANT, new RevenantOptionGenetator() },
+                { CardSpecificType.WIGHT, new WightOptionGenetator() },
                 #endregion
             };
         }

@@ -132,6 +132,7 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Undead
 
             PromoteSelfHelper.Run(options, board, turn,
                 CardSpecificType.NECROMANCER,
+                (b, t) => true,
                 inIteration: 3,
                 outIteration: 99);
 

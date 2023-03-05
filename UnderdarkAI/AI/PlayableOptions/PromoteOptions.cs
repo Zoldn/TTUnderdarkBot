@@ -278,12 +278,20 @@ namespace UnderdarkAI.AI.PlayableOptions
     {
         public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
             CardSpecificType promoter,
+            Func<Board, Turn, bool> condition,
             int inIteration, int outIteration)
         {
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == inIteration)
             {
-                options.Add(new PromoteSelfOption(promoter, outIteration));
+                if (condition(board, turn))
+                {
+                    options.Add(new PromoteSelfOption(promoter, outIteration));
+                }
+                else
+                {
+                    options.Add(new DoNothingOption(outIteration));
+                }
             }
 
             return options;

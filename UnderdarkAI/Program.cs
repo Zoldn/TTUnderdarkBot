@@ -28,7 +28,7 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.SKELETAL_HORDE]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.WIGHT]
                 );
 
             // board.Devoured.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.WATCHER_OF_THAY]);

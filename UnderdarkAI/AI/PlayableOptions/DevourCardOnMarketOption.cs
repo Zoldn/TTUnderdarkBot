@@ -8,11 +8,44 @@ using TUnderdark.TTSParser;
 
 namespace UnderdarkAI.AI.PlayableOptions
 {
+    internal static class DevourCardFromHandHelper
+    {
+        public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
+            int inIteration,
+            int outIteration,
+            int exitIteration,
+            CardSpecificType devourer)
+        {
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == inIteration)
+            {
+                var cards = turn.CardStates
+                    .Where(e => e.State == CardState.IN_HAND)
+                    .Select(e => e.SpecificType)
+                    .Distinct()
+                    .ToList();
+
+                foreach (var card in cards)
+                {
+                    options.Add(new DevourCardInHandOption(card, devourer, outIteration));
+                }
+
+                if (options.Count == 0)
+                {
+                    options.Add(new DoNothingOption(exitIteration));
+                }
+            }
+
+            return options;
+        }
+    }
+
     internal static class DevourCardOnMarketHelper
     {
         public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
             int inIteration,
-            int outIteration)
+            int outIteration,
+            CardSpecificType? replacer = null)
         {
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == inIteration)
@@ -24,7 +57,7 @@ namespace UnderdarkAI.AI.PlayableOptions
 
                 foreach (var card in cards)
                 {
-                    options.Add(new DevourCardOnMarketOption(card, outIteration));
+                    options.Add(new DevourCardOnMarketOption(card, outIteration, replacer));
                 }
             }
 
@@ -36,11 +69,13 @@ namespace UnderdarkAI.AI.PlayableOptions
     {
         public CardSpecificType TargetCard { get; }
         public CardSpecificType? NewSpecificType { get; private set; }
+        public CardSpecificType? Replacer { get; private set; }
         public override int MinVerbosity => 0;
-        public DevourCardOnMarketOption(CardSpecificType target, int outIteration)
+        public DevourCardOnMarketOption(CardSpecificType target, int outIteration, CardSpecificType? replacer)
         {
             TargetCard = target;
             NextCardIteration = outIteration;
+            Replacer = replacer;
         }
 
         public override void ApplyOption(Board board, Turn turn)
@@ -52,13 +87,29 @@ namespace UnderdarkAI.AI.PlayableOptions
 
             board.Devoured.Add(card);
 
-            if (board.Deck.Count > 0)
+            if (Replacer.HasValue)
             {
-                var newCard = board.Deck.First();
+                var cardState = turn.CardStates
+                    .Single(s => s.State == CardState.NOW_PLAYING);
+
+                cardState.CardLocation = CardLocation.MARKET;
+
+                var newCard = board.Players[turn.Color].Hand.First(s => s.SpecificType == Replacer);
                 board.Market.Add(newCard);
-                board.Deck.Remove(newCard);
+                board.Players[turn.Color].Hand.Remove(newCard);
 
                 NewSpecificType = newCard.SpecificType;
+            }
+            else
+            {
+                if (board.Deck.Count > 0)
+                {
+                    var newCard = board.Deck.First();
+                    board.Market.Add(newCard);
+                    board.Deck.Remove(newCard);
+
+                    NewSpecificType = newCard.SpecificType;
+                }
             }
         }
 
@@ -124,6 +175,42 @@ namespace UnderdarkAI.AI.PlayableOptions
         public override string GetOptionText()
         {
             return $"\tDevouring this card";
+        }
+    }
+
+    internal class DevourCardInHandOption : PlayableOption
+    {
+        public CardSpecificType TargetCard { get; }
+        public CardSpecificType Devourer { get; }
+        public override int MinVerbosity => 0;
+        public DevourCardInHandOption(CardSpecificType target, CardSpecificType devourer, int outIteration)
+        {
+            TargetCard = target;
+            NextCardIteration = outIteration;
+            Devourer = devourer;
+        }
+
+        public override void ApplyOption(Board board, Turn turn)
+        {
+            var card = board.Players[turn.Color].Hand
+                .First(c => c.SpecificType == TargetCard);
+
+            board.Players[turn.Color].Hand.Remove(card);
+
+            var cardState = turn
+                .CardStates
+                .First(s => s.State == CardState.IN_HAND && s.SpecificType == TargetCard);
+
+            cardState.State = CardState.DEVOURED;
+            cardState.CardLocation = CardLocation.DEVOURED;
+
+            board.Devoured.Add(card);
+        }
+
+        public override string GetOptionText()
+        {
+            return $"\tDevouring card " +
+                $"{CardMapper.SpecificTypeCardMakers[TargetCard].Name} from hand";
         }
     }
 }
