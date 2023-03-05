@@ -204,7 +204,14 @@ namespace UnderdarkAI.AI.PlayableOptions
             cardState.State = CardState.DEVOURED;
             cardState.CardLocation = CardLocation.DEVOURED;
 
-            board.Devoured.Add(card);
+            if (card.SpecificType == CardSpecificType.INSANE_OUTCAST)
+            {
+                board.InsaneOutcats++;
+            }
+            else
+            {
+                board.Devoured.Add(card);
+            }
         }
 
         public override string GetOptionText()

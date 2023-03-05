@@ -131,7 +131,15 @@ namespace UnderdarkAI.AI.PlayableOptions
             var player = board.Players[turn.Color];
             var card = player.Discard.First(c => c.SpecificType == PromoteTarget);
             player.Discard.Remove(card);
-            player.InnerCircle.Add(card);
+            if (card.SpecificType == CardSpecificType.INSANE_OUTCAST)
+            {
+                board.InsaneOutcats++;
+            }
+            else
+            {
+                player.InnerCircle.Add(card);
+            }
+            
         }
 
         public override string GetOptionText()
@@ -159,7 +167,14 @@ namespace UnderdarkAI.AI.PlayableOptions
             var player = board.Players[turn.Color];
             var card = player.Hand.First(c => c.SpecificType == PromoteTarget);
             player.Hand.Remove(card);
-            player.InnerCircle.Add(card);
+            if (card.SpecificType == CardSpecificType.INSANE_OUTCAST)
+            {
+                board.InsaneOutcats++;
+            }
+            else
+            {
+                player.InnerCircle.Add(card);
+            }
         }
 
         public override string GetOptionText()

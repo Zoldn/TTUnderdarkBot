@@ -95,7 +95,14 @@ namespace UnderdarkAI.MetricUtils
 
                 board.Players[turn.Color].Hand.Remove(target);
 
-                board.Players[turn.Color].InnerCircle.Add(target);
+                if (target.SpecificType == CardSpecificType.INSANE_OUTCAST)
+                {
+                    board.InsaneOutcats++;
+                }
+                else
+                {
+                    board.Players[turn.Color].InnerCircle.Add(target);
+                }
             }
         }
     }
