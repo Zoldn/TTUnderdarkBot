@@ -304,5 +304,18 @@ namespace UnderdarkAI.AI
         {
             CardStates.Single(s => s.EndTurnState == CardState.NOW_PLAYING).EndTurnState = CardState.PLAYED;
         }
+
+        internal bool IsFocus(CardType cardType)
+        {
+            var count = CardStates
+                .Count(s => CardMapper.SpecificTypeCardMakers[s.SpecificType].CardType == cardType
+                    && (s.State == CardState.IN_HAND 
+                        || s.State == CardState.NOW_PLAYING
+                        || s.State == CardState.PLAYED)
+                    && (s.CardLocation == CardLocation.IN_HAND)
+                );
+
+            return count > 1;
+        }
     }
 }

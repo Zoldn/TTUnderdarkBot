@@ -118,7 +118,7 @@ namespace TUnderdark.Model
         FIRE_ELEMENTAL_MYRMIDON,
         EARTH_ELEMENTAL,
         AIR_ELEMENTAL_MYRMIDON,
-        EARTH_ELEMENTA_MYRMIDON,
+        EARTH_ELEMENTAL_MYRMIDON,
         OGREMOCH,
         IMIX,
         YANCBIN,

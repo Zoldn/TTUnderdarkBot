@@ -7,6 +7,7 @@ using TUnderdark.Model;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Dragons;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow;
+using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Elementals;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Undead;
 using UnderdarkAI.AI.PlayableOptions;
 
@@ -91,6 +92,13 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.FLESH_GOLEM, new FleshGolemOptionGenetator() },
                 { CardSpecificType.REVENANT, new RevenantOptionGenetator() },
                 { CardSpecificType.WIGHT, new WightOptionGenetator() },
+                #endregion
+                #region Elementals
+                { CardSpecificType.BLACK_EARTH_CULTIST, new BlackEarthCultistOptionGenerator() },
+                { CardSpecificType.EARTH_ELEMENTAL_MYRMIDON, new EarthElementalMyrmidonOptionGenerator() },
+                { CardSpecificType.EARTH_ELEMENTAL, new EarthElementalOptionGenerator() },
+                { CardSpecificType.MARLOS_URNRAYLE, new MarlosUrnrayleOptionGenerator() },
+                { CardSpecificType.OGREMOCH, new OgremochOptionGenerator() },
                 #endregion
             };
         }
