@@ -140,6 +140,8 @@ namespace UnderdarkAI.AI
                 }
             }
 
+            FixedTurn.IsBuyTopDevouredEnabled = false;
+
             ControlMetrics.PromoteCardsInTheEnd(FixedBoard, FixedTurn);
 
             ControlMetrics.GetVPForSiteControlMarkersInTheEnd(FixedBoard, FixedTurn, turnMakerResult);
@@ -231,6 +233,8 @@ namespace UnderdarkAI.AI
                         break;
                     }
                 }
+
+                turn.IsBuyTopDevouredEnabled = false;
 
                 ControlMetrics.PromoteCardsInTheEnd(board, turn);
 

@@ -16,5 +16,6 @@ namespace UnderdarkAI.AI.WeightGenerators
         public void FillDeployOptions(Board board, Turn turn, List<DeployOption> options);
         public void FillReturnEnemySpyOptions(Board board, Turn turn, List<ReturnEnemySpyOption> options);
         public void FillPlaceSpyOptions(Board board, Turn turn, List<PlaceSpyOption> options);
+        public void FillBuyOptions(Board board, Turn turn, List<BuyingOption> boptions);
     }
 }

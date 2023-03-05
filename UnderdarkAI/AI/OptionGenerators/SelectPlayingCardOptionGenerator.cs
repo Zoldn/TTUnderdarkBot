@@ -76,6 +76,8 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.NECROMANCER, new NecromancerOptionGenerator() },
                 { CardSpecificType.VAMPIRE_SPAWN, new VampireSpawnOptionGenerator() },
                 { CardSpecificType.VAMPIRE, new VampireOptionGenerator() },
+                { CardSpecificType.BANSHEE, new BansheeOptionGenetator() },
+                { CardSpecificType.CONJURER, new ConjurerOptionGenetator() },
                 #endregion
             };
         }

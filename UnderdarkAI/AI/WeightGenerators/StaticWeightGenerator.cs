@@ -72,5 +72,15 @@ namespace UnderdarkAI.AI.WeightGenerators
                 }
             }
         }
+
+        public void FillBuyOptions(Board board, Turn turn, List<BuyingOption> options)
+        {
+            foreach (var option in options)
+            {
+                var card = CardMapper.SpecificTypeCardMakers[option.SpecificType];
+
+                option.Weight = 1.0d + (double)card.VP / card.ManaCost;
+            }
+        }
     }
 }

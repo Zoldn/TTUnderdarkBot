@@ -190,6 +190,10 @@ namespace UnderdarkAI.AI
         /// Возвращенные шпионы
         /// </summary>
         public List<LocationId> ReturnedSpies { get; internal set; }
+        /// <summary>
+        /// Можно ли покупать карту с devoured
+        /// </summary>
+        public bool IsBuyTopDevouredEnabled { get; internal set; }
 
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
@@ -203,6 +207,7 @@ namespace UnderdarkAI.AI
             CardStates = new(5);
 
             IsBuyingEnabled = true;
+            IsBuyTopDevouredEnabled = false;
             State = SelectionState.CARD_OR_FREE_ACTION;
             //CardOption = CardOption.NONE_OPTION;
             CardStateIteration = 0;
@@ -253,6 +258,7 @@ namespace UnderdarkAI.AI
                 LocationMoveFrom = LocationMoveFrom,
                 PlacedSpies = PlacedSpies.Select(s => s).ToList(),
                 ReturnedSpies = ReturnedSpies.Select(s => s).ToList(),
+                IsBuyTopDevouredEnabled = IsBuyTopDevouredEnabled,
             };
 
             return turn;

@@ -333,5 +333,29 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             return false;
         }
+
+        internal static bool IsPlacedSpyContainsEnemySpy(Board board, Turn turn)
+        {
+            Debug.Assert(turn.PlacedSpies.Count <= 1);
+
+            if (turn.PlacedSpies.Count == 0)
+            {
+                return false;
+            }
+
+            var locationId = turn.PlacedSpies.Single();
+
+            foreach (var (color, count) in board.LocationIds[locationId].Spies)
+            {
+                if (color == turn.Color || !count)
+                {
+                    continue;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -48,10 +48,16 @@ namespace UnderdarkAI.AI.OptionGenerators
             bool buyFromMarketAvailable = board.Market.Count > 0
                 && board.Market.Min(c => c.ManaCost) <= turn.Mana;
 
+            bool buyFromDevouredAvailable = board.Devoured.Count > 0
+                && turn.IsBuyTopDevouredEnabled
+                && board.Devoured[0].ManaCost <= turn.Mana
+                && board.Devoured[0].SpecificType != CardSpecificType.NOBLE
+                && board.Devoured[0].SpecificType != CardSpecificType.SOLDIER;
+
             bool buyLolthAvailable = board.Lolths > 0 && turn.Mana >= 2;
             bool buyHouseguardAvailable = board.HouseGuards > 0 && turn.Mana >= 3;
 
-            return buyFromMarketAvailable || buyLolthAvailable || buyHouseguardAvailable;
+            return buyFromMarketAvailable || buyLolthAvailable || buyHouseguardAvailable || buyFromDevouredAvailable;
         }
         /// <summary>
         /// Можно ли поставить юниты
