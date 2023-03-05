@@ -756,6 +756,375 @@
       "CardType": "CONQUEST",
       "Name": "Olhydra",
       "Race": "ELEMENTALPRINCE"
+    },
+    {
+      "SpecificType": "GHOUL",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "MALICE",
+      "Name": "Ghoul",
+      "Race": "UNDEAD"
+    },
+    {
+      "SpecificType": "JACKALWERE",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "GUILE",
+      "Name": "Jackalwere",
+      "Race": "SHAPECHANGER"
+    },
+    {
+      "SpecificType": "DERRO",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 4,
+      "CardType": "CONQUEST",
+      "Name": "Derro",
+      "Race": "DERRO"
+    },
+    {
+      "SpecificType": "MARILITH",
+      "ManaCost": 6,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "MALICE",
+      "Name": "Marilith",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "NAFLESHNEE",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "AMBITION",
+      "Name": "Nafleshnee",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "MICONYD_SOVEREIGN",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "AMBITION",
+      "Name": "Miconyd Sovereign",
+      "Race": "MICONYD"
+    },
+    {
+      "SpecificType": "ETTIN",
+      "ManaCost": 4,
+      "VP": 1,
+      "PromoteVP": 2,
+      "CardType": "CONQUEST",
+      "Name": "Ettin",
+      "Race": "GIANT"
+    },
+    {
+      "SpecificType": "SUCCUBUS",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "GUILE",
+      "Name": "Succubus",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "HEZROU",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "AMBITION",
+      "Name": "Hezrou",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "MIND_FLAYER",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "MALICE",
+      "Name": "Mind Flayer",
+      "Race": "ILLITHID"
+    },
+    {
+      "SpecificType": "GIBBERING_MOUTHER",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "CONQUEST",
+      "Name": "Gibbering Mouther",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "MYCONID_ADULT",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "AMBITION",
+      "Name": "Myconid Adult",
+      "Race": "MICONYD"
+    },
+    {
+      "SpecificType": "NIGHT_HAG",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "GUILE",
+      "Name": "Night Hag",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "ORCUS",
+      "ManaCost": 8,
+      "VP": 5,
+      "PromoteVP": 10,
+      "CardType": "MALICE",
+      "Name": "Orcus",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "ZUGGTMOY",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "AMBITION",
+      "Name": "Zuggtmoy",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "BALOR",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "CONQUEST",
+      "Name": "Balor",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "VROCK",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "GUILE",
+      "Name": "Vrock",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "GRAZZT",
+      "ManaCost": 6,
+      "VP": 2,
+      "PromoteVP": 5,
+      "CardType": "GUILE",
+      "Name": "Grazzt",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "GLABREZU",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "MALICE",
+      "Name": "Glabrezu",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "DEMONGORGON",
+      "ManaCost": 8,
+      "VP": 5,
+      "PromoteVP": 10,
+      "CardType": "CONQUEST",
+      "Name": "Demongorgon",
+      "Race": "FIEND"
+    },
+    {
+      "SpecificType": "INSANE_OUTCAST",
+      "ManaCost": 0,
+      "VP": -1,
+      "PromoteVP": 0,
+      "CardType": "INSANE",
+      "Name": "Insane Outcast",
+      "Race": "DROW"
+    },
+    {
+      "SpecificType": "GAUTH",
+      "ManaCost": 3,
+      "VP": 2,
+      "PromoteVP": 3,
+      "CardType": "MALICE",
+      "Name": "Gauth",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "BRAINWASHED_SLAVE",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 3,
+      "CardType": "GUILE",
+      "Name": "Brainwashed Slave",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "SPECTATOR",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 3,
+      "CardType": "MALICE",
+      "Name": "Spectator",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "GRIMLOCK",
+      "ManaCost": 1,
+      "VP": 0,
+      "PromoteVP": 1,
+      "CardType": "CONQUEST",
+      "Name": "Grimlock",
+      "Race": "GRIMLOCK"
+    },
+    {
+      "SpecificType": "MIND_WITNESS",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "MALICE",
+      "Name": "Mind Witness",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "CRANIUM_RATS",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "CONQUEST",
+      "Name": "Cranium Rats",
+      "Race": "BEAST"
+    },
+    {
+      "SpecificType": "INTELLECT_DEVOURER",
+      "ManaCost": 4,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "AMBITION",
+      "Name": "Intellect Devourer",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "NOTHIC",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "GUILE",
+      "Name": "Nothic",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "CLOAKER",
+      "ManaCost": 2,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "GUILE",
+      "Name": "Cloaker",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "AMBASSADOR",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 3,
+      "CardType": "AMBITION",
+      "Name": "Ambassador",
+      "Race": "ILLITHID"
+    },
+    {
+      "SpecificType": "CHUUL",
+      "ManaCost": 3,
+      "VP": 1,
+      "PromoteVP": 4,
+      "CardType": "GUILE",
+      "Name": "Chuul",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "QUAGGOTH",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "CONQUEST",
+      "Name": "Quaggoth",
+      "Race": "QUAGGOTH"
+    },
+    {
+      "SpecificType": "UMBER_HULK",
+      "ManaCost": 4,
+      "VP": 2,
+      "PromoteVP": 4,
+      "CardType": "CONQUEST",
+      "Name": "Umber Hulk",
+      "Race": "MONSTROSITY"
+    },
+    {
+      "SpecificType": "PUPPETEER",
+      "ManaCost": 5,
+      "VP": 2,
+      "PromoteVP": 6,
+      "CardType": "AMBITION",
+      "Name": "Puppeteer",
+      "Race": "ILLITHID"
+    },
+    {
+      "SpecificType": "ABOLETH",
+      "ManaCost": 7,
+      "VP": 4,
+      "PromoteVP": 7,
+      "CardType": "GUILE",
+      "Name": "Aboleth",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "DEATH_TYRANT",
+      "ManaCost": 7,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "MALICE",
+      "Name": "Death Tyrant",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "NEOGI",
+      "ManaCost": 7,
+      "VP": 4,
+      "PromoteVP": 8,
+      "CardType": "CONQUEST",
+      "Name": "Neogi",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "ULITHARID",
+      "ManaCost": 6,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "AMBITION",
+      "Name": "Ulitharid",
+      "Race": "ILLITHID"
+    },
+    {
+      "SpecificType": "BEHOLDER",
+      "ManaCost": 5,
+      "VP": 3,
+      "PromoteVP": 6,
+      "CardType": "MALICE",
+      "Name": "Beholder",
+      "Race": "ABERRATION"
+    },
+    {
+      "SpecificType": "ELDER_BRAIN",
+      "ManaCost": 7,
+      "VP": 4,
+      "PromoteVP": 9,
+      "CardType": "AMBITION",
+      "Name": "Elder Brain",
+      "Race": "ABERRATION"
     }
   ]
 }
