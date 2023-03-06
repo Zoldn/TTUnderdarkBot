@@ -208,6 +208,10 @@ namespace UnderdarkAI.AI
         public HashSet<Color> EnemyPlayers { get; internal set; }
         public HashSet<Color> AllPlayers { get; internal set; }
         public HashSet<Color> ThisPlayer { get; internal set; }
+        /// <summary>
+        /// Рядом с какими игроками выставлены трупсы
+        /// </summary>
+        public HashSet<Color> AdjacentPlayersToDeploy { get; internal set; }
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
         {
@@ -234,6 +238,7 @@ namespace UnderdarkAI.AI
 
             PlacedSpies = new();
             ReturnedSpies = new();
+            AdjacentPlayersToDeploy = new();
 
             TakeFromTroopsColor = null; 
             LockedAssasinationLocation = null;
@@ -281,6 +286,7 @@ namespace UnderdarkAI.AI
                 IsBuyTopDevouredEnabled = IsBuyTopDevouredEnabled,
                 TakeFromTroopsColor = TakeFromTroopsColor,
                 LockedAssasinationLocation = LockedAssasinationLocation,
+                AdjacentPlayersToDeploy = AdjacentPlayersToDeploy.ToHashSet(),
             };
 
             return turn;
@@ -311,6 +317,7 @@ namespace UnderdarkAI.AI
             ReturnedSpies.Clear();
 
             LockedAssasinationLocation = null;
+            AdjacentPlayersToDeploy.Clear();
         }
 
         internal void MakeCurrentCardPlayedEndTurn()

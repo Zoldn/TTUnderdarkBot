@@ -929,12 +929,12 @@
       "Race": "FIEND"
     },
     {
-      "SpecificType": "DEMONGORGON",
+      "SpecificType": "DEMOGORGON",
       "ManaCost": 8,
       "VP": 5,
       "PromoteVP": 10,
       "CardType": "CONQUEST",
-      "Name": "Demongorgon",
+      "Name": "Demogorgon",
       "Race": "FIEND"
     },
     {

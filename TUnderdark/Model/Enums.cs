@@ -143,7 +143,7 @@ namespace TUnderdark.Model
         VROCK,
         GRAZZT,
         GLABREZU,
-        DEMONGORGON,
+        DEMOGORGON,
         INSANE_OUTCAST,
 
         GAUTH,

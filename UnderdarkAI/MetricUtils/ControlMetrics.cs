@@ -50,7 +50,7 @@ namespace UnderdarkAI.MetricUtils
 
                 if (turnMakerResult != null)
                 {
-                    turnMakerResult.EndTurnEffects.Add($"Gain {location.BonusVP} VP for {location.Name}");
+                    turnMakerResult.EndTurnEffects.Add($"\nGain {location.BonusVP} VP for {location.Name}");
                 }
                 
                 if (verbosity == 0)

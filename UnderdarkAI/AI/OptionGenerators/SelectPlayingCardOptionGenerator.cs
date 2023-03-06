@@ -128,6 +128,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.NIGHT_HAG, new NightHagOptionGenetator() },
                 { CardSpecificType.SUCCUBUS, new SuccubusOptionGenerator() },
                 { CardSpecificType.VROCK, new VrockOptionGenerator() },
+                { CardSpecificType.BALOR, new BalorOptionGenerator() },
+                { CardSpecificType.DEMOGORGON, new DemogorgonOptionGenerator() },
+                { CardSpecificType.DERRO, new DerroOptionGenerator() },
+                { CardSpecificType.ETTIN, new EttinOptionGenerator() },
+                { CardSpecificType.GIBBERING_MOUTHER, new GibberingMoutherOptionGenetator() },
                 #endregion
             };
         }

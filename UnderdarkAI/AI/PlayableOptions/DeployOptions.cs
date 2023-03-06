@@ -109,6 +109,29 @@ namespace UnderdarkAI.AI.PlayableOptions
             }
 
             turn.TakeFromTroopsColor = null;
+
+            foreach (var (color, count) in location.Troops)
+            {
+                if (color == Color.WHITE || color == turn.Color || count == 0)
+                {
+                    continue;
+                }
+
+                turn.AdjacentPlayersToDeploy.Add(color);
+            }
+
+            foreach (var neighboor in location.Neighboors)
+            {
+                foreach (var (color, count) in neighboor.Troops)
+                {
+                    if (color == Color.WHITE || color == turn.Color || count == 0)
+                    {
+                        continue;
+                    }
+
+                    turn.AdjacentPlayersToDeploy.Add(color);
+                }
+            }
         }
 
         public override string GetOptionText()
