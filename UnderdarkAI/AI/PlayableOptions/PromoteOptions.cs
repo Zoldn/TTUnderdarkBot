@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TUnderdark.Model;
 using TUnderdark.TTSParser;
 using UnderdarkAI.AI.OptionGenerators;
+using UnderdarkAI.Utils;
 
 namespace UnderdarkAI.AI.PlayableOptions
 {
@@ -213,6 +214,43 @@ namespace UnderdarkAI.AI.PlayableOptions
         }
     }
 
+    internal class PromoteTopDeckOption : PlayableOption
+    {
+        public CardSpecificType Promoter { get; set; }
+        public CardSpecificType Target { get; set; }
+        public PromoteTopDeckOption(CardSpecificType promoter, int outIteration) : base()
+        {
+            NextCardIteration = outIteration;
+            Promoter = promoter;
+        }
+
+        public override int MinVerbosity => 0;
+
+        public override void ApplyOption(Board board, Turn turn)
+        {
+            var player = board.Players[turn.Color];
+
+            if (player.Deck.Count == 0)
+            {
+                player.Deck.AddRange(player.Discard);
+                player.Deck.Shuffle(turn.Random);
+            }
+
+            var card = player.Deck.First();
+
+            Target = card.SpecificType;
+
+            player.Deck.Remove(card);
+            player.InnerCircle.Add(card);
+        }
+
+        public override string GetOptionText()
+        {
+            return $"\tPromote {CardMapper.SpecificTypeCardMakers[Target]} by " +
+                $"{CardMapper.SpecificTypeCardMakers[Promoter]} from top deck";
+        }
+    }
+
     internal static class PromoteFromDiscardHelper
     {
         public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
@@ -312,6 +350,28 @@ namespace UnderdarkAI.AI.PlayableOptions
             }
 
             return options;
+        }
+    }
+
+    internal static class PromoteTopDeckHelper
+    {
+        internal static void Run(List<PlayableOption> options, Board board, Turn turn, 
+            int inIteration, 
+            int outIteration, 
+            CardSpecificType promoter)
+        {
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == inIteration)
+            {
+                if (board.Players[turn.Color].Deck.Count + board.Players[turn.Color].Discard.Count > 0)
+                {
+                    options.Add(new PromoteTopDeckOption(promoter, outIteration));
+                }
+                else
+                {
+                    options.Add(new DoNothingOption(outIteration));
+                }
+            }
         }
     }
 }

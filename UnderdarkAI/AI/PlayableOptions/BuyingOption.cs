@@ -48,7 +48,8 @@ namespace UnderdarkAI.AI.PlayableOptions
             return;
         }
 
-        private static void AddDevouredOptions(Board board, Turn turn, List<BuyingOption> options, bool isBaseAction, int outIteration, int? costLimit, CardType? specificCardType)
+        private static void AddDevouredOptions(Board board, Turn turn, List<BuyingOption> options, bool isBaseAction, 
+            int outIteration, int? costLimit, CardType? specificCardType)
         {
             if (!turn.IsBuyTopDevouredEnabled)
             {

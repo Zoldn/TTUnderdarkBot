@@ -31,6 +31,10 @@ namespace UnderdarkAI
                 CardMapper.SpecificTypeCardMakers[CardSpecificType.INSANE_OUTCAST]
                 );
 
+            board.Players[Color.YELLOW].Hand.Add(
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.ZUGGTMOY]
+                );
+
             //board.Players[Color.YELLOW].Hand.Add(
             //    CardMapper.SpecificTypeCardMakers[CardSpecificType.VANIFER]
             //    );

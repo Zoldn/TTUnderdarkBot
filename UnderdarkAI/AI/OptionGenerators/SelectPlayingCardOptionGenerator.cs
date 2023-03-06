@@ -118,6 +118,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 #endregion
                 #region Demons
                 { CardSpecificType.INSANE_OUTCAST, new InsaneOutcastOptionGenerator() },
+                { CardSpecificType.HEZROU, new HezrouOptionGenetator() },
+                { CardSpecificType.MYCONID_ADULT, new MyconidAdultOptionGenetator() },
+                { CardSpecificType.MICONYD_SOVEREIGN, new MyconidSovereignOptionGenetator() },
+                { CardSpecificType.NAFLESHNEE, new NaflshneeOptionGenetator() },
+                { CardSpecificType.ZUGGTMOY, new ZuggtmoyOptionGenetator() },
                 #endregion
             };
         }

@@ -220,4 +220,69 @@ namespace UnderdarkAI.AI.PlayableOptions
                 $"{CardMapper.SpecificTypeCardMakers[TargetCard].Name} from hand";
         }
     }
+
+    internal static class DevourCardInInnerCircleHelper
+    {
+        public static void Run(List<PlayableOption> options, Board board, Turn turn,
+            int inIteration,
+            int outIteration,
+            int exitIteration,
+            CardSpecificType devourer)
+        {
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == inIteration)
+            {
+                var cards = board.Players[turn.Color].InnerCircle
+                    .Select(e => e.SpecificType)
+                    .Distinct()
+                    .ToList();
+
+                foreach (var card in cards)
+                {
+                    options.Add(new DevourCardInInnerCircleOption(card, devourer, outIteration));
+                }
+
+                if (options.Count == 0)
+                {
+                    options.Add(new DoNothingOption(exitIteration));
+                }
+            }
+        }
+    }
+
+    internal class DevourCardInInnerCircleOption : PlayableOption
+    {
+        public CardSpecificType TargetCard { get; }
+        public CardSpecificType Devourer { get; }
+        public override int MinVerbosity => 0;
+        public DevourCardInInnerCircleOption(CardSpecificType target, CardSpecificType devourer, int outIteration)
+        {
+            TargetCard = target;
+            NextCardIteration = outIteration;
+            Devourer = devourer;
+        }
+
+        public override void ApplyOption(Board board, Turn turn)
+        {
+            var card = board.Players[turn.Color].InnerCircle
+                .First(c => c.SpecificType == TargetCard);
+
+            board.Players[turn.Color].InnerCircle.Remove(card);
+
+            if (card.SpecificType == CardSpecificType.INSANE_OUTCAST)
+            {
+                board.InsaneOutcasts++;
+            }
+            else
+            {
+                board.Devoured.Add(card);
+            }
+        }
+
+        public override string GetOptionText()
+        {
+            return $"\tDevouring card " +
+                $"{CardMapper.SpecificTypeCardMakers[TargetCard].Name} from inner circle";
+        }
+    }
 }

@@ -203,13 +203,21 @@ namespace UnderdarkAI.AI
         /// Фиксация следующего убийства в этой локации
         /// </summary>
         public LocationId? LockedAssasinationLocation { get; internal set; }
-
+        #endregion
+        #region Colors for insane outcasts
+        public HashSet<Color> EnemyPlayers { get; internal set; }
+        public HashSet<Color> AllPlayers { get; internal set; }
+        public HashSet<Color> ThisPlayer { get; internal set; }
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
         {
             Random = random;
             WeightGenerator = weightGenerator;
             Color = color;
+
+            AllPlayers = new HashSet<Color>() { Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE };
+            ThisPlayer = new HashSet<Color>() { color };
+            EnemyPlayers = AllPlayers.Where(c => c != color).ToHashSet();
 
             //SelectionSequence = new(50);
             EndTurnEffects = new(10);
