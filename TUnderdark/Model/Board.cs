@@ -17,7 +17,7 @@ namespace TUnderdark.Model
         public List<Card> Devoured { get; set; }
         public int Lolths { get; set; }
         public int HouseGuards { get; set; }
-        public int InsaneOutcats { get; set; }
+        public int InsaneOutcasts { get; set; }
         public HashSet<LocationId> Sites { get; set; }
 
         public Board()
@@ -36,7 +36,7 @@ namespace TUnderdark.Model
 
             Lolths = 15;
             HouseGuards = 15; 
-            InsaneOutcats = 30;
+            InsaneOutcasts = 30;
         }
 
         public (Dictionary<Color, int>, Dictionary<Color, int>) GetControlVPs() 
@@ -376,7 +376,7 @@ namespace TUnderdark.Model
                 Devoured = Devoured.Select(e => e.Clone()).ToList(),
                 HouseGuards = HouseGuards,
                 Lolths = Lolths,
-                InsaneOutcats = InsaneOutcats,
+                InsaneOutcasts = InsaneOutcasts,
                 Market = Market.Select(e => e.Clone()).ToList(),
                 Players = Players.ToDictionary(kv => kv.Key, kv => kv.Value.Clone()),
                 Locations = Locations.Select(l => l.Clone()).ToList(),

@@ -28,12 +28,12 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.FIRE_ELEMENTAL_MYRMIDON]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.INSANE_OUTCAST]
                 );
 
-            board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.VANIFER]
-                );
+            //board.Players[Color.YELLOW].Hand.Add(
+            //    CardMapper.SpecificTypeCardMakers[CardSpecificType.VANIFER]
+            //    );
 
             // board.Devoured.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.WATCHER_OF_THAY]);
 

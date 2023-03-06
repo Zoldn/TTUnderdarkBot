@@ -97,7 +97,7 @@ namespace UnderdarkAI.MetricUtils
 
                 if (target.SpecificType == CardSpecificType.INSANE_OUTCAST)
                 {
-                    board.InsaneOutcats++;
+                    board.InsaneOutcasts++;
                 }
                 else
                 {

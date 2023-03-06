@@ -206,7 +206,7 @@ namespace UnderdarkAI.AI.PlayableOptions
 
             if (card.SpecificType == CardSpecificType.INSANE_OUTCAST)
             {
-                board.InsaneOutcats++;
+                board.InsaneOutcasts++;
             }
             else
             {

@@ -28,6 +28,7 @@ namespace UnderdarkAI.AI
         DEVOURED,
         MARKET,
         INNER_CIRCLE,
+        INSANE_OUTCASTS,
     }
 
     /// <summary>
@@ -288,6 +289,10 @@ namespace UnderdarkAI.AI
             else if (cardState.CardLocation == CardLocation.INNER_CIRCLE)
             {
                 cardState.State = CardState.PROMOTED;
+            }
+            else if (cardState.CardLocation == CardLocation.INSANE_OUTCASTS)
+            {
+                cardState.State = CardState.DEVOURED;
             }
             else
             {

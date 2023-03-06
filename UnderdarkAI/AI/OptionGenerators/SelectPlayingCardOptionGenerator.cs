@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators;
+using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Demons;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Dragons;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Elementals;
@@ -114,6 +115,9 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.FIRE_ELEMENTAL, new FireElementalOptionGenerator() },
                 { CardSpecificType.IMIX, new ImyxOptionGenerator() },
                 { CardSpecificType.VANIFER, new VanyferOptionGenetator() },
+                #endregion
+                #region Demons
+                { CardSpecificType.INSANE_OUTCAST, new InsaneOutcastOptionGenerator() },
                 #endregion
             };
         }

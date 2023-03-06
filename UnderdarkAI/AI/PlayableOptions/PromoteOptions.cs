@@ -133,7 +133,7 @@ namespace UnderdarkAI.AI.PlayableOptions
             player.Discard.Remove(card);
             if (card.SpecificType == CardSpecificType.INSANE_OUTCAST)
             {
-                board.InsaneOutcats++;
+                board.InsaneOutcasts++;
             }
             else
             {
@@ -169,7 +169,7 @@ namespace UnderdarkAI.AI.PlayableOptions
             player.Hand.Remove(card);
             if (card.SpecificType == CardSpecificType.INSANE_OUTCAST)
             {
-                board.InsaneOutcats++;
+                board.InsaneOutcasts++;
             }
             else
             {
