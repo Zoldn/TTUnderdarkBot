@@ -133,6 +133,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.DERRO, new DerroOptionGenerator() },
                 { CardSpecificType.ETTIN, new EttinOptionGenerator() },
                 { CardSpecificType.GIBBERING_MOUTHER, new GibberingMoutherOptionGenetator() },
+                { CardSpecificType.GHOUL, new GhoulOptionGenerator() },
+                { CardSpecificType.GLABREZU, new GlabrezuOptionGenerator() },
+                { CardSpecificType.MARILITH, new MarilithOptionGenerator() },
+                { CardSpecificType.MIND_FLAYER, new MindFlayerOptionGenerator() },
+                { CardSpecificType.ORCUS, new OrcusOptionGenerator() },
                 #endregion
             };
         }

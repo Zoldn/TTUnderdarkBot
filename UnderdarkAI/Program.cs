@@ -32,7 +32,7 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.GIBBERING_MOUTHER]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.ORCUS]
                 );
 
             //board.Players[Color.YELLOW].Hand.Add(
@@ -57,7 +57,7 @@ namespace UnderdarkAI
             board.LocationIds[LocationId.ChedNasad].Spies[Color.RED] = true;
             //board.LocationIds[LocationId.Bridge].Troops[Color.RED] = 1;
             board.Players[Color.RED].Spies = 4;
-            board.Players[Color.RED].TrophyHall[Color.WHITE] = 2;
+            board.Players[Color.RED].TrophyHall[Color.YELLOW] = 2;
             //board.LocationIds[LocationId.ChedNasad].Troops[Color.RED] = 1;
 
             var turnMaker = new TurnMaker(board, Color.YELLOW) 
