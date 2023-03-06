@@ -123,6 +123,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.MICONYD_SOVEREIGN, new MyconidSovereignOptionGenetator() },
                 { CardSpecificType.NAFLESHNEE, new NaflshneeOptionGenetator() },
                 { CardSpecificType.ZUGGTMOY, new ZuggtmoyOptionGenetator() },
+                { CardSpecificType.GRAZZT, new GrazztOptionGenetator() },
+                { CardSpecificType.JACKALWERE, new JackalWereOptionGenerator() },
+                { CardSpecificType.NIGHT_HAG, new NightHagOptionGenetator() },
+                { CardSpecificType.SUCCUBUS, new SuccubusOptionGenerator() },
+                { CardSpecificType.VROCK, new VrockOptionGenerator() },
                 #endregion
             };
         }

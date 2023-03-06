@@ -15,14 +15,15 @@ namespace UnderdarkAI.AI.PlayableOptions
             int outIteration,
             bool isOnlyWhite = false,
             HashSet<LocationId>? specificLocation = null, 
-            bool isLockingNextAssassination = false)
+            bool isLockingNextAssassination = false,
+            bool isAnyWhere = false)
         {
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == inIteration)
             {
                 foreach (var (location, locationState) in turn.LocationStates)
                 {
-                    if (!locationState.HasPresence)
+                    if (!locationState.HasPresence && !isAnyWhere)
                     {
                         continue;
                     }

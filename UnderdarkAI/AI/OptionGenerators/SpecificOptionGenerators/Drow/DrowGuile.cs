@@ -142,7 +142,8 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow
             SupplantOptionHelper.Run(options, board, turn,
                 inIteration: 5,
                 outIteration: 6,
-                specificLocation: turn.ReturnedSpies.ToHashSet()
+                specificLocation: turn.ReturnedSpies.ToHashSet(),
+                isAnywhere: true
                 );
 
             EndCardHelper.Run(options, board, turn,

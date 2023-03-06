@@ -32,7 +32,7 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.ZUGGTMOY]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.VROCK]
                 );
 
             //board.Players[Color.YELLOW].Hand.Add(
@@ -46,6 +46,9 @@ namespace UnderdarkAI
             //    );
 
             board.LocationIds[LocationId.SSZuraassnee].Spies[Color.YELLOW] = true;
+            //board.LocationIds[LocationId.StoneShaft].Spies[Color.YELLOW] = true;
+            //board.LocationIds[LocationId.Araumycos].Spies[Color.YELLOW] = true;
+            //board.LocationIds[LocationId.Bridge].Spies[Color.YELLOW] = true;
 
             board.Players[Color.YELLOW].Spies = 4;
             //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);

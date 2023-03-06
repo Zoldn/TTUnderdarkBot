@@ -98,7 +98,8 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Dragons
             SupplantOptionHelper.Run(options, board, turn,
                 inIteration: 6,
                 outIteration: 7,
-                specificLocation: turn.ReturnedSpies.ToHashSet());
+                specificLocation: turn.ReturnedSpies.ToHashSet(),
+                isAnywhere: true);
 
             GetOptionalVPHelper.Run(options, board, turn,
                 inIteration: 7,

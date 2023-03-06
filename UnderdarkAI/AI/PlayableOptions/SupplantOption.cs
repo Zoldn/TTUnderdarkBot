@@ -21,7 +21,7 @@ namespace UnderdarkAI.AI.PlayableOptions
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == inIteration)
             {
-                Debug.Assert(!isAnywhere || specificLocation == null);
+                //Debug.Assert(!isAnywhere || specificLocation == null);
 
                 foreach (var (location, locationState) in turn.LocationStates)
                 {

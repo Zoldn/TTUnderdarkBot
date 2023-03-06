@@ -191,4 +191,27 @@ namespace UnderdarkAI.AI.PlayableOptions
             return options;
         }
     }
+
+    internal static class ReturnOwnSpyHelper
+    {
+        public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
+            int inIteration,
+            int outIteration
+            )
+        {
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == inIteration)
+            {
+                foreach (var location in board.Locations)
+                {
+                    if (location.Spies[turn.Color])
+                    {
+                        options.Add(new ReturnOwnSpyOption(location.Id, outIteration));
+                    }
+                }
+            }
+
+            return options;
+        }
+    }
 }
