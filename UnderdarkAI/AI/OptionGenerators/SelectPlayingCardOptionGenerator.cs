@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators;
+using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Aberrations;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Demons;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Dragons;
 using UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Drow;
@@ -138,6 +139,13 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.MARILITH, new MarilithOptionGenerator() },
                 { CardSpecificType.MIND_FLAYER, new MindFlayerOptionGenerator() },
                 { CardSpecificType.ORCUS, new OrcusOptionGenerator() },
+                #endregion
+                #region Aberrations
+                { CardSpecificType.AMBASSADOR, new AmbassadorOptionGenerator() },
+                { CardSpecificType.ELDER_BRAIN, new ElderBrainOptionGenerator() },
+                { CardSpecificType.INTELLECT_DEVOURER, new IntellectDevourerOptionGenerator() },
+                { CardSpecificType.PUPPETEER, new PuppeteerOptionGenerator() },
+                { CardSpecificType.ULITHARID, new UlitharidOptionGenerator() },
                 #endregion
             };
         }

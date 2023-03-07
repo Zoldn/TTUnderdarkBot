@@ -128,8 +128,10 @@ namespace UnderdarkAI.AI
                         throw new NullReferenceException();
                     }
 
+                    //Console.WriteLine(selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED));
+
                     selectedOption.ApplyOption(FixedBoard, FixedTurn);
-                    //Console.WriteLine(selectedOption.Print(0, monteCarloStatus));
+                    
                     turnMakerResult.PlayableOptions.Add(selectedOption);
 
                     selectedOption.UpdateTurnState(FixedTurn);
@@ -185,6 +187,11 @@ namespace UnderdarkAI.AI
 
                 PlayableOption? selectedFirstSelectionOption = null;
                 bool isFirstSelection = true;
+
+                if (iteration == 52 && FixedTurn.State == SelectionState.SELECT_CARD /* && turn.ActiveCard == CardSpecificType.ULITHARID*/)
+                {
+                    int y = 1;
+                }
 
                 while (turn.State != SelectionState.FINISH_SELECTION)
                 {

@@ -45,15 +45,37 @@ namespace UnderdarkAI.AI.PlayableOptions
         public static List<PlayableOption> Run(List<PlayableOption> options, Board board, Turn turn,
             int inIteration,
             int outIteration,
-            CardSpecificType? replacer = null)
+            CardSpecificType? replacer = null,
+            CardSpecificType? specificCard = null,
+            CardLocation? specificLocation = null)
         {
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == inIteration)
             {
                 var cards = board.Market
                     .Select(e => e.SpecificType)
+                    .Where(e => e != turn.UlitaridPlayedCard)
                     .Distinct()
                     .ToList();
+
+                if (specificLocation.HasValue && specificCard.HasValue)
+                {
+                    if (specificLocation == CardLocation.DEVOURED)
+                    {
+                        options.Add(new DoNothingOption(outIteration));
+
+                        return options;
+                    }
+
+                    if (specificLocation == CardLocation.MARKET)
+                    {
+                        //var card = board.Market.First(s => s.SpecificType == specificCard.Value);
+
+                        options.Add(new DevourCardOnMarketOption(specificCard.Value, outIteration, replacer));
+
+                        return options;
+                    }
+                }
 
                 foreach (var card in cards)
                 {
@@ -80,35 +102,53 @@ namespace UnderdarkAI.AI.PlayableOptions
 
         public override void ApplyOption(Board board, Turn turn)
         {
-            var card = board.Market
-                .First(c => c.SpecificType == TargetCard);
-
-            board.Market.Remove(card);
-
-            board.Devoured.Add(card);
-
-            if (Replacer.HasValue)
+            if (TargetCard == CardSpecificType.LOLTH || TargetCard == CardSpecificType.HOUSEGUARD)
             {
-                var cardState = turn.CardStates
-                    .Single(s => s.State == CardState.NOW_PLAYING);
+                var card = CardMapper.SpecificTypeCardMakers[TargetCard].Clone();
 
-                cardState.CardLocation = CardLocation.MARKET;
+                board.Devoured.Add(card);
 
-                var newCard = board.Players[turn.Color].Hand.First(s => s.SpecificType == Replacer);
-                board.Market.Add(newCard);
-                board.Players[turn.Color].Hand.Remove(newCard);
-
-                NewSpecificType = newCard.SpecificType;
+                if (TargetCard == CardSpecificType.LOLTH)
+                {
+                    board.Lolths--;
+                }
+                if (TargetCard == CardSpecificType.HOUSEGUARD)
+                {
+                    board.HouseGuards--;
+                }
             }
             else
             {
-                if (board.Deck.Count > 0)
+                var card = board.Market
+                    .First(c => c.SpecificType == TargetCard);
+
+                board.Market.Remove(card);
+
+                board.Devoured.Add(card);
+
+                if (Replacer.HasValue)
                 {
-                    var newCard = board.Deck.First();
+                    var cardState = turn.CardStates
+                        .Single(s => s.State == CardState.NOW_PLAYING);
+
+                    cardState.CardLocation = CardLocation.MARKET;
+
+                    var newCard = board.Players[turn.Color].Hand.First(s => s.SpecificType == Replacer);
                     board.Market.Add(newCard);
-                    board.Deck.Remove(newCard);
+                    board.Players[turn.Color].Hand.Remove(newCard);
 
                     NewSpecificType = newCard.SpecificType;
+                }
+                else
+                {
+                    if (board.Deck.Count > 0)
+                    {
+                        var newCard = board.Deck.First();
+                        board.Market.Add(newCard);
+                        board.Deck.Remove(newCard);
+
+                        NewSpecificType = newCard.SpecificType;
+                    }
                 }
             }
         }

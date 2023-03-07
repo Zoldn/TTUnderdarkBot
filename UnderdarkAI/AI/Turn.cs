@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 using TUnderdark.TTSParser;
+using UnderdarkAI.AI.PlayableOptions;
 using UnderdarkAI.AI.WeightGenerators;
 
 namespace UnderdarkAI.AI
@@ -20,6 +21,7 @@ namespace UnderdarkAI.AI
         DEVOURED,
         DISCARDED,
         PROMOTED,
+        HOLD,
     }
     internal enum CardLocation
     {
@@ -212,6 +214,12 @@ namespace UnderdarkAI.AI
         /// Рядом с какими игроками выставлены трупсы
         /// </summary>
         public HashSet<Color> AdjacentPlayersToDeploy { get; internal set; }
+        public Stack<HoldCardStackElement> HoldedCardStack { get; internal set; }
+
+        #region Ulitarid
+        public CardSpecificType? UlitaridPlayedCard { get; internal set; }
+        public CardLocation? UlitaridPlayedLocation { get; internal set; }
+        #endregion
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
         {
@@ -242,6 +250,10 @@ namespace UnderdarkAI.AI
 
             TakeFromTroopsColor = null; 
             LockedAssasinationLocation = null;
+
+            HoldedCardStack = new Stack<HoldCardStackElement>();
+            UlitaridPlayedCard = null;
+            UlitaridPlayedLocation = null;
         }
 
         public void DebugPrintDistances()
@@ -287,14 +299,31 @@ namespace UnderdarkAI.AI
                 TakeFromTroopsColor = TakeFromTroopsColor,
                 LockedAssasinationLocation = LockedAssasinationLocation,
                 AdjacentPlayersToDeploy = AdjacentPlayersToDeploy.ToHashSet(),
+                HoldedCardStack = new Stack<HoldCardStackElement>(HoldedCardStack.Select(e => e.Clone())),
+                UlitaridPlayedCard = UlitaridPlayedCard,
+                UlitaridPlayedLocation = UlitaridPlayedLocation,
             };
 
             return turn;
         }
 
-        internal void MakeCurrentCardPlayed()
+        internal void MakeCurrentCardPlayed(EndCardAction endCardAction)
         {
             var cardState = CardStates.Single(s => s.State == CardState.NOW_PLAYING);
+
+            if (HoldedCardStack.Any())
+            {
+                var prevCard = HoldedCardStack.Pop();
+
+                var prevCardState = CardStates.First(s => s.State == CardState.HOLD
+                    && s.CardLocation == prevCard.CardLocation
+                    && prevCard.CardSpecificType == s.SpecificType
+                );
+
+                prevCardState.State = CardState.NOW_PLAYING;
+                endCardAction.NextState = SelectionState.SELECT_CARD_OPTION;
+                endCardAction.NextCardIteration = prevCard.CardStateIteration;
+            }
 
             if (cardState.CardLocation == CardLocation.DEVOURED)
             {

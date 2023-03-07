@@ -49,7 +49,7 @@ namespace UnderdarkAI.AI.PlayableOptions
 
         public override void ApplyOption(Board board, Turn turn)
         {
-            turn.MakeCurrentCardPlayed();
+            turn.MakeCurrentCardPlayed(this);
         }
 
         public override string GetOptionText()

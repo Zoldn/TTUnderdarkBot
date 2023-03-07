@@ -28,11 +28,7 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.INSANE_OUTCAST]
-                );
-
-            board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.ORCUS]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.ULITHARID]
                 );
 
             //board.Players[Color.YELLOW].Hand.Add(
@@ -60,7 +56,7 @@ namespace UnderdarkAI
             board.Players[Color.RED].TrophyHall[Color.YELLOW] = 2;
             //board.LocationIds[LocationId.ChedNasad].Troops[Color.RED] = 1;
 
-            var turnMaker = new TurnMaker(board, Color.YELLOW) 
+            var turnMaker = new TurnMaker(board, Color.YELLOW, seed: 42) 
             {
                 RestartLimit = 100,
             };
