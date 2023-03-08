@@ -146,7 +146,7 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Aberrations
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == 3)
             {
-                options.Add(new QuaggothKillOption(outIteration: 1));
+                options.Add(new KillCounterOption(outIteration: 1));
             }
 
             EndCardHelper.Run(options, board, turn,

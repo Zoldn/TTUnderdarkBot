@@ -114,6 +114,8 @@ namespace UnderdarkAI.AI.PlayableOptions
             {
                 turn.LockedAssasinationLocation = LocationId;
             }
+
+            turn.LastKillColor = TargetColor;
         }
 
         public override string GetOptionText()

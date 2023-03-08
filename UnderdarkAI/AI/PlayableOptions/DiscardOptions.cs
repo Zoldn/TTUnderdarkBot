@@ -130,7 +130,8 @@ namespace UnderdarkAI.AI.PlayableOptions
         {
             string players = TargetPlayersColor.Count > 0 ? string.Join(", ", TargetPlayersColor) : "none";
 
-            return $"\tForce {players} player(s) to discard a card from hand";
+            return $"\tForce {players} player(s) to discard a card from hand by " +
+                $"{CardMapper.SpecificTypeCardMakers[CardSpecificType].Name}";
         }
     }
 

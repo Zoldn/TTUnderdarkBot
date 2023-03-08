@@ -156,6 +156,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.NEOGI, new NeogiOptionGenerator() },
                 { CardSpecificType.UMBER_HULK, new UmberhulkOptionGenerator() },
                 { CardSpecificType.QUAGGOTH, new QuaggothOptionGenerator() },
+                { CardSpecificType.BEHOLDER, new BeholderOptionGenerator() },
+                { CardSpecificType.DEATH_TYRANT, new DeathTyrantOptionGenetator() },
+                { CardSpecificType.GAUTH, new GauthOptionGenerator() },
+                { CardSpecificType.MIND_WITNESS, new MindWitnessOptionGenerator() },
+                { CardSpecificType.SPECTATOR, new SpectatorOptionGenerator() },
                 #endregion
             };
         }

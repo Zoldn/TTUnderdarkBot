@@ -28,7 +28,7 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.QUAGGOTH]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.SPECTATOR]
                 );
 
             //board.Market.Remove(board.Market.First());
@@ -60,8 +60,8 @@ namespace UnderdarkAI
             //board.LocationIds[LocationId.Bridge].Troops[Color.RED] = 1;
             board.Players[Color.RED].Spies = 4;
             board.Players[Color.RED].TrophyHall[Color.YELLOW] = 2;
-            board.LocationIds[LocationId.Chaulssin].Troops[Color.BLUE] = 1;
-            //board.Players[Color.YELLOW].TrophyHall[Color.GREEN] = 8;
+            board.LocationIds[LocationId.ChedNasad].Troops[Color.BLUE] = 1;
+            board.Players[Color.YELLOW].TrophyHall[Color.GREEN] = 5;
             //board.LocationIds[LocationId.ChedNasad].Troops[Color.RED] = 1;
 
             var turnMaker = new TurnMaker(board, Color.YELLOW, seed: 8984314) 

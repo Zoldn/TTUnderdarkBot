@@ -39,10 +39,10 @@ namespace UnderdarkAI.AI.PlayableOptions
         }
     }
 
-    internal class QuaggothKillOption : PlayableOption
+    internal class KillCounterOption : PlayableOption
     {
         public override int MinVerbosity => 10;
-        public QuaggothKillOption(int outIteration)
+        public KillCounterOption(int outIteration)
         {
             NextCardIteration = outIteration;
         }

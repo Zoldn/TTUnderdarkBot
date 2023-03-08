@@ -226,6 +226,7 @@ namespace UnderdarkAI.AI
         public Queue<DiscardInfo> DiscardCardQueue { get; internal set; }
         public int MaxQuaggothKills { get; internal set; }
         public int QuaggothKills { get; internal set; }
+        public Color? LastKillColor { get; internal set; }
 
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
@@ -261,6 +262,8 @@ namespace UnderdarkAI.AI
 
             MaxQuaggothKills = 0;
             QuaggothKills = 0;
+
+            LastKillColor = null;
         }
 
         public void DebugPrintDistances()
@@ -308,6 +311,7 @@ namespace UnderdarkAI.AI
                 DiscardCardQueue = new Queue<DiscardInfo>(DiscardCardQueue.Select(e => e.Clone())),
                 MaxQuaggothKills = MaxQuaggothKills,
                 QuaggothKills = QuaggothKills,
+                LastKillColor = LastKillColor,
             };
 
             return turn;
@@ -356,6 +360,8 @@ namespace UnderdarkAI.AI
 
             QuaggothKills = 0;
             MaxQuaggothKills = 0;
+
+            LastKillColor = null;
         }
 
         internal void MakeCurrentCardPlayedEndTurn()
