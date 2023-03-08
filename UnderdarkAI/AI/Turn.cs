@@ -78,6 +78,8 @@ namespace UnderdarkAI.AI
         /// Выбор эффекта карты в конце хода
         /// </summary>
         SELECT_END_TURN_CARD_OPTION,
+        ON_DISCARD_CARD_SELECTION,
+        ON_DISCARD_CARD,
     }
 
     internal class TurnCardState
@@ -227,6 +229,7 @@ namespace UnderdarkAI.AI
         public int MaxQuaggothKills { get; internal set; }
         public int QuaggothKills { get; internal set; }
         public Color? LastKillColor { get; internal set; }
+        public CardSpecificType? CurrentDiscardingCard { get; internal set; }
 
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
@@ -264,6 +267,7 @@ namespace UnderdarkAI.AI
             QuaggothKills = 0;
 
             LastKillColor = null;
+            CurrentDiscardingCard = null;
         }
 
         public void DebugPrintDistances()
@@ -312,6 +316,7 @@ namespace UnderdarkAI.AI
                 MaxQuaggothKills = MaxQuaggothKills,
                 QuaggothKills = QuaggothKills,
                 LastKillColor = LastKillColor,
+                CurrentDiscardingCard = CurrentDiscardingCard,
             };
 
             return turn;

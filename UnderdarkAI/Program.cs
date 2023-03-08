@@ -28,7 +28,7 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.SPECTATOR]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.UMBER_HULK]
                 );
 
             //board.Market.Remove(board.Market.First());
@@ -64,10 +64,12 @@ namespace UnderdarkAI
             board.Players[Color.YELLOW].TrophyHall[Color.GREEN] = 5;
             //board.LocationIds[LocationId.ChedNasad].Troops[Color.RED] = 1;
 
-            var turnMaker = new TurnMaker(board, Color.YELLOW, seed: 8984314) 
+            var turnMaker = new TurnMaker(board, Color.YELLOW) //, seed: 8984314
             {
                 RestartLimit = 100,
             };
+
+            turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED, sourceCard: CardSpecificType.CHUUL);
 
             var resultTurn = turnMaker.MakeTurn();
 

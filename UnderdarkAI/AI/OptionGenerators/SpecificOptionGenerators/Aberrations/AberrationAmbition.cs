@@ -29,6 +29,26 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Aberrations
 
             EndCardHelper.RunEndTurn(options, board, turn, 1);
 
+            /// On discard
+            if (turn.State == SelectionState.ON_DISCARD_CARD)
+            {
+                var firstInQueue = turn.DiscardCardQueue.Peek();
+
+                if (!turn.CurrentDiscardingCard.HasValue)
+                {
+                    throw new NullReferenceException();
+                }
+
+                options.Add(new PromoteSelfOnDiscardOption(firstInQueue.TargetPlayerColor, turn.CurrentDiscardingCard.Value)
+                {
+                    NextState = SelectionState.CARD_OR_FREE_ACTION,
+                }); // промоутнуть себя
+                options.Add(new NoEffectDiscardOption(firstInQueue.TargetPlayerColor, turn.CurrentDiscardingCard.Value) 
+                {
+                    NextState = SelectionState.CARD_OR_FREE_ACTION
+                }); // ничего не делать
+            }
+
             return options;
         }
     }

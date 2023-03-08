@@ -73,6 +73,10 @@ namespace UnderdarkAI.AI
                 { SelectionState.RETURN_ENEMY_SPY_BY_SWORD, new ReturnSpyBySwordOptionGenerator() },
                 { SelectionState.SELECT_CARD_END_TURN, new EndTurnCardSelectionOptionGenerator() },
                 { SelectionState.SELECT_END_TURN_CARD_OPTION, new SelectPlayingCardOptionGenerator() },
+
+
+                { SelectionState.ON_DISCARD_CARD_SELECTION, new SelectDiscardCardOptionGenerator() },
+                { SelectionState.ON_DISCARD_CARD, new OnDiscardCardOptionGenerator() },
             };
 
             TargetFunction = new VPScoreTargetFunction();
@@ -317,6 +321,11 @@ namespace UnderdarkAI.AI
             //turn.DebugPrintDistances();
 
             return turn;
+        }
+
+        internal void AddForcedDiscardForCurrentPlayer(Color sourcePlayer, CardSpecificType sourceCard)
+        {
+            FixedTurn.DiscardCardQueue.Enqueue(new PlayableOptions.DiscardInfo(sourcePlayer, Color, sourceCard));
         }
     }
 }

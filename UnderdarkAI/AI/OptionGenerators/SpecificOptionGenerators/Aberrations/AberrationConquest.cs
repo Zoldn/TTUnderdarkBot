@@ -49,6 +49,23 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Aberrations
             EndCardHelper.Run(options, board, turn,
                 endIteration: 99);
 
+            /// On discard
+            if (turn.State == SelectionState.ON_DISCARD_CARD)
+            {
+                var firstInQueue = turn.DiscardCardQueue.Peek();
+
+                if (!turn.CurrentDiscardingCard.HasValue)
+                {
+                    throw new NullReferenceException();
+                }
+
+                options.Add(new DrawCardOnDiscardOption(firstInQueue.TargetPlayerColor, 
+                    turn.CurrentDiscardingCard.Value, cards: 2)
+                {
+                    NextState = SelectionState.CARD_OR_FREE_ACTION,
+                }); // сбросить себя и дровнуть 2 карты
+            }
+
             return options;
         }
     }
@@ -114,6 +131,23 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Aberrations
 
             EndCardHelper.Run(options, board, turn,
                 endIteration: 99);
+
+            /// On discard
+            if (turn.State == SelectionState.ON_DISCARD_CARD)
+            {
+                var firstInQueue = turn.DiscardCardQueue.Peek();
+
+                if (!turn.CurrentDiscardingCard.HasValue)
+                {
+                    throw new NullReferenceException();
+                }
+
+                options.Add(new ReverseDiscardOption(firstInQueue.TargetPlayerColor, firstInQueue.SourcePlayerColor,
+                    turn.CurrentDiscardingCard.Value)
+                {
+                    NextState = SelectionState.CARD_OR_FREE_ACTION,
+                }); // сбросить себя и заставить сбросить в ответ
+            }
 
             return options;
         }

@@ -13,6 +13,12 @@ namespace UnderdarkAI.AI.OptionGenerators
         {
             var ret = new List<PlayableOption>(2);
 
+            if (turn.DiscardCardQueue.Any())
+            {
+                ret.Add(new SwitchToDiscardCardOption());
+                return ret;
+            }
+
             if (IsFreeAction(board, turn))
             {
                 ret.Add(new SwitchToBaseActionSelectionOption() { Weight = 50.0d });
@@ -174,6 +180,26 @@ namespace UnderdarkAI.AI.OptionGenerators
         public override string GetOptionText()
         {
             return $"In the end of turn action(s)";
+        }
+    }
+
+    internal class SwitchToDiscardCardOption : PlayableOption
+    {
+        public SwitchToDiscardCardOption() : base()
+        {
+            NextState = SelectionState.ON_DISCARD_CARD_SELECTION;
+        }
+        public override void ApplyOption(Board board, Turn turn)
+        {
+
+        }
+
+        public override int MinVerbosity => 10;
+
+
+        public override string GetOptionText()
+        {
+            return $"Switching to discard card";
         }
     }
 }
