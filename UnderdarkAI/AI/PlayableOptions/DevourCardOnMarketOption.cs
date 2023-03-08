@@ -46,36 +46,36 @@ namespace UnderdarkAI.AI.PlayableOptions
             int inIteration,
             int outIteration,
             CardSpecificType? replacer = null,
-            CardSpecificType? specificCard = null,
-            CardLocation? specificLocation = null)
+            CardSpecificType? initiator = null)
         {
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == inIteration)
             {
-                var cards = board.Market
-                    .Select(e => e.SpecificType)
-                    .Where(e => e != turn.UlitaridPlayedCard)
-                    .Distinct()
-                    .ToList();
-
-                if (specificLocation.HasValue && specificCard.HasValue)
+                if (initiator.HasValue && initiator == CardSpecificType.ULITHARID) //&& specificCard.HasValue
                 {
-                    if (specificLocation == CardLocation.DEVOURED)
+                    var target = turn.CardStates.Single(e => e.IsUlitharidTarget);
+
+                    if (target.PrevLocation == CardLocation.DEVOURED)
                     {
                         options.Add(new DoNothingOption(outIteration));
 
                         return options;
                     }
 
-                    if (specificLocation == CardLocation.MARKET)
+                    if (target.PrevLocation == CardLocation.MARKET)
                     {
-                        //var card = board.Market.First(s => s.SpecificType == specificCard.Value);
-
-                        options.Add(new DevourCardOnMarketOption(specificCard.Value, outIteration, replacer));
+                        options.Add(new DevourCardOnMarketOption(target.SpecificType, outIteration, replacer));
 
                         return options;
                     }
+
+                    throw new ArgumentOutOfRangeException();
                 }
+
+                var cards = board.Market
+                    .Select(e => e.SpecificType)
+                    .Distinct()
+                    .ToList();
 
                 foreach (var card in cards)
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,8 +12,10 @@ namespace UnderdarkAI.AI.PlayableOptions
     internal static class PlayAnotherCardHelper
     {
         public static void Run(List<PlayableOption> options, Board board, Turn turn,
-            int inIteration, int outIteration,
-            CardLocation cardLocation)
+            CardSpecificType initiator,
+            int inIteration, 
+            int returnIteration,
+            int outIteration)
         {
             if (turn.State == SelectionState.SELECT_CARD_OPTION
                 && turn.CardStateIteration == inIteration)
@@ -20,7 +23,7 @@ namespace UnderdarkAI.AI.PlayableOptions
                 var initiatorCard = turn.CardStates
                     .Single(s => s.State == CardState.NOW_PLAYING);
 
-                if (cardLocation == CardLocation.INNER_CIRCLE)
+                if (initiator == CardSpecificType.ELDER_BRAIN)
                 {
                     var innerCircleCards = board.Players[turn.Color].InnerCircle
                         .Select(e => e.SpecificType)
@@ -30,15 +33,15 @@ namespace UnderdarkAI.AI.PlayableOptions
                     foreach (var innerCircleCard in innerCircleCards)
                     {
                         options.Add(new PlayAnotherCardOption(innerCircleCard, CardLocation.INNER_CIRCLE,
-                            initiatorCard.SpecificType, initiatorCard.CardLocation, outIteration));
+                            initiatorCard.SpecificType, initiatorCard.CardLocation, returnIteration));
                     }
 
                     if (options.Count == 0)
                     {
-                        options.Add(new DoNothingOption(outIteration));
+                        options.Add(new DoNothingOption(returnIteration));
                     }
                 }
-                else if (cardLocation == CardLocation.MARKET)
+                else if (initiator == CardSpecificType.ULITHARID)
                 {
                     var buyOptions = new List<PlayableOption>();
 
@@ -52,13 +55,27 @@ namespace UnderdarkAI.AI.PlayableOptions
                     foreach (var buycard in buyCardOptions)
                     {
                         options.Add(new PlayAnotherCardOption(buycard.SpecificType, buycard.CardLocation,
-                            initiatorCard.SpecificType, initiatorCard.CardLocation, outIteration));
+                            initiatorCard.SpecificType, initiatorCard.CardLocation, returnIteration));
                     }
 
                     if (options.Count == 0)
                     {
-                        options.Add(new DoNothingOption(outIteration));
+                        options.Add(new DoNothingOption(returnIteration));
                     }
+                }
+            }
+
+            if (turn.State == SelectionState.SELECT_CARD_OPTION
+                && turn.CardStateIteration == returnIteration)
+            {
+                if (initiator == CardSpecificType.ELDER_BRAIN)
+                {
+                    options.Add(new ElderBrainCardOption(outIteration));
+                }
+
+                if (initiator == CardSpecificType.ULITHARID)
+                {
+                    options.Add(new UlitaridReturnCardOption(outIteration));
                 }
             }
         }
@@ -107,29 +124,38 @@ namespace UnderdarkAI.AI.PlayableOptions
 
         public override void ApplyOption(Board board, Turn turn)
         {
+            // Ставим на холд текущую карту-инициатор
             var initiatorState = turn.CardStates.Single(s => s.State == CardState.NOW_PLAYING);
 
             initiatorState.State = CardState.HOLD;
 
-            var targetState = new TurnCardState(Target, state: CardState.NOW_PLAYING) 
+            turn.HoldedCardStack.Push(new HoldCardStackElement(Initiator, InitiatorLocation, SavedOutIteration));
+
+            // Перемещаем выбранную карту в руку, чтобы она нормально отработала
+            var targetCard = turn.GetCard(board, Target, TargetLocation);
+
+            //turn.RemoveCardFromLocation(board, targetCard, TargetLocation);
+            //turn.MoveCardToLocation(board, targetCard, CardLocation.IN_HAND);
+            turn.MoveCard(board, targetCard, from: TargetLocation, to: CardLocation.IN_HAND);
+            //board.Players[turn.Color].Hand.Add(targetCard);
+
+            Debug.Assert(TargetLocation != CardLocation.IN_HAND);
+
+            var targetState = new TurnCardState(Target, state: CardState.NOW_PLAYING)
             {
-                CardLocation = TargetLocation,
+                CardLocation = CardLocation.IN_HAND,
+                IsUlitharidTarget = TargetLocation == CardLocation.MARKET || TargetLocation == CardLocation.DEVOURED,
+                IsElderBrainTarget = TargetLocation == CardLocation.INNER_CIRCLE,
+                PrevLocation = TargetLocation,
             };
 
             turn.CardStates.Add(targetState);
-
-            turn.HoldedCardStack.Push(new HoldCardStackElement(Initiator, InitiatorLocation, SavedOutIteration));
-
+            
+            // Переключаем состояние для игры Следующей карты
             turn.CardStateIteration = 0;
-
             NextCardIteration = 0;
             NextState = SelectionState.SELECT_CARD_OPTION;
-
-            if (TargetLocation == CardLocation.MARKET || TargetLocation == CardLocation.DEVOURED)
-            {
-                turn.UlitaridPlayedCard = Target;
-                turn.UlitaridPlayedLocation = TargetLocation;
-            }
+            targetState.State = CardState.NOW_PLAYING;
         }
 
         public override string GetOptionText()
@@ -139,22 +165,69 @@ namespace UnderdarkAI.AI.PlayableOptions
         }
     }
 
-    internal class UlitaridDisableOption : PlayableOption
+    internal class UlitaridReturnCardOption : PlayableOption
     {
-        public override int MinVerbosity => 10;
-        public UlitaridDisableOption(int outIteration) : base()
+        public override int MinVerbosity => 0;
+        public UlitaridReturnCardOption(int outIteration) : base()
         {
             NextCardIteration = outIteration;
         }
         public override void ApplyOption(Board board, Turn turn)
         {
-            turn.UlitaridPlayedCard = null;
-            turn.UlitaridPlayedLocation = null;
+            var targetCard = turn.CardStates.Single(s => s.IsUlitharidTarget);
+
+            var card = turn.GetCard(board, targetCard.SpecificType, targetCard.CardLocation);
+
+            if (targetCard.CardLocation != targetCard.PrevLocation)
+            {
+                turn.RemoveCardFromLocation(board, card, targetCard.CardLocation);
+
+                turn.MoveCardToLocation(board, card, targetCard.PrevLocation.Value);
+
+                //board.Players[turn.Color].InnerCircle.Add(card);
+            }
         }
 
         public override string GetOptionText()
         {
-            return $"Disable Ulitarid";
+            return $"\tCard played by Ulitarid return to market";
+        }
+    }
+
+    internal class ElderBrainCardOption : PlayableOption
+    {
+        public CardSpecificType? NewCardOnMarket { get; private set; }
+        public override int MinVerbosity => 0;
+        public ElderBrainCardOption(int outIteration) : base()
+        {
+            NextCardIteration = outIteration;
+            NewCardOnMarket = null;
+        }
+        public override void ApplyOption(Board board, Turn turn)
+        {
+            var targetCard = turn.CardStates.Single(s => s.IsElderBrainTarget);
+
+            var card = turn.GetCard(board, targetCard.SpecificType, targetCard.CardLocation);
+
+            if (targetCard.CardLocation != targetCard.PrevLocation)
+            {
+                turn.RemoveCardFromLocation(board, card, targetCard.CardLocation);
+
+                turn.MoveCardToLocation(board, card, targetCard.PrevLocation.Value);
+
+                if (targetCard.CardLocation == CardLocation.MARKET)
+                {
+                    NewCardOnMarket = turn.DrawNewCardOnMarket(board);
+                }
+            }
+        }
+
+        public override string GetOptionText()
+        {
+            var suffix = NewCardOnMarket.HasValue ? $", new card on market " +
+                $"{CardMapper.SpecificTypeCardMakers[NewCardOnMarket.Value].Name}" : "";
+
+            return $"\tCard played by Elder brain return to inner circle{suffix}";
         }
     }
 }

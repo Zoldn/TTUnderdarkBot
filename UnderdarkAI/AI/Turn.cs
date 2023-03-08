@@ -93,6 +93,9 @@ namespace UnderdarkAI.AI
         /// </summary>
         public CardLocation CardLocation { get; set; }
         public bool IsPromotedInTheEnd { get; set; }
+        public bool IsUlitharidTarget { get; init; }
+        public bool IsElderBrainTarget { get; init; }
+        public CardLocation? PrevLocation { get; init; }
 
         public TurnCardState(CardSpecificType specificType, CardState state = CardState.IN_HAND)
         {
@@ -101,6 +104,9 @@ namespace UnderdarkAI.AI
             EndTurnState = CardState.DISCARDED;
             CardLocation = CardLocation.IN_HAND;
             IsPromotedInTheEnd = false;
+            IsUlitharidTarget = false;
+            IsElderBrainTarget = false;
+            PrevLocation = null;
         }
         public TurnCardState Clone()
         {
@@ -109,6 +115,9 @@ namespace UnderdarkAI.AI
                 EndTurnState = EndTurnState,
                 IsPromotedInTheEnd = IsPromotedInTheEnd,
                 CardLocation = CardLocation,
+                IsUlitharidTarget = IsUlitharidTarget,
+                IsElderBrainTarget = IsElderBrainTarget,
+                PrevLocation = PrevLocation,
             };
         }
         public override string ToString()
@@ -216,10 +225,6 @@ namespace UnderdarkAI.AI
         public HashSet<Color> AdjacentPlayersToDeploy { get; internal set; }
         public Stack<HoldCardStackElement> HoldedCardStack { get; internal set; }
 
-        #region Ulitarid
-        public CardSpecificType? UlitaridPlayedCard { get; internal set; }
-        public CardLocation? UlitaridPlayedLocation { get; internal set; }
-        #endregion
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
         {
@@ -252,8 +257,8 @@ namespace UnderdarkAI.AI
             LockedAssasinationLocation = null;
 
             HoldedCardStack = new Stack<HoldCardStackElement>();
-            UlitaridPlayedCard = null;
-            UlitaridPlayedLocation = null;
+            //UlitaridPlayedCard = null;
+            //UlitaridPlayedLocation = null;
         }
 
         public void DebugPrintDistances()
@@ -300,8 +305,8 @@ namespace UnderdarkAI.AI
                 LockedAssasinationLocation = LockedAssasinationLocation,
                 AdjacentPlayersToDeploy = AdjacentPlayersToDeploy.ToHashSet(),
                 HoldedCardStack = new Stack<HoldCardStackElement>(HoldedCardStack.Select(e => e.Clone())),
-                UlitaridPlayedCard = UlitaridPlayedCard,
-                UlitaridPlayedLocation = UlitaridPlayedLocation,
+                //UlitaridPlayedCard = UlitaridPlayedCard,
+                //UlitaridPlayedLocation = UlitaridPlayedLocation,
             };
 
             return turn;
@@ -365,6 +370,136 @@ namespace UnderdarkAI.AI
                 );
 
             return count > 1;
+        }
+
+        internal Card GetCard(Board board, CardSpecificType target, CardLocation targetLocation)
+        {
+            switch (targetLocation)
+            {
+                case CardLocation.IN_HAND:
+                    return board.Players[Color].Hand.First(s => s.SpecificType == target);
+                case CardLocation.DISCARD:
+                    return board.Players[Color].Discard.First(s => s.SpecificType == target);
+                case CardLocation.DEVOURED:
+                    return board.Devoured.First(s => s.SpecificType == target);
+                case CardLocation.MARKET:
+                    if (target == CardSpecificType.LOLTH)
+                    {
+                        return CardMapper.SpecificTypeCardMakers[CardSpecificType.LOLTH].Clone();
+                    }
+                    else if (target == CardSpecificType.HOUSEGUARD)
+                    {
+                        return CardMapper.SpecificTypeCardMakers[CardSpecificType.HOUSEGUARD].Clone();
+                    }
+                    else
+                    {
+                        return board.Market.First(s => s.SpecificType == target);
+                    }
+                case CardLocation.INNER_CIRCLE:
+                    return board.Players[Color].InnerCircle.First(s => s.SpecificType == target);
+                case CardLocation.INSANE_OUTCASTS:
+                    return CardMapper.SpecificTypeCardMakers[CardSpecificType.INSANE_OUTCAST].Clone();
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        internal void RemoveCardFromLocation(Board board, Card targetCard, CardLocation targetLocation)
+        {
+            switch (targetLocation)
+            {
+                case CardLocation.IN_HAND:
+                    board.Players[Color].Hand.Remove(targetCard);
+                    break;
+                case CardLocation.DISCARD:
+                    board.Players[Color].Discard.Remove(targetCard);
+                    break;
+                case CardLocation.DEVOURED:
+                    board.Devoured.Remove(targetCard);
+                    break;
+                case CardLocation.MARKET:
+                    if (targetCard.SpecificType == CardSpecificType.LOLTH)
+                    {
+                        board.Lolths--;
+                    }
+                    else if (targetCard.SpecificType == CardSpecificType.HOUSEGUARD)
+                    {
+                        board.HouseGuards--;
+                    }
+                    else
+                    {
+                        board.Market.Remove(targetCard);
+                    }
+                    break;
+                case CardLocation.INNER_CIRCLE:
+                    board.Players[Color].InnerCircle.Remove(targetCard);
+                    break;
+                case CardLocation.INSANE_OUTCASTS:
+                    board.InsaneOutcasts--;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        internal void MoveCardToLocation(Board board, Card targetCard, CardLocation targetLocation)
+        {
+            switch (targetLocation)
+            {
+                case CardLocation.IN_HAND:
+                    board.Players[Color].Hand.Add(targetCard);
+                    break;
+                case CardLocation.DISCARD:
+                    board.Players[Color].Discard.Add(targetCard);
+                    break;
+                case CardLocation.DEVOURED:
+                    board.Devoured.Add(targetCard);
+                    break;
+                case CardLocation.MARKET:
+                    if (targetCard.SpecificType == CardSpecificType.LOLTH)
+                    {
+                        board.Lolths++;
+                    }
+                    else if (targetCard.SpecificType == CardSpecificType.HOUSEGUARD)
+                    {
+                        board.HouseGuards++;
+                    }
+                    else
+                    {
+                        board.Market.Add(targetCard);
+                    }
+                    break;
+                case CardLocation.INNER_CIRCLE:
+                    board.Players[Color].InnerCircle.Add(targetCard);
+                    break;
+                case CardLocation.INSANE_OUTCASTS:
+                    board.InsaneOutcasts++;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        internal CardSpecificType? DrawNewCardOnMarket(Board board)
+        {
+            if (board.Deck.Count  == 0)
+            {
+                return null;
+            }
+
+            var card = board.Deck[0];
+
+            board.Deck.Remove(card);
+
+            board.Market.Add(card);
+
+            return card.SpecificType;
+        }
+
+        internal void MoveCard(Board board, Card targetCard, CardLocation from, CardLocation to)
+        {
+            RemoveCardFromLocation(board, targetCard, from);
+            MoveCardToLocation(board, targetCard, to);
         }
     }
 }

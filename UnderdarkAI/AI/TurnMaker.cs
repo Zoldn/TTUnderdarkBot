@@ -128,10 +128,10 @@ namespace UnderdarkAI.AI
                         throw new NullReferenceException();
                     }
 
+                    selectedOption.ApplyOption(FixedBoard, FixedTurn);
+
                     //Console.WriteLine(selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED));
 
-                    selectedOption.ApplyOption(FixedBoard, FixedTurn);
-                    
                     turnMakerResult.PlayableOptions.Add(selectedOption);
 
                     selectedOption.UpdateTurnState(FixedTurn);
@@ -222,6 +222,12 @@ namespace UnderdarkAI.AI
                         else
                         {
                             options = selector.GeneratePlayableOptions(board, turn);
+
+                            if (options.Count == 0)
+                            {
+                                int y = 1;
+                            }
+
                             selectedOption = RandomSelector.SelectRandomWithWeights(options, o => o.Weight, random);
                         }
 
@@ -231,6 +237,7 @@ namespace UnderdarkAI.AI
                         }
 
                         selectedOption.ApplyOption(board, turn);
+
                         //Console.WriteLine($"[{iteration}]{selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED)}");
 
                         selectedOption.UpdateTurnState(turn);

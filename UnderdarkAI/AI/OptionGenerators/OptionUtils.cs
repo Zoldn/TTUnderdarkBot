@@ -75,7 +75,9 @@ namespace UnderdarkAI.AI.OptionGenerators
                 .Where(s => !s.IsPromotedInTheEnd
                     && s.State == CardState.PLAYED
                     && s.EndTurnState != CardState.NOW_PLAYING
-                    && (!specificRaceOnly.HasValue 
+                    && !s.IsElderBrainTarget
+                    && !s.IsUlitharidTarget
+                    && (!specificRaceOnly.HasValue
                         || specificRaceOnly.Value == CardMapper.SpecificTypeCardMakers[s.SpecificType].Race)
                     && (!specificCardType.HasValue
                         || specificCardType.Value == CardMapper.SpecificTypeCardMakers[s.SpecificType].CardType)

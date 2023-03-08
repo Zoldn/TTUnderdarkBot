@@ -28,8 +28,17 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.ULITHARID]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.ELDER_BRAIN]
                 );
+
+            board.Players[Color.YELLOW].Deck[0] =
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.CARRION_CRAWLER];
+
+            //board.Market.Remove(board.Market.First());
+            //board.Market.Remove(board.Market.First());
+
+            //board.Market.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.CARRION_CRAWLER].Clone());
+            //board.Market.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.AMBASSADOR].Clone());
 
             //board.Players[Color.YELLOW].Hand.Add(
             //    CardMapper.SpecificTypeCardMakers[CardSpecificType.VANIFER]
@@ -41,7 +50,7 @@ namespace UnderdarkAI
             //    CardMapper.SpecificTypeCardMakers[CardSpecificType.SPY_MASTER]
             //    );
 
-            board.LocationIds[LocationId.SSZuraassnee].Spies[Color.YELLOW] = true;
+            board.LocationIds[LocationId.Tsenviilyq].Spies[Color.YELLOW] = true;
             //board.LocationIds[LocationId.StoneShaft].Spies[Color.YELLOW] = true;
             //board.LocationIds[LocationId.Araumycos].Spies[Color.YELLOW] = true;
             //board.LocationIds[LocationId.Bridge].Spies[Color.YELLOW] = true;
@@ -54,9 +63,10 @@ namespace UnderdarkAI
             //board.LocationIds[LocationId.Bridge].Troops[Color.RED] = 1;
             board.Players[Color.RED].Spies = 4;
             board.Players[Color.RED].TrophyHall[Color.YELLOW] = 2;
+            board.Players[Color.YELLOW].TrophyHall[Color.GREEN] = 8;
             //board.LocationIds[LocationId.ChedNasad].Troops[Color.RED] = 1;
 
-            var turnMaker = new TurnMaker(board, Color.YELLOW, seed: 42) 
+            var turnMaker = new TurnMaker(board, Color.YELLOW) 
             {
                 RestartLimit = 100,
             };

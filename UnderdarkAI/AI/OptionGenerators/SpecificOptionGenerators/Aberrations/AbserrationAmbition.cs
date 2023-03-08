@@ -45,9 +45,10 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Aberrations
                 CardSpecificType.ELDER_BRAIN);
 
             PlayAnotherCardHelper.Run(options, board, turn,
+                CardSpecificType.ELDER_BRAIN,
                 inIteration: 1,
-                outIteration: 99,
-                CardLocation.INNER_CIRCLE);
+                returnIteration: 2,
+                outIteration: 99);
 
             EndCardHelper.Run(options, board, turn, 99);
 
@@ -129,22 +130,18 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Aberrations
             var options = new List<PlayableOption>();
 
             PlayAnotherCardHelper.Run(options, board, turn,
-                inIteration: 0,
-                outIteration: 1,
-                CardLocation.MARKET);
-
-            DevourCardOnMarketHelper.Run(options, board, turn,
-                inIteration: 1,
-                outIteration: 2,
-                specificCard: turn.UlitaridPlayedCard,
-                specificLocation: turn.UlitaridPlayedLocation
+                initiator: CardSpecificType.ULITHARID,
+                inIteration: 0, // Выбор карты
+                returnIteration: 1, // Возврат на инициирующую карту
+                outIteration: 2 // Возвращение карты туда, где была
                 );
 
-            if (turn.State == SelectionState.SELECT_CARD_OPTION
-                && turn.CardStateIteration == 2)
-            {
-                options.Add(new UlitaridDisableOption(outIteration: 99));
-            }
+            DevourCardOnMarketHelper.Run(options, board, turn,
+                inIteration: 2,
+                outIteration: 99,
+                initiator: CardSpecificType.ULITHARID
+                );
+
 
             EndCardHelper.Run(options, board, turn, 99);
 

@@ -236,7 +236,12 @@ namespace UnderdarkAI.AI.PlayableOptions
                 player.Deck.Shuffle(turn.Random);
             }
 
-            var card = player.Deck.First();
+            var card = player.Deck.FirstOrDefault();
+
+            if (card == null)
+            {
+                return;
+            }
 
             Target = card.SpecificType;
 
