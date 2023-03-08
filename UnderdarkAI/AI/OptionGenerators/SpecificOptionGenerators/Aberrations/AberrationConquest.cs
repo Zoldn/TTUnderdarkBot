@@ -50,7 +50,8 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Aberrations
                 endIteration: 99);
 
             /// On discard
-            if (turn.State == SelectionState.ON_DISCARD_CARD)
+            if (turn.State == SelectionState.ON_DISCARD_CARD
+                || turn.State == SelectionState.END_TURN_ON_DISCARD_CARD)
             {
                 var firstInQueue = turn.DiscardCardQueue.Peek();
 
@@ -62,7 +63,8 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Aberrations
                 options.Add(new DrawCardOnDiscardOption(firstInQueue.TargetPlayerColor, 
                     turn.CurrentDiscardingCard.Value, cards: 2)
                 {
-                    NextState = SelectionState.CARD_OR_FREE_ACTION,
+                    NextState = turn.State == SelectionState.ON_DISCARD_CARD ? SelectionState.CARD_OR_FREE_ACTION
+                        : SelectionState.SELECT_CARD_END_TURN,
                 }); // сбросить себя и дровнуть 2 карты
             }
 
@@ -146,6 +148,21 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Aberrations
                     turn.CurrentDiscardingCard.Value)
                 {
                     NextState = SelectionState.CARD_OR_FREE_ACTION,
+                }); // сбросить себя и заставить сбросить в ответ
+            }
+
+            if (turn.State == SelectionState.END_TURN_ON_DISCARD_CARD)
+            {
+                var firstInQueue = turn.DiscardCardQueue.Peek();
+
+                if (!turn.CurrentDiscardingCard.HasValue)
+                {
+                    throw new NullReferenceException();
+                }
+
+                options.Add(new NoEffectDiscardOption(firstInQueue.TargetPlayerColor, turn.CurrentDiscardingCard.Value)
+                {
+                    NextState = SelectionState.SELECT_CARD_END_TURN,
                 }); // сбросить себя и заставить сбросить в ответ
             }
 

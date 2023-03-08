@@ -12,13 +12,19 @@ namespace UnderdarkAI.AI.OptionGenerators
 {
     internal class SelectDiscardCardOptionGenerator : OptionGenerator
     {
+        public bool IsEndTurn { get; }
+        public SelectDiscardCardOptionGenerator(bool isEndTurn = false)
+        {
+            IsEndTurn = isEndTurn;
+        }
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
             var firstInQueue = turn.DiscardCardQueue.Peek();
 
             var options = new List<PlayableOption>();
 
-            ChooseDiscardHelper.Run(options, board, turn, firstInQueue.CardSpecificType, firstInQueue.TargetPlayerColor);
+            ChooseDiscardHelper.Run(options, board, turn, firstInQueue.CardSpecificType, firstInQueue.TargetPlayerColor,
+                IsEndTurn);
 
             return options;
         }
@@ -26,9 +32,11 @@ namespace UnderdarkAI.AI.OptionGenerators
 
     internal class OnDiscardCardOptionGenerator : OptionGenerator
     {
+        public bool IsEndTurn { get; }
         public Dictionary<CardSpecificType, OptionGenerator> CardOptionGenerators { get; private set; }
-        public OnDiscardCardOptionGenerator()
+        public OnDiscardCardOptionGenerator(bool isEndTurn = false)
         {
+            IsEndTurn = isEndTurn;
             CardOptionGenerators = new Dictionary<CardSpecificType, OptionGenerator>() 
             {
                 { CardSpecificType.AMBASSADOR, new AmbassadorOptionGenerator() },
@@ -55,7 +63,8 @@ namespace UnderdarkAI.AI.OptionGenerators
             {
                 options.Add(new NoEffectDiscardOption(firstInQueue.TargetPlayerColor, turn.CurrentDiscardingCard.Value) 
                 {
-                    NextState = SelectionState.CARD_OR_FREE_ACTION,
+                    NextState = IsEndTurn ? SelectionState.SELECT_CARD_END_TURN
+                        : SelectionState.CARD_OR_FREE_ACTION,
                 });
             }
 

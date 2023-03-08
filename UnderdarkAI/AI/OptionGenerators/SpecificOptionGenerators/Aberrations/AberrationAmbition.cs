@@ -49,6 +49,26 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Aberrations
                 }); // ничего не делать
             }
 
+            /// On discard
+            if (turn.State == SelectionState.END_TURN_ON_DISCARD_CARD)
+            {
+                var firstInQueue = turn.DiscardCardQueue.Peek();
+
+                if (!turn.CurrentDiscardingCard.HasValue)
+                {
+                    throw new NullReferenceException();
+                }
+
+                options.Add(new PromoteSelfOnDiscardOption(firstInQueue.TargetPlayerColor, turn.CurrentDiscardingCard.Value)
+                {
+                    NextState = SelectionState.SELECT_CARD_END_TURN,
+                }); // промоутнуть себя
+                options.Add(new NoEffectDiscardOption(firstInQueue.TargetPlayerColor, turn.CurrentDiscardingCard.Value)
+                {
+                    NextState = SelectionState.SELECT_CARD_END_TURN
+                }); // ничего не делать
+            }
+
             return options;
         }
     }

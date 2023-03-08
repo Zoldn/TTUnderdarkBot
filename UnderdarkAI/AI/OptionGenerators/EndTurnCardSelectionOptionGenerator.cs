@@ -15,6 +15,17 @@ namespace UnderdarkAI.AI.OptionGenerators
     {
         public override List<PlayableOption> GeneratePlayableOptions(Board board, Turn turn)
         {
+            if (turn.DiscardCardQueue.Any())
+            {
+                return new List<PlayableOption>(1)
+                {
+                    new SwitchToDiscardCardOption()
+                    {
+                        NextState = SelectionState.END_TURN_ON_DISCARD_CARD_SELECTION,
+                    }
+                };
+            }
+
             var cardsToPlay = turn.CardStates
                 .Where(s => s.EndTurnState == CardState.IN_HAND)
                 .Select(s => s.SpecificType)

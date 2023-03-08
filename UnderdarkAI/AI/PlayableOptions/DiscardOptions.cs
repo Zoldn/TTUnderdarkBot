@@ -159,9 +159,10 @@ namespace UnderdarkAI.AI.PlayableOptions
     internal static class ChooseDiscardHelper
     {
         public static void Run(List<PlayableOption> options, Board board,
-            Turn turn, CardSpecificType initiator, Color targetPlayer)
+            Turn turn, CardSpecificType initiator, Color targetPlayer, bool isEndTurn)
         {
-            if (turn.State == SelectionState.ON_DISCARD_CARD_SELECTION)
+            if (turn.State == SelectionState.ON_DISCARD_CARD_SELECTION
+                || turn.State == SelectionState.END_TURN_ON_DISCARD_CARD_SELECTION)
             {
                 List<CardSpecificType> cardsInHand;
 
@@ -184,12 +185,20 @@ namespace UnderdarkAI.AI.PlayableOptions
 
                 foreach (var card in cardsInHand)
                 {
-                    options.Add(new ChooseCardToDiscard(targetPlayer, card));
+                    options.Add(new ChooseCardToDiscard(targetPlayer, card) 
+                    {
+                        NextState = isEndTurn ? SelectionState.END_TURN_ON_DISCARD_CARD :
+                            SelectionState.ON_DISCARD_CARD
+                    });
                 }
 
                 if (options.Count == 0)
                 {
-                    options.Add(new NoCardToDiscardOption(targetPlayer));
+                    options.Add(new NoCardToDiscardOption(targetPlayer)
+                    {
+                        NextState = isEndTurn ? SelectionState.SELECT_CARD_END_TURN :
+                            SelectionState.CARD_OR_FREE_ACTION
+                    });
                 }
             }
         }

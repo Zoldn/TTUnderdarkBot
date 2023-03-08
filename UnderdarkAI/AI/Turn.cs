@@ -80,6 +80,8 @@ namespace UnderdarkAI.AI
         SELECT_END_TURN_CARD_OPTION,
         ON_DISCARD_CARD_SELECTION,
         ON_DISCARD_CARD,
+        END_TURN_ON_DISCARD_CARD_SELECTION,
+        END_TURN_ON_DISCARD_CARD,
     }
 
     internal class TurnCardState

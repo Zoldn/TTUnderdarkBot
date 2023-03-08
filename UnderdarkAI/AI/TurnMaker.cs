@@ -77,6 +77,8 @@ namespace UnderdarkAI.AI
 
                 { SelectionState.ON_DISCARD_CARD_SELECTION, new SelectDiscardCardOptionGenerator() },
                 { SelectionState.ON_DISCARD_CARD, new OnDiscardCardOptionGenerator() },
+                { SelectionState.END_TURN_ON_DISCARD_CARD_SELECTION, new SelectDiscardCardOptionGenerator(isEndTurn: true) },
+                { SelectionState.END_TURN_ON_DISCARD_CARD, new OnDiscardCardOptionGenerator(isEndTurn: true) },
             };
 
             TargetFunction = new VPScoreTargetFunction();
@@ -242,7 +244,7 @@ namespace UnderdarkAI.AI
 
                         selectedOption.ApplyOption(board, turn);
 
-                        //Console.WriteLine($"[{iteration}]{selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED)}");
+                        Console.WriteLine($"[{iteration}]{selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED)}");
 
                         selectedOption.UpdateTurnState(turn);
                     }
