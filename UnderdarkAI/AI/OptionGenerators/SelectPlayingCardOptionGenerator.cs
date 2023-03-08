@@ -146,6 +146,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.INTELLECT_DEVOURER, new IntellectDevourerOptionGenerator() },
                 { CardSpecificType.PUPPETEER, new PuppeteerOptionGenerator() },
                 { CardSpecificType.ULITHARID, new UlitharidOptionGenerator() },
+                { CardSpecificType.ABOLETH, new AbolethOptionGenetator() },
+                { CardSpecificType.BRAINWASHED_SLAVE, new BrainwashedSlaveOptionGenerator() },
+                { CardSpecificType.CHUUL, new ChuulOptionGenetator() },
+                { CardSpecificType.CLOAKER, new CloakerOptionGenerator() },
+                { CardSpecificType.NOTHIC, new NothicOptionGenerator() },
                 #endregion
             };
         }

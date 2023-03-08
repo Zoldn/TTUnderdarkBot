@@ -186,7 +186,6 @@ namespace UnderdarkAI.AI
             .Where(s => s.State == CardState.NOW_PLAYING || s.EndTurnState == CardState.NOW_PLAYING)
             .Select(s => s.SpecificType)
             .SingleOrDefault();
-        //public Dictionary<Card, CardState> CardStates { get; private set; }
         public bool IsBuyingEnabled { get; set; }
         public List<TurnCardState> CardStates { get; private set; }
         public Dictionary<Location, LocationState> LocationStates { get; private set; }
@@ -224,6 +223,7 @@ namespace UnderdarkAI.AI
         /// </summary>
         public HashSet<Color> AdjacentPlayersToDeploy { get; internal set; }
         public Stack<HoldCardStackElement> HoldedCardStack { get; internal set; }
+        public Queue<DiscardInfo> DiscardCardQueue { get; internal set; }
 
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
@@ -236,14 +236,12 @@ namespace UnderdarkAI.AI
             ThisPlayer = new HashSet<Color>() { color };
             EnemyPlayers = AllPlayers.Where(c => c != color).ToHashSet();
 
-            //SelectionSequence = new(50);
             EndTurnEffects = new(10);
             CardStates = new(5);
 
             IsBuyingEnabled = true;
             IsBuyTopDevouredEnabled = false;
             State = SelectionState.CARD_OR_FREE_ACTION;
-            //CardOption = CardOption.NONE_OPTION;
             CardStateIteration = 0;
 
             LocationStates = new();
@@ -257,8 +255,7 @@ namespace UnderdarkAI.AI
             LockedAssasinationLocation = null;
 
             HoldedCardStack = new Stack<HoldCardStackElement>();
-            //UlitaridPlayedCard = null;
-            //UlitaridPlayedLocation = null;
+            DiscardCardQueue = new Queue<DiscardInfo>();
         }
 
         public void DebugPrintDistances()
@@ -292,10 +289,8 @@ namespace UnderdarkAI.AI
                 Swords = Swords,
                 State = State,
                 PresentScore = PresentScore,
-                //VPs = VPs,
                 Value = Value,
                 CardStateIteration = CardStateIteration,
-                //CardOption = CardOption,
                 ColorMove = ColorMove,
                 LocationMoveFrom = LocationMoveFrom,
                 PlacedSpies = PlacedSpies.Select(s => s).ToList(),
@@ -305,8 +300,7 @@ namespace UnderdarkAI.AI
                 LockedAssasinationLocation = LockedAssasinationLocation,
                 AdjacentPlayersToDeploy = AdjacentPlayersToDeploy.ToHashSet(),
                 HoldedCardStack = new Stack<HoldCardStackElement>(HoldedCardStack.Select(e => e.Clone())),
-                //UlitaridPlayedCard = UlitaridPlayedCard,
-                //UlitaridPlayedLocation = UlitaridPlayedLocation,
+                DiscardCardQueue = new Queue<DiscardInfo>(DiscardCardQueue.Select(e => e.Clone())),
             };
 
             return turn;

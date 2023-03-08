@@ -28,11 +28,8 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.ELDER_BRAIN]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.NOTHIC]
                 );
-
-            board.Players[Color.YELLOW].Deck[0] =
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.CARRION_CRAWLER];
 
             //board.Market.Remove(board.Market.First());
             //board.Market.Remove(board.Market.First());
@@ -50,7 +47,7 @@ namespace UnderdarkAI
             //    CardMapper.SpecificTypeCardMakers[CardSpecificType.SPY_MASTER]
             //    );
 
-            board.LocationIds[LocationId.Tsenviilyq].Spies[Color.YELLOW] = true;
+            board.LocationIds[LocationId.SSZuraassnee].Spies[Color.YELLOW] = true;
             //board.LocationIds[LocationId.StoneShaft].Spies[Color.YELLOW] = true;
             //board.LocationIds[LocationId.Araumycos].Spies[Color.YELLOW] = true;
             //board.LocationIds[LocationId.Bridge].Spies[Color.YELLOW] = true;
@@ -63,10 +60,11 @@ namespace UnderdarkAI
             //board.LocationIds[LocationId.Bridge].Troops[Color.RED] = 1;
             board.Players[Color.RED].Spies = 4;
             board.Players[Color.RED].TrophyHall[Color.YELLOW] = 2;
-            board.Players[Color.YELLOW].TrophyHall[Color.GREEN] = 8;
+            board.LocationIds[LocationId.Chaulssin].Troops[Color.BLUE] = 1;
+            //board.Players[Color.YELLOW].TrophyHall[Color.GREEN] = 8;
             //board.LocationIds[LocationId.ChedNasad].Troops[Color.RED] = 1;
 
-            var turnMaker = new TurnMaker(board, Color.YELLOW) 
+            var turnMaker = new TurnMaker(board, Color.YELLOW, seed: 8984314) 
             {
                 RestartLimit = 100,
             };

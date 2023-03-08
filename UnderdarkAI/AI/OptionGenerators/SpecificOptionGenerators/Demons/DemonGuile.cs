@@ -68,26 +68,26 @@ namespace UnderdarkAI.AI.OptionGenerators.SpecificOptionGenerators.Demons
 
             PlaceOrReturnSpyHelper.Run(options, board, turn,
                 inIteration: 0,
-                outPlaceSpyIteration: 1,
-                returnSpyIteration: 4,
-                outReturnSpyIteration: 5);
+                outPlaceSpyIteration: 10,
+                returnSpyIteration: 20,
+                outReturnSpyIteration: 21);
 
             PlaceSpyHelper.Run(options, board, turn,
-                inIteration: 1,
-                returnIteration: 2,
-                placeIteration: 3,
-                outIteration: 5);
+                inIteration: 10,
+                returnIteration: 11,
+                placeIteration: 12,
+                outIteration: 99);
 
             OptionalResourceGainHelper.Run(options, board, turn,
-                inIteration: 4,
-                outIteration: 5,
+                inIteration: 21,
+                outIteration: 99,
                 (b, t) => true,
                 swords: 2,
                 mana: 2
                 );
 
             EndCardHelper.Run(options, board, turn,
-                endIteration: 5);
+                endIteration: 99);
 
             return options;
         }
