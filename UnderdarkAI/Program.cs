@@ -74,7 +74,7 @@ namespace UnderdarkAI
                 RestartLimit = 100,
             };
 
-            //turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED, sourceCard: CardSpecificType.CHUUL);
+            turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED, sourceCard: CardSpecificType.ERROR);
 
             var resultTurn = turnMaker.MakeTurn();
 

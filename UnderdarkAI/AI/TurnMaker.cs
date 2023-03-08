@@ -244,7 +244,7 @@ namespace UnderdarkAI.AI
 
                         selectedOption.ApplyOption(board, turn);
 
-                        Console.WriteLine($"[{iteration}]{selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED)}");
+                        //Console.WriteLine($"[{iteration}]{selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED)}");
 
                         selectedOption.UpdateTurnState(turn);
                     }
