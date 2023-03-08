@@ -44,6 +44,45 @@ namespace UnderdarkAI.AI.PlayableOptions
                 }
             }
         }
+
+        internal static void RunEndTurn(List<PlayableOption> options, Board board, 
+            Turn turn, CardSpecificType initiator, 
+            HashSet<Color> specificTargets, 
+            int inIteration, int outIteration, 
+            bool isToAll = false, 
+            int cardLimit = 3)
+        {
+            if (turn.State == SelectionState.SELECT_END_TURN_CARD_OPTION
+                && turn.CardStateIteration == inIteration)
+            {
+                var legalTargets = specificTargets
+                    .Where(c => board.Players[c].Hand.Count > cardLimit)
+                    .ToList();
+
+                if (!isToAll)
+                {
+                    foreach (var target in legalTargets)
+                    {
+                        options.Add(new OpponentDiscardOption(new List<Color>(1) { target }, initiator, outIteration) 
+                        {
+                            NextState = SelectionState.SELECT_END_TURN_CARD_OPTION
+                        });
+                    }
+                }
+                else
+                {
+                    options.Add(new OpponentDiscardOption(legalTargets, initiator, outIteration) 
+                    {
+                        NextState = SelectionState.SELECT_END_TURN_CARD_OPTION
+                    });
+                }
+
+                if (options.Count == 0)
+                {
+                    options.Add(new DoNothingEndTurnOption(outIteration));
+                }
+            }
+        }
     }
 
     internal class DiscardInfo
@@ -92,6 +131,26 @@ namespace UnderdarkAI.AI.PlayableOptions
             string players = TargetPlayersColor.Count > 0 ? string.Join(", ", TargetPlayersColor) : "none";
 
             return $"\tForce {players} player(s) to discard a card from hand";
+        }
+    }
+
+    internal class NeogiActivation : PlayableOption
+    {
+        public override int MinVerbosity => 10;
+        public NeogiActivation(int outIteration)
+        {
+            NextCardIteration = outIteration;
+        }
+        public override void ApplyOption(Board board, Turn turn)
+        {
+            var st = turn.CardStates.Single(e => e.State == CardState.NOW_PLAYING);
+
+            st.EndTurnState = CardState.IN_HAND;
+        }
+
+        public override string GetOptionText()
+        {
+            return $"\tNeogi end turn activation";
         }
     }
 }

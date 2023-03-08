@@ -151,6 +151,11 @@ namespace UnderdarkAI.AI.OptionGenerators
                 { CardSpecificType.CHUUL, new ChuulOptionGenetator() },
                 { CardSpecificType.CLOAKER, new CloakerOptionGenerator() },
                 { CardSpecificType.NOTHIC, new NothicOptionGenerator() },
+                { CardSpecificType.CRANIUM_RATS, new CraniumRatsOptionGenerator() },
+                { CardSpecificType.GRIMLOCK, new GrimlockOptionGenerator() },
+                { CardSpecificType.NEOGI, new NeogiOptionGenerator() },
+                { CardSpecificType.UMBER_HULK, new UmberhulkOptionGenerator() },
+                { CardSpecificType.QUAGGOTH, new QuaggothOptionGenerator() },
                 #endregion
             };
         }

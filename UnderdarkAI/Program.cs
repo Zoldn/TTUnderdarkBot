@@ -28,7 +28,7 @@ namespace UnderdarkAI
                 );
 
             board.Players[Color.YELLOW].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.NOTHIC]
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.QUAGGOTH]
                 );
 
             //board.Market.Remove(board.Market.First());

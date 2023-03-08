@@ -224,6 +224,8 @@ namespace UnderdarkAI.AI
         public HashSet<Color> AdjacentPlayersToDeploy { get; internal set; }
         public Stack<HoldCardStackElement> HoldedCardStack { get; internal set; }
         public Queue<DiscardInfo> DiscardCardQueue { get; internal set; }
+        public int MaxQuaggothKills { get; internal set; }
+        public int QuaggothKills { get; internal set; }
 
         #endregion
         public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
@@ -256,6 +258,9 @@ namespace UnderdarkAI.AI
 
             HoldedCardStack = new Stack<HoldCardStackElement>();
             DiscardCardQueue = new Queue<DiscardInfo>();
+
+            MaxQuaggothKills = 0;
+            QuaggothKills = 0;
         }
 
         public void DebugPrintDistances()
@@ -301,6 +306,8 @@ namespace UnderdarkAI.AI
                 AdjacentPlayersToDeploy = AdjacentPlayersToDeploy.ToHashSet(),
                 HoldedCardStack = new Stack<HoldCardStackElement>(HoldedCardStack.Select(e => e.Clone())),
                 DiscardCardQueue = new Queue<DiscardInfo>(DiscardCardQueue.Select(e => e.Clone())),
+                MaxQuaggothKills = MaxQuaggothKills,
+                QuaggothKills = QuaggothKills,
             };
 
             return turn;
@@ -346,6 +353,9 @@ namespace UnderdarkAI.AI
 
             LockedAssasinationLocation = null;
             AdjacentPlayersToDeploy.Clear();
+
+            QuaggothKills = 0;
+            MaxQuaggothKills = 0;
         }
 
         internal void MakeCurrentCardPlayedEndTurn()
