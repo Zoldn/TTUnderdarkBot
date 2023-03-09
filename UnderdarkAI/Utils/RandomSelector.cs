@@ -10,7 +10,7 @@ namespace UnderdarkAI.Utils
     internal static class RandomSelector
     {
         public static T SelectRandomWithWeights<T>(Dictionary<T, double> items, Random random)
-            //where T : notnull
+            where T : notnull
         {
             Debug.Assert(items != null);
             Debug.Assert(items.Count > 0);

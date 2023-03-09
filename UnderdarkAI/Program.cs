@@ -26,16 +26,16 @@ namespace UnderdarkAI
             //    board.Players[Color.GREEN].Hand.First(d => d.SpecificType == CardSpecificType.GRIMLOCK)
             //    );
 
-            board.Players[Color.GREEN].Hand.Add(
-                CardMapper.SpecificTypeCardMakers[CardSpecificType.GRIMLOCK].Clone()
-                );
+            //board.Players[Color.GREEN].Hand.Add(
+            //    CardMapper.SpecificTypeCardMakers[CardSpecificType.GRIMLOCK].Clone()
+            //    );
 
             var turnMaker = new TurnMaker(board, Color.GREEN) //, seed: 8984314
             {
                 RestartLimit = 400,
             };
 
-            turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED, sourceCard: CardSpecificType.ERROR);
+            //turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED, sourceCard: CardSpecificType.ERROR);
 
             var resultTurn = turnMaker.MakeTurn();
 

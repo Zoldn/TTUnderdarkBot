@@ -11,25 +11,6 @@ namespace UnderdarkAI.MetricUtils
 {
     internal static class ControlMetrics
     {
-        [Obsolete]
-        public static void GetStartManaFromSites(Board board, Player player, Turn turn)
-        {
-            foreach (var location in board.Locations)
-            {
-                if (!location.HasControlMarker)
-                {
-                    continue;
-                }
-
-                if (location.GetControlPlayer() != player.Color)
-                {
-                    continue;
-                }
-
-                turn.Mana += location.BonusMana;
-            }
-        }
-
         public static void GetVPForSiteControlMarkersInTheEnd(Board board, Turn turn, TurnMakerResult? turnMakerResult, 
             int verbosity = 0)
         {
@@ -77,7 +58,7 @@ namespace UnderdarkAI.MetricUtils
 
                 turn.Mana += location.BonusMana;
 
-                turnMakerResult.StartTurnEffects.Add($"Gain 1 mana for control {location}");
+                turnMakerResult.StartTurnEffects.Add($"Gain 1 mana for control {location.Name}");
             }
         }
 

@@ -31,13 +31,13 @@ namespace UnderdarkAI.AI
             ret += string
                 .Join("\n", StartTurnEffects.Where(e => e.Length > 0));
 
-            ret += string
+            ret += "\n" + string
                 .Join("\n", PlayableOptions
                     .Select(e => e.Print(verbosity, e.MonteCarloStatus))
                     .Where(e => e.Length > 0)
                     );
 
-            ret += string
+            ret += "\n" + string
                 .Join("\n", EndTurnEffects.Where(e => e.Length > 0));
 
             if (doPrintScoreChange)

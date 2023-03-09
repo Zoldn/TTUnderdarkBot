@@ -28,6 +28,11 @@ namespace UnderdarkAI.API
                 return parseResultInfo;
             }
 
+            if (parsedArgs == null || !parsedArgs.Color.HasValue)
+            {
+                throw new ArgumentNullException();
+            }
+
             CardMapper.ReadCards();
 
             var board = BoardInitializer.Initialize(isWithChecks: false);
@@ -49,7 +54,7 @@ namespace UnderdarkAI.API
 
             var resultTurn = turnMaker.MakeTurn();
 
-            string ret = "";
+            string ret;
 
             if (!parsedArgs.DiscardFromColor.HasValue)
             {

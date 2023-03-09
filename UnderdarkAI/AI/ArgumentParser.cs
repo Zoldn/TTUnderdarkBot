@@ -7,7 +7,7 @@ using TUnderdark.Model;
 
 namespace UnderdarkAI.AI
 {
-    public class TurnMakerArguments
+    internal class TurnMakerArguments
     {
         public Color? Color { get; internal set; }
         /// <summary>
@@ -25,7 +25,7 @@ namespace UnderdarkAI.AI
             DiscardFromColor = null;
         }
     }
-    public static class ArgumentParser
+    internal static class ArgumentParser
     {
         public static HashSet<string> ArgStrings = new HashSet<string>() 
         {

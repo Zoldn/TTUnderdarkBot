@@ -74,7 +74,6 @@ namespace UnderdarkAI.AI
                 { SelectionState.SELECT_CARD_END_TURN, new EndTurnCardSelectionOptionGenerator() },
                 { SelectionState.SELECT_END_TURN_CARD_OPTION, new SelectPlayingCardOptionGenerator() },
 
-
                 { SelectionState.ON_DISCARD_CARD_SELECTION, new SelectDiscardCardOptionGenerator() },
                 { SelectionState.ON_DISCARD_CARD, new OnDiscardCardOptionGenerator() },
                 { SelectionState.END_TURN_ON_DISCARD_CARD_SELECTION, new SelectDiscardCardOptionGenerator(isEndTurn: true) },
@@ -92,8 +91,6 @@ namespace UnderdarkAI.AI
             {
                 InitialScore = TargetFunction.Evaluate(FixedBoard, FixedTurn),
             };
-
-            //var initialScore = TargetFunction.Evaluate(FixedBoard, FixedTurn);
 
             ControlMetrics.GetManaForSiteControlMarkersInTheStart(FixedBoard, FixedTurn, turnMakerResult, verbosity: 0);
 
@@ -122,6 +119,12 @@ namespace UnderdarkAI.AI
                     if (options.Count > 1)
                     {
                         var monteCarloResult = RunMonteCarloSelection(options);
+
+                        if (monteCarloResult == null)
+                        {
+                            throw new ArgumentNullException();
+                        }
+
                         selectedOption = monteCarloResult.PlayableOption;
 
                         //monteCarloStatus = monteCarloResult.PlayableOption.MonteCarloStatus;
@@ -194,11 +197,6 @@ namespace UnderdarkAI.AI
                 PlayableOption? selectedFirstSelectionOption = null;
                 bool isFirstSelection = true;
 
-                if (iteration == 52 && FixedTurn.State == SelectionState.SELECT_CARD /* && turn.ActiveCard == CardSpecificType.ULITHARID*/)
-                {
-                    int y = 1;
-                }
-
                 while (turn.State != SelectionState.FINISH_SELECTION)
                 {
                     if (StateSelectors.TryGetValue(turn.State, out var selector))
@@ -231,7 +229,7 @@ namespace UnderdarkAI.AI
 
                             if (options.Count == 0)
                             {
-                                int y = 1;
+                                throw new IndexOutOfRangeException();
                             }
 
                             selectedOption = RandomSelector.SelectRandomWithWeights(options, o => o.Weight, random);
@@ -315,8 +313,8 @@ namespace UnderdarkAI.AI
             {
                 turn.LocationStates.Add(location, new LocationState(location, Color));
             }
-
-            ControlMetrics.GetStartManaFromSites(board, board.Players[Color], turn);
+            
+            //ControlMetrics.GetStartManaFromSites(board, board.Players[Color], turn);
 
             DistanceCalculator.CalculatePresenceAndDistances(board, turn);
 
