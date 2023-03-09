@@ -32,44 +32,6 @@ namespace UnderdarkAI
             //    CardMapper.SpecificTypeCardMakers[CardSpecificType.NEOGI]
             //    );
 
-            //board.Players[Color.BLUE].Hand.Clear();
-            //board.Players[Color.BLUE].Hand.Add(
-            //    CardMapper.SpecificTypeCardMakers[CardSpecificType.AMBASSADOR].Clone()
-            //    );
-
-            //board.Market.Remove(board.Market.First());
-            //board.Market.Remove(board.Market.First());
-
-            //board.Market.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.CARRION_CRAWLER].Clone());
-            //board.Market.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.AMBASSADOR].Clone());
-
-            //board.Players[Color.YELLOW].Hand.Add(
-            //    CardMapper.SpecificTypeCardMakers[CardSpecificType.VANIFER]
-            //    );
-
-            // board.Devoured.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.WATCHER_OF_THAY]);
-
-            //board.Players[Color.YELLOW].Hand.Add(
-            //    CardMapper.SpecificTypeCardMakers[CardSpecificType.SPY_MASTER]
-            //    );
-
-            //board.LocationIds[LocationId.SSZuraassnee].Spies[Color.YELLOW] = true;
-            //board.LocationIds[LocationId.StoneShaft].Spies[Color.YELLOW] = true;
-            //board.LocationIds[LocationId.Araumycos].Spies[Color.YELLOW] = true;
-            //board.LocationIds[LocationId.Bridge].Spies[Color.YELLOW] = true;
-
-            //board.Players[Color.YELLOW].Spies = 4;
-            //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
-            //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
-            //board.Players[Color.YELLOW].InnerCircle.Add(CardMapper.SpecificTypeCardMakers[CardSpecificType.NOBLE]);
-            //board.LocationIds[LocationId.ChedNasad].Spies[Color.RED] = true;
-            //board.LocationIds[LocationId.Bridge].Troops[Color.RED] = 1;
-            //board.Players[Color.RED].Spies = 4;
-            //board.Players[Color.RED].TrophyHall[Color.YELLOW] = 2;
-            //board.LocationIds[LocationId.ChedNasad].Troops[Color.BLUE] = 1;
-            //board.Players[Color.YELLOW].TrophyHall[Color.GREEN] = 5;
-            //board.LocationIds[LocationId.ChedNasad].Troops[Color.RED] = 1;
-
             var turnMaker = new TurnMaker(board, Color.GREEN) //, seed: 8984314
             {
                 RestartLimit = 400,
@@ -83,22 +45,7 @@ namespace UnderdarkAI
 
             //board.PrintResults();
 
-            //board.Clone().PrintResults();
-
             Console.ReadLine();
-        }
-
-        private static void TestRandom()
-        {
-            Random random = new Random((int)(DateTime.Now.Ticks % 1000000));
-
-            List<double> rvalues = Enumerable.Range(0, 10000)
-                .Select(e => random.NextDouble())
-                .ToList();
-
-            var t = rvalues
-                .GroupBy(e => (int)Math.Floor(10 * e))
-                .ToDictionary(g => g.Key, g => g.Count());
         }
     }
 }

@@ -114,107 +114,105 @@ namespace TUnderdark.TTSParser
             { new HashSet<int>() { 11626 },                      CardSpecificType.RED_DRAGON },
 
             #endregion
-            /*
+            
             #region Demon
 
-            { new HashSet<int>() { 27407, 27408, 27409 },       () => new Ghoul() },
-            { new HashSet<int>() { 27417, 27418, 27419 },       () => new Jackalwere() },
-            { new HashSet<int>() { 27402, 27403 },              () => new Derro() },
-            { new HashSet<int>() { 27420, 27421 },              () => new Marilith() },
-            { new HashSet<int>() { 27430, 27431 },              () => new Nafleshnee() },
-            { new HashSet<int>() { 27428, 27429 },              () => new MiconydSovereign() },
-            { new HashSet<int>() { 27404, 27405, 27406 },       () => new Ettin() },
-            { new HashSet<int>() { 27436, 27437 },              () => new Succubus() },
-            { new HashSet<int>() { 27415, 27416 },              () => new Hezrou() },
-            { new HashSet<int>() { 27422, 27423, 27424 },       () => new MindFlayer() },
-            { new HashSet<int>() { 27410, 27411, 27412 },       () => new GibberingMouther() },
-            { new HashSet<int>() { 27425, 27426, 27427 },       () => new MyconidAdult() },
-            { new HashSet<int>() { 27432, 27433, 27434 },       () => new NightHag() },
-            { new HashSet<int>() { 27435 },                     () => new Orcus() },
-            { new HashSet<int>() { 27439 },                     () => new Zuggtmoy() },
-            { new HashSet<int>() { 27400 },                     () => new Balor() },
-            { new HashSet<int>() { 27438 },                     () => new Vrock() },
-            { new HashSet<int>() { 27414 },                     () => new Grazzt() },
-            { new HashSet<int>() { 27413 },                     () => new Glabrezu() },
-            { new HashSet<int>() { 27401 },                     () => new Demongorgon() },
-
-            { new HashSet<int>() { 241 },                       () => new InsaneOutcast() },
-
-            #endregion
-
-            #region Undeads
-
-            { new HashSet<int>() { 11731 },                     () => new OgreZombie() },
-            { new HashSet<int>() { 11722 },                     () => new Conjurer() },
-            { new HashSet<int>() { 11724 },                     () => new Wight() },
-            { new HashSet<int>() { 11719 },                     () => new Banshee() },
-            { new HashSet<int>() { 11727 },                     () => new CultistOfMyrkul() },
-            { new HashSet<int>() { 11735 },                     () => new MinotuarSkeleton() },
-            { new HashSet<int>() { 11730 },                     () => new Wraith() },
-            { new HashSet<int>() { 11737 },                     () => new CarrionCrawler() },
-            { new HashSet<int>() { 11729 },                     () => new SkeletalHorde() },
-            { new HashSet<int>() { 11726 },                     () => new RavenousZombie() },
-            { new HashSet<int>() { 11720 },                     () => new VampireSpawn() },
-            { new HashSet<int>() { 11736 },                     () => new FleshGolem() },
-            { new HashSet<int>() { 11723 },                     () => new Ghost() },
-            { new HashSet<int>() { 11734 },                     () => new Necromancer() },
-            { new HashSet<int>() { 11728 },                     () => new Vampire() },
-            { new HashSet<int>() { 11725 },                     () => new MummyLord() },
-            { new HashSet<int>() { 11721 },                     () => new DeathKnight() },
-            { new HashSet<int>() { 11738 },                     () => new Revenant() },
-            { new HashSet<int>() { 11733 },                     () => new HighPriestOfMyrkul() },
-            { new HashSet<int>() { 11732 },                     () => new Lich() },
-
-            #endregion
-            #region Aberrations
-
-            { new HashSet<int>() { 11817 },                     () => new Gauth() },
-            { new HashSet<int>() { 11807 },                     () => new BrainwashedSlave() },
-            { new HashSet<int>() { 11818 },                     () => new Spectator() },
-            { new HashSet<int>() { 11812 },                     () => new Grimlock() },
-            { new HashSet<int>() { 11816 },                     () => new MindWitness() },
-            { new HashSet<int>() { 11814 },                     () => new CraniumRats() },
-            { new HashSet<int>() { 11803 },                     () => new IntellectDevourer() },
-            { new HashSet<int>() { 11808 },                     () => new Nothic() },
-            { new HashSet<int>() { 11809 },                     () => new Cloaker() },
-            { new HashSet<int>() { 11804 },                     () => new Ambassador() },
-            { new HashSet<int>() { 11806 },                     () => new Chuul() },
-            { new HashSet<int>() { 11811 },                     () => new Quaggoth() },
-            { new HashSet<int>() { 11939 },                     () => new UmberHulk() },
-            { new HashSet<int>() { 11802 },                     () => new Puppeteer() },
-            { new HashSet<int>() { 11805 },                     () => new Aboleth() },
-            { new HashSet<int>() { 11813 },                     () => new DeathTyrant() },
-            { new HashSet<int>() { 11810 },                     () => new Neogi() },
-            { new HashSet<int>() { 11801 },                     () => new Ulitharid() },
-            { new HashSet<int>() { 11815 },                     () => new Beholder() },
-            { new HashSet<int>() { 11800 },                     () => new ElderBrain() },
-            #endregion
-
-            #region Elementals
-
-            { new HashSet<int>() { 27501, 27502, 27503, 27504 },() => new AirElemental() },
-            { new HashSet<int>() { 27511, 27512, 27513,  },     () => new CrushingWaveCultist() },
-            { new HashSet<int>() { 27521, 27522, 27523,  },     () => new FireElemental() },
-            { new HashSet<int>() { 27518, 27519, 27520,  },     () => new EternalFlameCultist() },
-            { new HashSet<int>() { 27534, 27535, 27536,  },     () => new WaterElemental() },
-            { new HashSet<int>() { 27507, 27508, 27509, 27510 },() => new BlackEarthCultist() },
-            { new HashSet<int>() { 27527, 27528 },              () => new HowlingHatredCultist() },
-            { new HashSet<int>() { 27537, 27538 },              () => new WaterElementalMyrmidon() },
-            { new HashSet<int>() { 27526 },                     () => new GarShatterkeel() },
-            { new HashSet<int>() { 27500 },                     () => new AerisiKalinoth() },
-            { new HashSet<int>() { 27530 },                     () => new MarlosUrnrayle() },
-            { new HashSet<int>() { 27533 },                     () => new Vanifer() },
-            { new HashSet<int>() { 27525, 27524 },              () => new FireElementalMyrmidon() },
-            { new HashSet<int>() { 27514, 27515 },              () => new EarthElemental() },
-            { new HashSet<int>() { 27505, 27506 },              () => new AirElementalMyrmidon() },
-            { new HashSet<int>() { 27516, 27517 },              () => new EarthElementalMyrmidon() },
-            { new HashSet<int>() { 27531 },                     () => new Ogremoch() },
-            { new HashSet<int>() { 27529 },                     () => new Imix() },
-            { new HashSet<int>() { 27539 },                     () => new YanCBin() },
-            { new HashSet<int>() { 27532 },                     () => new Olhydra() },
+            { new HashSet<int>() { 27407, 27408, 27409 },       CardSpecificType.GHOUL },
+            { new HashSet<int>() { 27417, 27418, 27419 },       CardSpecificType.JACKALWERE },
+            { new HashSet<int>() { 27402, 27403 },              CardSpecificType.DERRO },
+            { new HashSet<int>() { 27420, 27421 },              CardSpecificType.MARILITH },
+            { new HashSet<int>() { 27430, 27431 },              CardSpecificType.NAFLESHNEE },
+            { new HashSet<int>() { 27428, 27429 },              CardSpecificType.MICONYD_SOVEREIGN },
+            { new HashSet<int>() { 27404, 27405, 27406 },       CardSpecificType.ETTIN },
+            { new HashSet<int>() { 27436, 27437 },              CardSpecificType.SUCCUBUS },
+            { new HashSet<int>() { 27415, 27416 },              CardSpecificType.HEZROU },
+            { new HashSet<int>() { 27422, 27423, 27424 },       CardSpecificType.MIND_FLAYER },
+            { new HashSet<int>() { 27410, 27411, 27412 },       CardSpecificType.GIBBERING_MOUTHER },
+            { new HashSet<int>() { 27425, 27426, 27427 },       CardSpecificType.MYCONID_ADULT },
+            { new HashSet<int>() { 27432, 27433, 27434 },       CardSpecificType.NIGHT_HAG },
+            { new HashSet<int>() { 27435 },                     CardSpecificType.ORCUS },
+            { new HashSet<int>() { 27439 },                     CardSpecificType.ZUGGTMOY },
+            { new HashSet<int>() { 27400 },                     CardSpecificType.BALOR },
+            { new HashSet<int>() { 27438 },                     CardSpecificType.VROCK },
+            { new HashSet<int>() { 27414 },                     CardSpecificType.GRAZZT },
+            { new HashSet<int>() { 27413 },                     CardSpecificType.GLABREZU },
+            { new HashSet<int>() { 27401 },                     CardSpecificType.DEMOGORGON },
+                                                                
+            { new HashSet<int>() { 241 },                       CardSpecificType.INSANE_OUTCAST },
+                                                                
+            #endregion                                         
+                                                               
+            #region Undeads                                     
+                                                                
+            { new HashSet<int>() { 11731 },                     CardSpecificType.OGRE_ZOMBIE },
+            { new HashSet<int>() { 11722 },                     CardSpecificType.CONJURER },
+            { new HashSet<int>() { 11724 },                     CardSpecificType.WIGHT },
+            { new HashSet<int>() { 11719 },                     CardSpecificType.BANSHEE },
+            { new HashSet<int>() { 11727 },                     CardSpecificType.CULTIST_OF_MYRKUL },
+            { new HashSet<int>() { 11735 },                     CardSpecificType.MINOTUAR_SKELETON },
+            { new HashSet<int>() { 11730 },                     CardSpecificType.WRAITH },
+            { new HashSet<int>() { 11737 },                     CardSpecificType.CARRION_CRAWLER },
+            { new HashSet<int>() { 11729 },                     CardSpecificType.SKELETAL_HORDE },
+            { new HashSet<int>() { 11726 },                     CardSpecificType.RAVENOUS_ZOMBIE },
+            { new HashSet<int>() { 11720 },                     CardSpecificType.VAMPIRE_SPAWN },
+            { new HashSet<int>() { 11736 },                     CardSpecificType.FLESH_GOLEM },
+            { new HashSet<int>() { 11723 },                     CardSpecificType.GHOST },
+            { new HashSet<int>() { 11734 },                     CardSpecificType.NECROMANCER },
+            { new HashSet<int>() { 11728 },                     CardSpecificType.VAMPIRE },
+            { new HashSet<int>() { 11725 },                     CardSpecificType.MUMMY_LORD },
+            { new HashSet<int>() { 11721 },                     CardSpecificType.DEATH_KNIGHT },
+            { new HashSet<int>() { 11738 },                     CardSpecificType.REVENANT },
+            { new HashSet<int>() { 11733 },                     CardSpecificType.HIGH_PRIEST_OF_MYRKUL },
+            { new HashSet<int>() { 11732 },                     CardSpecificType.LICH },
+                                                                
+            #endregion                                         
+            #region Aberrations                                 
+                                                                
+            { new HashSet<int>() { 11817 },                     CardSpecificType.GAUTH },
+            { new HashSet<int>() { 11807 },                     CardSpecificType.BRAINWASHED_SLAVE },
+            { new HashSet<int>() { 11818 },                     CardSpecificType.SPECTATOR },
+            { new HashSet<int>() { 11812 },                     CardSpecificType.GRIMLOCK },
+            { new HashSet<int>() { 11816 },                     CardSpecificType.MIND_WITNESS },
+            { new HashSet<int>() { 11814 },                     CardSpecificType.CRANIUM_RATS },
+            { new HashSet<int>() { 11803 },                     CardSpecificType.INTELLECT_DEVOURER },
+            { new HashSet<int>() { 11808 },                     CardSpecificType.NOTHIC },
+            { new HashSet<int>() { 11809 },                     CardSpecificType.CLOAKER },
+            { new HashSet<int>() { 11804 },                     CardSpecificType.AMBASSADOR },
+            { new HashSet<int>() { 11806 },                     CardSpecificType.CHUUL },
+            { new HashSet<int>() { 11811 },                     CardSpecificType.QUAGGOTH },
+            { new HashSet<int>() { 11939 },                     CardSpecificType.UMBER_HULK },
+            { new HashSet<int>() { 11802 },                     CardSpecificType.PUPPETEER },
+            { new HashSet<int>() { 11805 },                     CardSpecificType.ABOLETH },
+            { new HashSet<int>() { 11813 },                     CardSpecificType.DEATH_TYRANT },
+            { new HashSet<int>() { 11810 },                     CardSpecificType.NEOGI },
+            { new HashSet<int>() { 11801 },                     CardSpecificType.ULITHARID },
+            { new HashSet<int>() { 11815 },                     CardSpecificType.BEHOLDER },
+            { new HashSet<int>() { 11800 },                     CardSpecificType.ELDER_BRAIN },
+            #endregion                                          
+                                                               
+            #region Elementals                             
+                                                               
+            { new HashSet<int>() { 27501, 27502, 27503, 27504 },CardSpecificType.AIR_ELEMENTAL },
+            { new HashSet<int>() { 27511, 27512, 27513,  },     CardSpecificType.CRUSHING_WAVE_CULTIST },
+            { new HashSet<int>() { 27521, 27522, 27523,  },     CardSpecificType.FIRE_ELEMENTAL },
+            { new HashSet<int>() { 27518, 27519, 27520,  },     CardSpecificType.ETERNAL_FLAME_CULTIST },
+            { new HashSet<int>() { 27534, 27535, 27536,  },     CardSpecificType.WATER_ELEMENTAL },
+            { new HashSet<int>() { 27507, 27508, 27509, 27510 },CardSpecificType.BLACK_EARTH_CULTIST },
+            { new HashSet<int>() { 27527, 27528 },              CardSpecificType.HOWLING_HATRED_CULTIST },
+            { new HashSet<int>() { 27537, 27538 },              CardSpecificType.WATER_ELEMENTAL_MYRMIDON },
+            { new HashSet<int>() { 27526 },                     CardSpecificType.GAR_SHATTERKEEL },
+            { new HashSet<int>() { 27500 },                     CardSpecificType.AERISI_KALINOTH },
+            { new HashSet<int>() { 27530 },                     CardSpecificType.MARLOS_URNRAYLE },
+            { new HashSet<int>() { 27533 },                     CardSpecificType.VANIFER },
+            { new HashSet<int>() { 27525, 27524 },              CardSpecificType.FIRE_ELEMENTAL_MYRMIDON },
+            { new HashSet<int>() { 27514, 27515 },              CardSpecificType.EARTH_ELEMENTAL },
+            { new HashSet<int>() { 27505, 27506 },              CardSpecificType.AIR_ELEMENTAL_MYRMIDON },
+            { new HashSet<int>() { 27516, 27517 },              CardSpecificType.OGREMOCH },
+            { new HashSet<int>() { 27529 },                     CardSpecificType.IMIX },
+            { new HashSet<int>() { 27539 },                     CardSpecificType.YANCBIN },
+            { new HashSet<int>() { 27532 },                     CardSpecificType.OLHYDRA },
             
             #endregion
-            */
         };
 
         

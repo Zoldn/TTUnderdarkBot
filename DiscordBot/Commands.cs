@@ -30,6 +30,8 @@ namespace DiscordBot
         {
             Console.WriteLine("Welcome to Underdark!");
 
+            CardMapper.ReadCards();
+
             var scorePrinter = new ScorePrinter();
 
             var ret = scorePrinter.GetScore();
@@ -84,6 +86,8 @@ namespace DiscordBot
         [Summary("Commit results of last game to ratings")]
         public Task CommitGame()
         {
+            CardMapper.ReadCards();
+
             var ratingTracker = new RatingTracker();
 
             var ret = ratingTracker.CommitGame();
@@ -107,7 +111,6 @@ namespace DiscordBot
             return ReplyAsync(quotes[index]);
         }
 
-        // ~say hello world -> hello world
         [Command("run")]
         [Summary("Run solving turn for selected color")]
         public Task MakeTurn([Remainder][Summary("The text to echo")] string args)
@@ -121,7 +124,8 @@ namespace DiscordBot
 
             var board = BoardInitializer.Initialize(isWithChecks: false);
 
-            string json = TTSLoader.GetJson(isLastSave: false, saveName: @"TS_Save_70.json");
+            //string json = TTSLoader.GetJson(isLastSave: false, saveName: @"TS_Save_70.json");
+            string json = TTSLoader.GetJson(isLastSave: true);
 
             TTSSaveParser.Read(json, board);
 
