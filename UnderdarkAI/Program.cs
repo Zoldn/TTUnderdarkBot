@@ -22,26 +22,25 @@ namespace UnderdarkAI
 
             TTSSaveParser.Read(json, board);
 
-            //TestRandom();
-
-            //board.Players[Color.YELLOW].Hand.Remove(
-            //    board.Players[Color.YELLOW].Hand.First(d => d.SpecificType == CardSpecificType.NOBLE)
+            //board.Players[Color.GREEN].Hand.Remove(
+            //    board.Players[Color.GREEN].Hand.First(d => d.SpecificType == CardSpecificType.GRIMLOCK)
             //    );
 
-            //board.Players[Color.YELLOW].Hand.Add(
-            //    CardMapper.SpecificTypeCardMakers[CardSpecificType.NEOGI]
-            //    );
+            board.Players[Color.GREEN].Hand.Add(
+                CardMapper.SpecificTypeCardMakers[CardSpecificType.GRIMLOCK].Clone()
+                );
 
             var turnMaker = new TurnMaker(board, Color.GREEN) //, seed: 8984314
             {
                 RestartLimit = 400,
             };
 
-            //turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED, sourceCard: CardSpecificType.ERROR);
+            turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED, sourceCard: CardSpecificType.ERROR);
 
             var resultTurn = turnMaker.MakeTurn();
 
             Console.WriteLine(resultTurn.Print());
+            //Console.WriteLine(resultTurn.PrintDiscard());
 
             //board.PrintResults();
 

@@ -9,6 +9,7 @@ using TUnderdark.Model;
 using TUnderdark.RatingSystem;
 using TUnderdark.TTSParser;
 using UnderdarkAI.AI;
+using UnderdarkAI.API;
 
 namespace DiscordBot
 {
@@ -115,32 +116,9 @@ namespace DiscordBot
         [Summary("Run solving turn for selected color")]
         public Task MakeTurn([Remainder][Summary("The text to echo")] string args)
         {
-            if (!ArgumentParser.Parse(args, out var parseResultInfo, out var parsedArgs))
-            {
-                return ReplyAsync(parseResultInfo);
-            }
+            var entryPoint = new AIEntryPoint();
 
-            CardMapper.ReadCards();
-
-            var board = BoardInitializer.Initialize(isWithChecks: false);
-
-            //string json = TTSLoader.GetJson(isLastSave: false, saveName: @"TS_Save_70.json");
-            string json = TTSLoader.GetJson(isLastSave: true);
-
-            TTSSaveParser.Read(json, board);
-
-            //TestRandom();
-
-            var turnMaker = new TurnMaker(board, parsedArgs.Color.Value)
-            {
-                RestartLimit = parsedArgs.Iterations,
-            };
-
-            var resultTurn = turnMaker.MakeTurn();
-
-            Console.WriteLine(resultTurn.Print());
-
-            return ReplyAsync(resultTurn.Print());
+            return ReplyAsync(entryPoint.RunTurn(args));
         }
     }
 

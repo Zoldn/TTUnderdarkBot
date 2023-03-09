@@ -47,5 +47,29 @@ namespace UnderdarkAI.AI
 
             return ret;
         }
+
+        public string PrintDiscard(int verbosity = 0)
+        {
+            string ret = $"Recommended discard for {ActivePlayerColor} is:\n\n";
+
+            ret += string
+                .Join("\n", PlayableOptions
+                    .Take(3)
+                    .Select(e => 
+                        {
+                            var ret = e.Print(verbosity, e.MonteCarloStatus);
+
+                            if (ret.StartsWith("\tGrimlock draw"))
+                            {
+                                ret = $"||{ret}||";
+                            }
+
+                            return ret;
+                        })
+                    .Where(e => e.Length > 0)
+                    );
+
+            return ret;
+        }
     }
 }

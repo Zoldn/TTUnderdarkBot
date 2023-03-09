@@ -41,7 +41,7 @@ namespace UnderdarkAI.AI
         internal ITargetFunction TargetFunction { get; private set; }
         public int Seed { get; }
 
-        public TurnMaker(Board board, Color color, int? seed = null)
+        internal TurnMaker(Board board, Color color, int? seed = null)
         {
             InitialBoard = board;
             Color = color;

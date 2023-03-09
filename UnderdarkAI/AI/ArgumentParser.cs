@@ -10,6 +10,11 @@ namespace UnderdarkAI.AI
     public class TurnMakerArguments
     {
         public Color? Color { get; internal set; }
+        /// <summary>
+        /// Цвет игрока, который заставляет скинуть карту. Если указано не null, 
+        /// то возвращает только карту, которую надо скинуть
+        /// </summary>
+        public Color? DiscardFromColor { get; internal set; }
         public int? TurnNumber { get; internal set; }
         public int Iterations { get; internal set; }
         public TurnMakerArguments()
@@ -17,6 +22,7 @@ namespace UnderdarkAI.AI
             Iterations = 100;
             Color = null;
             TurnNumber = null;
+            DiscardFromColor = null;
         }
     }
     public static class ArgumentParser
@@ -26,6 +32,7 @@ namespace UnderdarkAI.AI
             "color",
             "turn",
             "iters",
+            "discard",
         };
         public static Dictionary<string, Color> ColorStrings = new()
         {
@@ -85,6 +92,20 @@ namespace UnderdarkAI.AI
                 else
                 {
                     parsedArgs.Color = colorValue;
+                }
+            }
+
+            if (keyValuePairs.TryGetValue("discard", out var discardParam))
+            {
+                if (!ColorStrings.TryGetValue(discardParam.ToLower(), out var colorValue))
+                {
+                    output = $"Unknown discard parameter {colorParam.ToLower()}";
+                    parsedArgs = null;
+                    return false;
+                }
+                else
+                {
+                    parsedArgs.DiscardFromColor = colorValue;
                 }
             }
 
