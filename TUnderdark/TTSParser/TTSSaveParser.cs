@@ -400,9 +400,22 @@ namespace TUnderdark.TTSParser
 
             foreach (var devouredCard in devouredCards)
             {
-                if (CardMapper.TryMakeNewFromId(devouredCard.CardId, out var card))
+                if (devouredCard.ContainedObjects.Any())
                 {
-                    board.Devoured.Add(card);
+                    foreach (var item in devouredCard.ContainedObjects)
+                    {
+                        if (CardMapper.TryMakeNewFromId(item.CardId, out var card))
+                        {
+                            board.Devoured.Add(card);
+                        }
+                    }
+                }
+                else
+                {
+                    if (CardMapper.TryMakeNewFromId(devouredCard.CardId, out var card))
+                    {
+                        board.Devoured.Add(card);
+                    }
                 }
             }
 
@@ -414,14 +427,19 @@ namespace TUnderdark.TTSParser
 
             foreach (var deckCard in deckCards)
             {
-                if (deckCard.Name != "Deck")
+                if (deckCard.ContainedObjects.Any())
                 {
-                    continue;
+                    foreach (var id in deckCard.ContainedObjects)
+                    {
+                        if (CardMapper.TryMakeNewFromId(id.CardId, out var card))
+                        {
+                            board.Deck.Add(card);
+                        }
+                    }
                 }
-
-                foreach (var id in deckCard.DeckIDs)
+                else
                 {
-                    if (CardMapper.TryMakeNewFromId(id, out var card))
+                    if (CardMapper.TryMakeNewFromId(deckCard.CardId, out var card))
                     {
                         board.Deck.Add(card);
                     }
