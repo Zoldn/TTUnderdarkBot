@@ -90,21 +90,18 @@ namespace UnderdarkAI.AI.PlayableOptions
     {
         public Color TargetPlayerColor { get; }
         public Color SourcePlayerColor { get; }
-        public CardSpecificType CardSpecificType { get; }
-        public DiscardInfo(Color sourcePlayerColor, Color targetPlayerColor, CardSpecificType cardSpecificType)
+        public DiscardInfo(Color sourcePlayerColor, Color targetPlayerColor)
         {
             TargetPlayerColor = targetPlayerColor;
             SourcePlayerColor = sourcePlayerColor;
-            CardSpecificType = cardSpecificType;
         }
         public DiscardInfo Clone()
         {
-            return new DiscardInfo(SourcePlayerColor, TargetPlayerColor, CardSpecificType);
+            return new DiscardInfo(SourcePlayerColor, TargetPlayerColor);
         }
         public override string ToString()
         {
-            return $"Player {TargetPlayerColor} discarding card due to player's {SourcePlayerColor} " +
-                $"{CardMapper.SpecificTypeCardMakers[CardSpecificType].Name}";
+            return $"Player {TargetPlayerColor} discarding card due to player's {SourcePlayerColor}";
         }
     }
 
@@ -123,7 +120,7 @@ namespace UnderdarkAI.AI.PlayableOptions
         {
             foreach (var color in TargetPlayersColor)
             {
-                turn.DiscardCardQueue.Enqueue(new DiscardInfo(turn.Color, color, CardSpecificType));
+                turn.DiscardCardQueue.Enqueue(new DiscardInfo(turn.Color, color));
             }
         }
 
@@ -159,7 +156,7 @@ namespace UnderdarkAI.AI.PlayableOptions
     internal static class ChooseDiscardHelper
     {
         public static void Run(List<PlayableOption> options, Board board,
-            Turn turn, CardSpecificType initiator, Color targetPlayer, bool isEndTurn)
+            Turn turn, Color targetPlayer, bool isEndTurn)
         {
             if (turn.State == SelectionState.ON_DISCARD_CARD_SELECTION
                 || turn.State == SelectionState.END_TURN_ON_DISCARD_CARD_SELECTION)
@@ -469,7 +466,7 @@ namespace UnderdarkAI.AI.PlayableOptions
             turn.CurrentDiscardingCard = null;
             turn.DiscardCardQueue.Dequeue();
 
-            turn.DiscardCardQueue.Enqueue(new DiscardInfo(TargetPlayer, SourcePlayer, SpecificType));
+            turn.DiscardCardQueue.Enqueue(new DiscardInfo(TargetPlayer, SourcePlayer));
         }
 
         public override string GetOptionText()

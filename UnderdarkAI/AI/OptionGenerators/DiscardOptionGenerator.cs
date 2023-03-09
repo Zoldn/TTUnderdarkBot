@@ -23,7 +23,7 @@ namespace UnderdarkAI.AI.OptionGenerators
 
             var options = new List<PlayableOption>();
 
-            ChooseDiscardHelper.Run(options, board, turn, firstInQueue.CardSpecificType, firstInQueue.TargetPlayerColor,
+            ChooseDiscardHelper.Run(options, board, turn, firstInQueue.TargetPlayerColor,
                 IsEndTurn);
 
             return options;

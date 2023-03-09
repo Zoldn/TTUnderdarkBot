@@ -323,9 +323,9 @@ namespace UnderdarkAI.AI
             return turn;
         }
 
-        internal void AddForcedDiscardForCurrentPlayer(Color sourcePlayer, CardSpecificType sourceCard)
+        internal void AddForcedDiscardForCurrentPlayer(Color sourcePlayer)
         {
-            FixedTurn.DiscardCardQueue.Enqueue(new PlayableOptions.DiscardInfo(sourcePlayer, Color, sourceCard));
+            FixedTurn.DiscardCardQueue.Enqueue(new PlayableOptions.DiscardInfo(sourcePlayer, Color));
         }
     }
 }

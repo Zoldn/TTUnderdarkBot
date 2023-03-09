@@ -49,7 +49,7 @@ namespace UnderdarkAI.API
 
             if (parsedArgs.DiscardFromColor.HasValue)
             {
-                turnMaker.AddForcedDiscardForCurrentPlayer(parsedArgs.DiscardFromColor.Value, CardSpecificType.ERROR);
+                turnMaker.AddForcedDiscardForCurrentPlayer(parsedArgs.DiscardFromColor.Value);
             }
 
             var resultTurn = turnMaker.MakeTurn();
