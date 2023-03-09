@@ -17,7 +17,8 @@ namespace UnderdarkAI
 
             var board = BoardInitializer.Initialize(isWithChecks: false);
 
-            string json = TTSLoader.GetJson(isLastSave: false, saveName: @"TS_Save_70.json");
+            //string json = TTSLoader.GetJson(isLastSave: false, saveName: @"TS_Save_70.json");
+            string json = TTSLoader.GetJson(isLastSave: true);
 
             TTSSaveParser.Read(json, board);
 
@@ -69,12 +70,12 @@ namespace UnderdarkAI
             //board.Players[Color.YELLOW].TrophyHall[Color.GREEN] = 5;
             //board.LocationIds[LocationId.ChedNasad].Troops[Color.RED] = 1;
 
-            var turnMaker = new TurnMaker(board, Color.YELLOW) //, seed: 8984314
+            var turnMaker = new TurnMaker(board, Color.GREEN) //, seed: 8984314
             {
-                RestartLimit = 100,
+                RestartLimit = 400,
             };
 
-            turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED, sourceCard: CardSpecificType.ERROR);
+            //turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED, sourceCard: CardSpecificType.ERROR);
 
             var resultTurn = turnMaker.MakeTurn();
 

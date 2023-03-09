@@ -136,7 +136,7 @@ namespace UnderdarkAI.AI
 
                     selectedOption.ApplyOption(FixedBoard, FixedTurn);
 
-                    //Console.WriteLine(selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED));
+                    Console.WriteLine(selectedOption.Print(100, MonteCarloSelectionStatus.NOT_ANALYSED));
 
                     turnMakerResult.PlayableOptions.Add(selectedOption);
 

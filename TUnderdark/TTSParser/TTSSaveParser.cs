@@ -335,6 +335,10 @@ namespace TUnderdark.TTSParser
                 }
             }
 
+            board.Lolths = 0;
+            board.HouseGuards = 0;
+            board.InsaneOutcasts = 0;
+
             coords = MarketZonePositions.Common;
 
             var commonMarketCards = container.ObjectStates
@@ -343,18 +347,47 @@ namespace TUnderdark.TTSParser
 
             foreach (var marketCard in commonMarketCards)
             {
-                if (CardMapper.TryMakeNewFromId(marketCard.CardId, out var card))
+                if (marketCard.ContainedObjects.Any())
                 {
-                    switch (card.Name)
+                    foreach (var item in marketCard.ContainedObjects)
                     {
-                        case "Priestess of Lolth":
-                            board.Lolths += 1;
-                            break;
-                        case "Houseguard":
-                            board.HouseGuards += 1;
-                            break;
-                        default:
-                            break;
+                        if (CardMapper.TryMakeNewFromId(item.CardId, out var card))
+                        {
+                            switch (card.Name)
+                            {
+                                case "Priestess of Lolth":
+                                    board.Lolths += 1;
+                                    break;
+                                case "Houseguard":
+                                    board.HouseGuards += 1;
+                                    break;
+                                case "Insane Outcast":
+                                    board.InsaneOutcasts += 1;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (CardMapper.TryMakeNewFromId(marketCard.CardId, out var card))
+                    {
+                        switch (card.Name)
+                        {
+                            case "Priestess of Lolth":
+                                board.Lolths += 1;
+                                break;
+                            case "Houseguard":
+                                board.HouseGuards += 1;
+                                break;
+                            case "Insane Outcast":
+                                board.InsaneOutcasts += 1;
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
