@@ -24,7 +24,7 @@ namespace TUnderdark.Interaction
             VALUE,
         }
 
-        private static Dictionary<Columns, string> headers = new Dictionary<Columns, string>()
+        private static readonly Dictionary<Columns, string> headers = new()
         {
             { Columns.TURN, "Turn" },
             { Columns.TIMESTAMP, "Time stamp" },
@@ -48,7 +48,7 @@ namespace TUnderdark.Interaction
 
             int turn = 0;
 
-            List<ResultRecord> resultRecords = new List<ResultRecord>();
+            List<ResultRecord> resultRecords = new();
 
             while (true)
             {
