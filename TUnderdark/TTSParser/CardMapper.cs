@@ -207,10 +207,11 @@ namespace TUnderdark.TTSParser
             { new HashSet<int>() { 27525, 27524 },              CardSpecificType.FIRE_ELEMENTAL_MYRMIDON },
             { new HashSet<int>() { 27514, 27515 },              CardSpecificType.EARTH_ELEMENTAL },
             { new HashSet<int>() { 27505, 27506 },              CardSpecificType.AIR_ELEMENTAL_MYRMIDON },
-            { new HashSet<int>() { 27516, 27517 },              CardSpecificType.OGREMOCH },
+            { new HashSet<int>() { 27516, 27517 },              CardSpecificType.EARTH_ELEMENTAL_MYRMIDON },
             { new HashSet<int>() { 27529 },                     CardSpecificType.IMIX },
             { new HashSet<int>() { 27539 },                     CardSpecificType.YANCBIN },
             { new HashSet<int>() { 27532 },                     CardSpecificType.OLHYDRA },
+            { new HashSet<int>() { 27531 },                     CardSpecificType.OGREMOCH },
             
             #endregion
         };

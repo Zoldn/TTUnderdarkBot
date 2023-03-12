@@ -232,13 +232,19 @@ namespace UnderdarkAI.AI
         public int QuaggothKills { get; internal set; }
         public Color? LastKillColor { get; internal set; }
         public CardSpecificType? CurrentDiscardingCard { get; internal set; }
+        public int CurrentRound { get; internal set; }
+        /// <summary>
+        /// Оценка того, сколько ротаций колоды осталось
+        /// </summary>
+        public double RotationsLeft { get; internal set; }
 
         #endregion
-        public Turn(Color color, IWeightGenerator weightGenerator, Random random, bool isOriginal = true)
+        public Turn(Color color, IWeightGenerator weightGenerator, Random random, int round, bool isOriginal = true)
         {
             Random = random;
             WeightGenerator = weightGenerator;
             Color = color;
+            CurrentRound = round;
 
             AllPlayers = new HashSet<Color>() { Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE };
             ThisPlayer = new HashSet<Color>() { color };
@@ -287,7 +293,7 @@ namespace UnderdarkAI.AI
 
         public Turn Clone(Board board)
         {
-            var turn = new Turn(Color, WeightGenerator, Random, isOriginal: false)
+            var turn = new Turn(Color, WeightGenerator, Random, CurrentRound, isOriginal: false)
             {
                 CardStates = CardStates
                     .Select(s => s.Clone()).ToList(),
@@ -319,6 +325,8 @@ namespace UnderdarkAI.AI
                 QuaggothKills = QuaggothKills,
                 LastKillColor = LastKillColor,
                 CurrentDiscardingCard = CurrentDiscardingCard,
+
+                RotationsLeft = RotationsLeft,
             };
 
             return turn;

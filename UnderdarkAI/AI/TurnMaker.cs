@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 using UnderdarkAI.AI.OptionGenerators;
+using UnderdarkAI.AI.RotationEstimator;
 using UnderdarkAI.AI.TargetFunctions;
 using UnderdarkAI.AI.WeightGenerators;
 using UnderdarkAI.MetricUtils;
@@ -41,7 +42,7 @@ namespace UnderdarkAI.AI
         internal ITargetFunction TargetFunction { get; private set; }
         public int Seed { get; }
 
-        internal TurnMaker(Board board, Color color, int? seed = null)
+        internal TurnMaker(Board board, Color color, int currentRound, int? seed = null)
         {
             InitialBoard = board;
             Color = color;
@@ -59,7 +60,9 @@ namespace UnderdarkAI.AI
             random = new Random(Seed);
 
             FixedBoard = InitialBoard.Clone();
-            FixedTurn = InitializeNewTurn(FixedBoard, random);
+            FixedTurn = InitializeNewTurn(FixedBoard, random, currentRound);
+
+
 
             StateSelectors = new Dictionary<SelectionState, OptionGenerator>()
             {
@@ -298,11 +301,11 @@ namespace UnderdarkAI.AI
             turn = FixedTurn.Clone(board);
         }
 
-        private Turn InitializeNewTurn(Board board, Random random)
+        private Turn InitializeNewTurn(Board board, Random random, int currentRound)
         {
             IWeightGenerator weightGenerator = new StaticWeightGenerator();
 
-            var turn = new Turn(Color, weightGenerator, random);
+            var turn = new Turn(Color, weightGenerator, random, currentRound);
 
             foreach (var card in board.Players[Color].Hand)
             {
@@ -317,6 +320,11 @@ namespace UnderdarkAI.AI
             //ControlMetrics.GetStartManaFromSites(board, board.Players[Color], turn);
 
             DistanceCalculator.CalculatePresenceAndDistances(board, turn);
+
+            var rotationEstimator = new BaseRotationEstimator();
+            var rotations = rotationEstimator.CalculateRotations(board, turn);
+
+            turn.RotationsLeft = rotations;
 
             //turn.DebugPrintDistances();
 

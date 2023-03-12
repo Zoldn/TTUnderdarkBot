@@ -28,7 +28,7 @@ namespace UnderdarkAI.API
                 return parseResultInfo;
             }
 
-            if (parsedArgs == null || !parsedArgs.Color.HasValue)
+            if (parsedArgs == null || !parsedArgs.Color.HasValue || !parsedArgs.TurnNumber.HasValue)
             {
                 throw new ArgumentNullException();
             }
@@ -42,7 +42,7 @@ namespace UnderdarkAI.API
 
             TTSSaveParser.Read(json, board);
 
-            var turnMaker = new TurnMaker(board, parsedArgs.Color.Value)
+            var turnMaker = new TurnMaker(board, parsedArgs.Color.Value, currentRound: parsedArgs.TurnNumber.Value)
             {
                 RestartLimit = parsedArgs.Iterations,
             };
