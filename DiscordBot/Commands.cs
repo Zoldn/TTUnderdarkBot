@@ -10,6 +10,8 @@ using TUnderdark.RatingSystem;
 using TUnderdark.TTSParser;
 using UnderdarkAI.AI;
 using UnderdarkAI.API;
+using UnderdarkAI.Context;
+using UnderdarkAI.IO;
 
 namespace DiscordBot
 {
@@ -31,7 +33,13 @@ namespace DiscordBot
         {
             Console.WriteLine("Welcome to Underdark!");
 
-            CardMapper.ReadCards();
+            var context = new ModelContext();
+
+            var excelManager = new CardExcelManager(@"..\..\..\..\TUnderdark\Resources\Cards.xlsx");
+
+            excelManager.Load(context);
+
+            CardMapper.ReadCardsFromContext(context);
 
             var scorePrinter = new ScorePrinter();
 
@@ -87,7 +95,13 @@ namespace DiscordBot
         [Summary("Commit results of last game to ratings")]
         public Task CommitGame()
         {
-            CardMapper.ReadCards();
+            var context = new ModelContext();
+
+            var excelManager = new CardExcelManager(@"..\..\..\..\TUnderdark\Resources\Cards.xlsx");
+
+            excelManager.Load(context);
+
+            CardMapper.ReadCardsFromContext(context);
 
             var ratingTracker = new RatingTracker();
 

@@ -1,6 +1,8 @@
 ﻿using TUnderdark.Model;
 using TUnderdark.TTSParser;
 using UnderdarkAI.AI;
+using UnderdarkAI.Context;
+using UnderdarkAI.IO;
 using UnderdarkAI.Utils;
 
 namespace UnderdarkAI
@@ -9,7 +11,17 @@ namespace UnderdarkAI
     {
         static void Main(string[] args)
         {
-            CardMapper.ReadCards();
+            var context = new ModelContext();
+
+            // FillContext(context);
+
+            var excelManager = new CardExcelManager(@"..\..\..\..\TUnderdark\Resources\Cards.xlsx");
+
+            excelManager.Load(context);
+
+            CardMapper.ReadCardsFromContext(context);
+
+            //CardMapper.ReadCards();
 
             //ArgumentParser.Parse("-color=y -turn=1 -iters=50", out var parseResultInfo, out var parsedArgs);
 
@@ -35,7 +47,7 @@ namespace UnderdarkAI
                 RestartLimit = 400,
             };
 
-            turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED);
+            // turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED);
 
             var resultTurn = turnMaker.MakeTurn();
 
@@ -45,6 +57,23 @@ namespace UnderdarkAI
             //board.PrintResults();
 
             Console.ReadLine();
+        }
+
+        private static void FillContext(ModelContext context)
+        {
+            foreach (var (_, card) in CardMapper.SpecificTypeCardMakers)
+            {
+                context.CardsStats.Add(new Context.ContextElements.CardStats()
+                {
+                    CardSpecificType = card.SpecificType,
+                    CardType = card.CardType,
+                    ManaCost = card.ManaCost,
+                    Name = card.Name,
+                    PromoteVP = card.PromoteVP,
+                    Race = card.Race,
+                    VP = card.VP,
+                });
+            }
         }
     }
 }

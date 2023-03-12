@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Discord.WebSocket;
+using Newtonsoft.Json;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TUnderdark.Model;
 using TUnderdark.RatingSystem;
+using UnderdarkAI.Context;
 
 namespace TUnderdark.TTSParser
 {
@@ -30,6 +32,30 @@ namespace TUnderdark.TTSParser
                 card = null;
                 return false;
             }
+        }
+
+        public static void ReadCardsFromContext(ModelContext context)
+        {
+            SpecificTypeCardMakers = context
+                .CardsStats
+                .Select(s => new Card()
+                {
+                    SpecificType = s.CardSpecificType,
+                    CardType = s.CardType,
+                    Race = s.Race,
+                    ManaCost = s.ManaCost,
+                    Name = s.Name,
+                    PromoteVP = s.PromoteVP,
+                    VP = s.VP,
+                })
+                .ToDictionary(c => c.SpecificType);
+
+            CardMakers = TTSIdCardMapper
+                .SelectMany(kv => kv.Key, (kv, cardId) => (CardId: cardId, Creator: kv.Value))
+                .ToDictionary(
+                    kv => kv.CardId,
+                    kv => SpecificTypeCardMakers[kv.Creator]
+                );
         }
 
         public static void ReadCards()

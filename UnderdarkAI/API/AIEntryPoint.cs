@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using TUnderdark.Model;
 using TUnderdark.TTSParser;
 using UnderdarkAI.AI;
+using UnderdarkAI.Context;
+using UnderdarkAI.IO;
 
 namespace UnderdarkAI.API
 {
@@ -33,7 +35,13 @@ namespace UnderdarkAI.API
                 throw new ArgumentNullException();
             }
 
-            CardMapper.ReadCards();
+            var context = new ModelContext();
+
+            var excelManager = new CardExcelManager(@"..\..\..\..\TUnderdark\Resources\Cards.xlsx");
+
+            excelManager.Load(context);
+
+            CardMapper.ReadCardsFromContext(context);
 
             var board = BoardInitializer.Initialize(isWithChecks: false);
 
