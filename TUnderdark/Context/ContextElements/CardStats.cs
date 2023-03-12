@@ -16,6 +16,14 @@ namespace UnderdarkAI.Context.ContextElements
         public int ManaCost { get; set; }
         public int VP { get; set; }
         public int PromoteVP { get; set; }
+
+        public double BaseValuePerTurn { get; set; }
+        public double WhiteDisplacement { get; set; }
+        public double ColorDisplacement { get; set; }
+        public double PromoteSpeed { get; set; }
+        public double DevourSpeed { get; set; }
+        public double DrawSpeed { get; set; }
+
         public CardStats()
         {
             Name = "";

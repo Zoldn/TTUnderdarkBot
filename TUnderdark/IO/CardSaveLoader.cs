@@ -20,6 +20,12 @@ namespace UnderdarkAI.IO
             ManaCost,
             VP,
             PromoteVP,
+            BaseValuePerTurn,
+            WhiteDisplacement,
+            ColorDisplacement,
+            PromoteSpeed,
+            DevourSpeed,
+            DrawSpeed,
         }
         public override string SheetName => "Cards";
         public override string FileName => "CardData.xlsx";
@@ -32,6 +38,12 @@ namespace UnderdarkAI.IO
             { Columns.ManaCost, "Cost" },
             { Columns.VP, "VP" },
             { Columns.PromoteVP, "Promote" },
+            { Columns.BaseValuePerTurn, "ValuePerTurn" },
+            { Columns.WhiteDisplacement, "WDisp" },
+            { Columns.ColorDisplacement, "CDisp" },
+            { Columns.PromoteSpeed, "PromoteSpeed" },
+            { Columns.DevourSpeed, "DevourSpeed" },
+            { Columns.DrawSpeed, "DrawSpeed" },
         };
 
         protected override List<Dictionary<Columns, object>> FormatProductionElements(ModelContext data)
@@ -49,6 +61,12 @@ namespace UnderdarkAI.IO
                     { Columns.ManaCost, element.ManaCost },
                     { Columns.VP, element.VP },
                     { Columns.PromoteVP, element.PromoteVP },
+                    { Columns.BaseValuePerTurn, element.BaseValuePerTurn },
+                    { Columns.WhiteDisplacement, element.WhiteDisplacement },
+                    { Columns.ColorDisplacement, element.ColorDisplacement },
+                    { Columns.PromoteSpeed, element.PromoteSpeed },
+                    { Columns.DevourSpeed, element.DevourSpeed },
+                    { Columns.DrawSpeed, element.DrawSpeed },
                 };
 
                 loaddata.Add(item);
@@ -71,6 +89,13 @@ namespace UnderdarkAI.IO
                 ManaCost = AsInt(item[Columns.ManaCost]),
                 VP = AsInt(item[Columns.VP]),
                 PromoteVP = AsInt(item[Columns.PromoteVP]),
+
+                BaseValuePerTurn = AsDouble(item[Columns.BaseValuePerTurn]),
+                WhiteDisplacement = AsDouble(item[Columns.WhiteDisplacement]),
+                ColorDisplacement = AsDouble(item[Columns.ColorDisplacement]),
+                PromoteSpeed = AsDouble(item[Columns.PromoteSpeed]),
+                DevourSpeed = AsDouble(item[Columns.DevourSpeed]),
+                DrawSpeed = AsDouble(item[Columns.DrawSpeed]),
             };
         }
 
