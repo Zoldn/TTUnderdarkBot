@@ -10,6 +10,7 @@ using UnderdarkAI.AI.OptionGenerators;
 using UnderdarkAI.AI.RotationEstimator;
 using UnderdarkAI.AI.TargetFunctions;
 using UnderdarkAI.AI.WeightGenerators;
+using UnderdarkAI.Context;
 using UnderdarkAI.MetricUtils;
 using UnderdarkAI.Utils;
 
@@ -17,6 +18,7 @@ namespace UnderdarkAI.AI
 {
     public sealed class TurnMaker
     {
+        private readonly ModelContext context;
         private readonly Random random;
         /// <summary>
         /// Исходное состояние игры, не менять
@@ -42,8 +44,9 @@ namespace UnderdarkAI.AI
         internal ITargetFunction TargetFunction { get; private set; }
         public int Seed { get; }
 
-        internal TurnMaker(Board board, Color color, int currentRound, int? seed = null)
+        internal TurnMaker(Board board, Color color, int currentRound, ModelContext context, int? seed = null)
         {
+            this.context = context;
             InitialBoard = board;
             Color = color;
             RestartLimit = 1;
@@ -83,7 +86,9 @@ namespace UnderdarkAI.AI
                 { SelectionState.END_TURN_ON_DISCARD_CARD, new OnDiscardCardOptionGenerator(isEndTurn: true) },
             };
 
-            TargetFunction = new VPScoreTargetFunction();
+            //TargetFunction = new VPScoreTargetFunction();
+
+            TargetFunction = new FutureScoreTargetFunction(context);
         }
 
         public TurnMakerResult MakeTurn()
@@ -322,7 +327,7 @@ namespace UnderdarkAI.AI
             DistanceCalculator.CalculatePresenceAndDistances(board, turn);
 
             var rotationEstimator = new BaseRotationEstimator();
-            var rotations = rotationEstimator.CalculateRotations(board, turn);
+            var rotations = rotationEstimator.CalculateRotations(board, turn, turn.Color);
 
             turn.RotationsLeft = rotations;
 

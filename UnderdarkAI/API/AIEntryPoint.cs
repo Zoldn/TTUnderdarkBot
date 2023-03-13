@@ -50,7 +50,8 @@ namespace UnderdarkAI.API
 
             TTSSaveParser.Read(json, board);
 
-            var turnMaker = new TurnMaker(board, parsedArgs.Color.Value, currentRound: parsedArgs.TurnNumber.Value)
+            var turnMaker = new TurnMaker(board, parsedArgs.Color.Value, currentRound: parsedArgs.TurnNumber.Value,
+                context: context)
             {
                 RestartLimit = parsedArgs.Iterations,
             };

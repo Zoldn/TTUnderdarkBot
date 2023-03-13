@@ -26,6 +26,7 @@ namespace UnderdarkAI.IO
             PromoteSpeed,
             DevourSpeed,
             DrawSpeed,
+            DeploySpeed,
         }
         public override string SheetName => "Cards";
         public override string FileName => "CardData.xlsx";
@@ -44,6 +45,7 @@ namespace UnderdarkAI.IO
             { Columns.PromoteSpeed, "PromoteSpeed" },
             { Columns.DevourSpeed, "DevourSpeed" },
             { Columns.DrawSpeed, "DrawSpeed" },
+            { Columns.DeploySpeed, "Deploy" },
         };
 
         protected override List<Dictionary<Columns, object>> FormatProductionElements(ModelContext data)
@@ -67,6 +69,7 @@ namespace UnderdarkAI.IO
                     { Columns.PromoteSpeed, element.PromoteSpeed },
                     { Columns.DevourSpeed, element.DevourSpeed },
                     { Columns.DrawSpeed, element.DrawSpeed },
+                    { Columns.DeploySpeed, element.DeploySpeed },
                 };
 
                 loaddata.Add(item);
@@ -96,6 +99,7 @@ namespace UnderdarkAI.IO
                 PromoteSpeed = AsDouble(item[Columns.PromoteSpeed]),
                 DevourSpeed = AsDouble(item[Columns.DevourSpeed]),
                 DrawSpeed = AsDouble(item[Columns.DrawSpeed]),
+                DeploySpeed = AsDouble(item[Columns.DeploySpeed]),
             };
         }
 

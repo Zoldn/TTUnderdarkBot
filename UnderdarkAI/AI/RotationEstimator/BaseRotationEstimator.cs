@@ -11,16 +11,18 @@ namespace UnderdarkAI.AI.RotationEstimator
     internal class BaseRotationEstimator
     {
         public BaseRotationEstimator() { }
-        public double CalculateRotations(Board board, Turn turn)
+        public double CalculateRotations(Board board, Turn turn, Color color,
+            double promotes = 0.0d, double devoures = 0.0d, double drawers = 0.0d)
         {
-            var player = board.Players[turn.Color];
+            //var player = board.Players[turn.Color];
+            var player = board.Players[color];
             double deck = player.Deck.Count + player.Hand.Count;
             double discard = player.Discard.Count;
             double totalCards = deck + discard;
 
-            var promotes = 0.0d; // Число карт - промоутеров
-            var devoures = 0.0d; // Число карт - пожирателей
-            var cardDrawers = 0.0d; // Число карт дополнительного дрова карт
+            //var promotes = 0.0d; // Число карт - промоутеров
+            //var devoures = 0.0d; // Число карт - пожирателей
+            //var cardDrawers = 0.0d; // Число карт дополнительного дрова карт
 
             var buyingCardSpeed = 1.3d; // Скорость покупки карт
 
@@ -32,7 +34,7 @@ namespace UnderdarkAI.AI.RotationEstimator
 
             for (int round = 0; round < roundEstimate; round++)
             {
-                var playingCardSpeed = 5.0d + cardDrawers / totalCards; // Скорость розыгрыша карт
+                var playingCardSpeed = 5.0d + drawers / totalCards; // Скорость розыгрыша карт
                 //var diffCount = buyingCardSpeed - (promotes + devoures) * playingCardSpeed / deck;
 
                 discard += playingCardSpeed + buyingCardSpeed - (promotes + devoures) * playingCardSpeed / totalCards;

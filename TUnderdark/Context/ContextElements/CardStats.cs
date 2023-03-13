@@ -23,6 +23,7 @@ namespace UnderdarkAI.Context.ContextElements
         public double PromoteSpeed { get; set; }
         public double DevourSpeed { get; set; }
         public double DrawSpeed { get; set; }
+        public double DeploySpeed { get; set; }
 
         public CardStats()
         {
