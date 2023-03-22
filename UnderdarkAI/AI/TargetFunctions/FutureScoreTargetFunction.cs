@@ -249,11 +249,15 @@ namespace UnderdarkAI.AI.TargetFunctions
                 var spiesPerRound = totalCards.Average(
                     c => CardMapper.SpecificTypeCardMakers[c.SpecificType].CardType == CardType.GUILE ? 1 : 0
                     ) * handSize;
+                var returnEnemySpiesPerRound = totalCards
+                    .Average(c => context.CardsStatsDict[c.SpecificType].ReturnEnemySpy)
+                    * handSize;
 
                 var roundsToWD = whiteDisplacementsPerRound > 0.0d ? 1 / whiteDisplacementsPerRound : double.PositiveInfinity;
                 var roundsToCD = colorDisplacementsPerRound > 0.0d ? 1 / colorDisplacementsPerRound : double.PositiveInfinity;
                 var roundsToDP = deploymentsPerRound > 0.0d ? 1 / deploymentsPerRound : double.PositiveInfinity;
                 var roundsToSP = spiesPerRound > 0.0d ? 1 / spiesPerRound : double.PositiveInfinity;
+                var roundsToRS = returnEnemySpiesPerRound > 0.0d ? 1 / returnEnemySpiesPerRound : double.PositiveInfinity;
 
                 foreach (var (location, distanceInfo) in locationDistances)
                 {
@@ -382,7 +386,7 @@ namespace UnderdarkAI.AI.TargetFunctions
                     {
                         whiteToDispForFull * roundsToWD,
                         colorToDispForFull * roundsToCD,
-                        spiesToDispForFull * 0, /// TODO
+                        spiesToDispForFull * roundsToRS,
                         troopsDeployForFull * roundsToDP,
                     };
 

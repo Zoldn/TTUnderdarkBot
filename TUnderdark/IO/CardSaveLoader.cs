@@ -27,6 +27,7 @@ namespace UnderdarkAI.IO
             DevourSpeed,
             DrawSpeed,
             DeploySpeed,
+            ReturnEnemySpy,
         }
         public override string SheetName => "Cards";
         public override string FileName => "CardData.xlsx";
@@ -46,6 +47,7 @@ namespace UnderdarkAI.IO
             { Columns.DevourSpeed, "DevourSpeed" },
             { Columns.DrawSpeed, "DrawSpeed" },
             { Columns.DeploySpeed, "Deploy" },
+            { Columns.ReturnEnemySpy, "ReturnEnemySpy" },
         };
 
         protected override List<Dictionary<Columns, object>> FormatProductionElements(ModelContext data)
@@ -70,6 +72,7 @@ namespace UnderdarkAI.IO
                     { Columns.DevourSpeed, element.DevourSpeed },
                     { Columns.DrawSpeed, element.DrawSpeed },
                     { Columns.DeploySpeed, element.DeploySpeed },
+                    { Columns.ReturnEnemySpy, element.ReturnEnemySpy },
                 };
 
                 loaddata.Add(item);
@@ -100,6 +103,7 @@ namespace UnderdarkAI.IO
                 DevourSpeed = AsDouble(item[Columns.DevourSpeed]),
                 DrawSpeed = AsDouble(item[Columns.DrawSpeed]),
                 DeploySpeed = AsDouble(item[Columns.DeploySpeed]),
+                ReturnEnemySpy = AsDouble(item[Columns.ReturnEnemySpy]),
             };
         }
 
