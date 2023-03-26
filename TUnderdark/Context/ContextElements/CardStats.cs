@@ -25,6 +25,8 @@ namespace UnderdarkAI.Context.ContextElements
         public double DrawSpeed { get; set; }
         public double DeploySpeed { get; set; }
         public double ReturnEnemySpy { get; set; }
+        public bool IsPlaceSpyForEnemyTroops { get; set; }
+        public bool IsPlaceSpyForEnemySpy { get; set; }
 
         public CardStats()
         {

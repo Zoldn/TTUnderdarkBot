@@ -16,6 +16,17 @@ using UnderdarkAI.Utils;
 
 namespace UnderdarkAI.AI
 {
+    public enum AgainstHumanStrategy
+    {
+        /// <summary>
+        /// Боты не делают разницы между собой и людьми
+        /// </summary>
+        DEFAULT = 0,
+        /// <summary>
+        /// Боты целенаправленно играют против людей
+        /// </summary>
+        AGGRESSIVE,
+    }
     public sealed class TurnMaker
     {
         private readonly ModelContext context;
@@ -45,13 +56,17 @@ namespace UnderdarkAI.AI
         public int Seed { get; }
         public AggregateMode MonteCarloAggregateMode { get; init; }
         public SelectBestMode SelectBestMode { get; init; }
+        public AgainstHumanStrategy AgainstHumanStrategy { get; }
 
-        internal TurnMaker(Board board, Color color, int currentRound, ModelContext context, int? seed = null)
+        internal TurnMaker(Board board, Color color, int currentRound, ModelContext context, int? seed = null,
+            AgainstHumanStrategy againstHumanStrategy = AgainstHumanStrategy.DEFAULT)
         {
             this.context = context;
             InitialBoard = board;
             Color = color;
             RestartLimit = 1;
+
+            AgainstHumanStrategy = againstHumanStrategy;
 
             if (seed.HasValue)
             {
@@ -90,7 +105,10 @@ namespace UnderdarkAI.AI
 
             //TargetFunction = new VPScoreTargetFunction();
 
-            TargetFunction = new FutureScoreTargetFunction(context);
+            TargetFunction = new FutureScoreTargetFunction(context)
+            {
+                AgainstHumanStrategy = AgainstHumanStrategy,
+            };
         }
 
         public TurnMakerResult MakeTurn()
@@ -311,7 +329,7 @@ namespace UnderdarkAI.AI
 
         private Turn InitializeNewTurn(Board board, Random random, int currentRound)
         {
-            IWeightGenerator weightGenerator = new StaticWeightGenerator();
+            IWeightGenerator weightGenerator = new StaticWeightGenerator(context);
 
             var turn = new Turn(Color, weightGenerator, random, currentRound);
 

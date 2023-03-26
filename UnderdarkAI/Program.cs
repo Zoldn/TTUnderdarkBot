@@ -42,7 +42,8 @@ namespace UnderdarkAI
             //    CardMapper.SpecificTypeCardMakers[CardSpecificType.GRIMLOCK].Clone()
             //    );
 
-            var turnMaker = new TurnMaker(board, Color.RED, currentRound: 5, context: context) //, seed: 8984314
+            var turnMaker = new TurnMaker(board, Color.YELLOW, currentRound: 5, context: context,
+                againstHumanStrategy: AgainstHumanStrategy.DEFAULT) //, seed: 8984314
             {
                 RestartLimit = 300,
                 MonteCarloAggregateMode = AggregateMode.MAX,

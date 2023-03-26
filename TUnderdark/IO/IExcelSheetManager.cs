@@ -196,6 +196,11 @@ namespace UnderdarkAI.IO
             return (double)obj;
         }
 
+        protected bool AsBool(object obj)
+        {
+            return (bool)obj;
+        }
+
         protected DateTime AsDateTime(object obj)
         {
             return (DateTime)obj;

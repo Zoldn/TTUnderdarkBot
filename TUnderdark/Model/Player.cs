@@ -31,6 +31,10 @@ namespace TUnderdark.Model
 
         public string Name { get; set; }
         public string SteamId { get; set; }
+        /// <summary>
+        /// Является ли игрок человеком или ботом
+        /// </summary>
+        public bool IsHuman { get; set; }
 
         public Player(Color color)
         {
@@ -69,6 +73,7 @@ namespace TUnderdark.Model
                 Name = Name,
                 SteamId = SteamId,
                 IsFirstPlayer = IsFirstPlayer,
+                IsHuman = IsHuman,
             };
 
             return player;

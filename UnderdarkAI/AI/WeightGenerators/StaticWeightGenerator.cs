@@ -7,11 +7,18 @@ using TUnderdark.Model;
 using TUnderdark.TTSParser;
 using UnderdarkAI.AI.OptionGenerators;
 using UnderdarkAI.AI.PlayableOptions;
+using UnderdarkAI.Context;
 
 namespace UnderdarkAI.AI.WeightGenerators
 {
     internal class StaticWeightGenerator : IWeightGenerator
     {
+        private readonly ModelContext context;
+        public StaticWeightGenerator(ModelContext context)
+        {
+            this.context = context;
+        }
+
         public void FillPromoteOptions<T>(Board board, Turn turn, List<T> options)
             where T : IPromoteCardOption
         {
@@ -53,6 +60,13 @@ namespace UnderdarkAI.AI.WeightGenerators
 
         public void FillPlaceSpyOptions(Board board, Turn turn, List<PlaceSpyOption> options)
         {
+            if (!turn.ActiveCard.HasValue)
+            {
+                throw new ArgumentOutOfRangeException("No active card for placing spy");
+            }
+
+            var cardStat = context.CardsStatsDict[turn.ActiveCard.Value];
+
             foreach (var option in options)
             {
                 option.Weight = 1.0d;
@@ -69,6 +83,18 @@ namespace UnderdarkAI.AI.WeightGenerators
                 if (location.IsSpyPlacable && fullController != turn.Color && fullController != null)
                 {
                     option.Weight += 1.0d;
+                }
+
+                if (cardStat.IsPlaceSpyForEnemyTroops
+                    && location.Troops.Any(kv => kv.Key != turn.Color && kv.Key != Color.WHITE && kv.Value > 0))
+                {
+                    option.Weight += 1.0d;
+                }
+
+                if (cardStat.IsPlaceSpyForEnemySpy
+                    && location.Spies.Any(kv => kv.Key != turn.Color && kv.Value))
+                {
+                    option.Weight += 2.0d;
                 }
             }
         }

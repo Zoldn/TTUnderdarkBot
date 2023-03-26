@@ -11,15 +11,12 @@ namespace UnderdarkAI.AI.TargetFunctions
 {
     internal class VPScoreTargetFunction : ITargetFunction
     {
-        private BaseRotationEstimator? rotationEstimator { get; }
+        public BaseRotationEstimator? RotationEstimator { get; init; }
+        public AgainstHumanStrategy AgainstHumanStrategy { get; init; }
         public VPScoreTargetFunction() 
         {
-            rotationEstimator = null;
-        }
-
-        public VPScoreTargetFunction(BaseRotationEstimator estimator)
-        {
-            rotationEstimator = estimator;
+            RotationEstimator = null;
+            AgainstHumanStrategy = AgainstHumanStrategy.DEFAULT;
         }
 
         public List<(Color Color, double Score)> GetScores(Board board, Turn turn)
@@ -45,12 +42,12 @@ namespace UnderdarkAI.AI.TargetFunctions
 
         private double PenaltyCoefForControl(Board board, Turn turn)
         {
-            if (rotationEstimator is null)
+            if (RotationEstimator is null)
             {
                 return 1.0d;
             }
 
-            var turnLeft = rotationEstimator.RoundLeftEstimator(board, turn);
+            var turnLeft = RotationEstimator.RoundLeftEstimator(board, turn);
 
             if (turnLeft < 2.0d)
             {
@@ -65,16 +62,27 @@ namespace UnderdarkAI.AI.TargetFunctions
             return 0.1d;
         }
 
-        public static double GetDifferenceWithClosestOpponent(Dictionary<Color, double> results,
+        public double GetDifferenceWithClosestOpponent(Dictionary<Color, double> results,
             Board board, Turn turn)
         {
             return GetDifferenceWithClosestOpponent(results.Select(kv => (kv.Key, kv.Value)).ToList(), board, turn);
         }
 
-        public static double GetDifferenceWithClosestOpponent(List<(Color Color, double Score)> results,
+        public double GetDifferenceWithClosestOpponent(List<(Color Color, double Score)> results,
             Board board, Turn turn)
         {
             var currentPlayerScore = results.Single(p => p.Color == turn.Color).Score;
+
+            if (AgainstHumanStrategy == AgainstHumanStrategy.AGGRESSIVE
+                && !board.Players[turn.Color].IsHuman
+                && board.Players.Any(e => e.Value.IsHuman))
+            {
+                results = results
+                    .Where(r => board.Players[r.Color].IsHuman
+                        || r.Color == turn.Color
+                    )
+                    .ToList();
+            }
 
             results = results
                 .OrderByDescending(p => p.Score)

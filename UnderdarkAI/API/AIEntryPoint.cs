@@ -51,7 +51,8 @@ namespace UnderdarkAI.API
             TTSSaveParser.Read(json, board);
 
             var turnMaker = new TurnMaker(board, parsedArgs.Color.Value, currentRound: parsedArgs.TurnNumber.Value,
-                context: context)
+                context: context,
+                againstHumanStrategy: AgainstHumanStrategy.AGGRESSIVE)
             {
                 RestartLimit = parsedArgs.Iterations,
                 MonteCarloAggregateMode = AggregateMode.MAX,

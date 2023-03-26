@@ -85,10 +85,12 @@ namespace TUnderdark.TTSParser
                 {
                     player.Name = record.Name;
                     player.SteamId = record.Id;
+                    player.IsHuman = true;
                 }
                 else 
                 {
                     player.Name = color.ToString();
+                    player.IsHuman = false;
                 }
             }
         }

@@ -28,6 +28,8 @@ namespace UnderdarkAI.IO
             DrawSpeed,
             DeploySpeed,
             ReturnEnemySpy,
+            IsPlaceSpyForEnemySpy,
+            IsPlaceSpyForEnemyTroops,
         }
         public override string SheetName => "Cards";
         public override string FileName => "CardData.xlsx";
@@ -48,6 +50,8 @@ namespace UnderdarkAI.IO
             { Columns.DrawSpeed, "DrawSpeed" },
             { Columns.DeploySpeed, "Deploy" },
             { Columns.ReturnEnemySpy, "ReturnEnemySpy" },
+            { Columns.IsPlaceSpyForEnemySpy, "IsPlaceSpyForEnemySpy" },
+            { Columns.IsPlaceSpyForEnemyTroops, "IsPlaceSpyForEnemyTroops" },
         };
 
         protected override List<Dictionary<Columns, object>> FormatProductionElements(ModelContext data)
@@ -104,6 +108,9 @@ namespace UnderdarkAI.IO
                 DrawSpeed = AsDouble(item[Columns.DrawSpeed]),
                 DeploySpeed = AsDouble(item[Columns.DeploySpeed]),
                 ReturnEnemySpy = AsDouble(item[Columns.ReturnEnemySpy]),
+
+                IsPlaceSpyForEnemySpy = AsBool(item[Columns.IsPlaceSpyForEnemySpy]),
+                IsPlaceSpyForEnemyTroops = AsBool(item[Columns.IsPlaceSpyForEnemyTroops]),
             };
         }
 

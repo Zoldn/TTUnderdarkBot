@@ -14,15 +14,21 @@ namespace UnderdarkAI.AI.TargetFunctions
     internal class FutureScoreTargetFunction : ITargetFunction
     {
         private ModelContext context;
+        public AgainstHumanStrategy AgainstHumanStrategy { get; init; }
         public FutureScoreTargetFunction(ModelContext context) 
         {
             this.context = context;
+            AgainstHumanStrategy = AgainstHumanStrategy.DEFAULT;
         }
         public double Evaluate(Board board, Turn turn)
         {
             var estimator = new BaseRotationEstimator();
 
-            var basicScoreFunction = new VPScoreTargetFunction(estimator);  
+            var basicScoreFunction = new VPScoreTargetFunction()
+            {
+                RotationEstimator = estimator,
+                AgainstHumanStrategy = AgainstHumanStrategy,
+            };  
 
             var currentResults = basicScoreFunction
                 .GetScores(board, turn)
@@ -49,7 +55,7 @@ namespace UnderdarkAI.AI.TargetFunctions
                 currentResults[color] += value;
             }
 
-            return VPScoreTargetFunction.GetDifferenceWithClosestOpponent(currentResults, board, turn);
+            return basicScoreFunction.GetDifferenceWithClosestOpponent(currentResults, board, turn);
         }
 
         private Dictionary<Color, double> DeckFutureScoreEstimate(Board board, Turn turn, BaseRotationEstimator estimator)
