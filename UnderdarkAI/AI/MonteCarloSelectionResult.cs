@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using TUnderdark.Utils;
 using UnderdarkAI.Utils;
 
 namespace UnderdarkAI.AI
 {
+    public enum AggregateMode
+    {
+        AVERAGE = 0,
+        MAX,
+    }
     internal enum MonteCarloSelectionStatus
     {
         NOT_ANALYSED = 0,
@@ -21,18 +28,30 @@ namespace UnderdarkAI.AI
     {
         public PlayableOption PlayableOption { get; }
         public IReadOnlyList<double> Scores { get; }
-        public double AverageScore { get; }
+        public AggregateMode AggregateMode { get; }
+
+        /// <summary>
+        /// Агрегированный score варианта
+        /// </summary>
+        public double FinalScore { get; }
         public double StandardDeviationScore { get; }
         //public MonteCarloSelectionStatus Status { get; set; }
         public double DistanceToBest { get; set; }
-        public MonteCarloSelectionInfo(PlayableOption option, IEnumerable<double> scores)
+        public MonteCarloSelectionInfo(PlayableOption option, IEnumerable<double> scores,
+            AggregateMode aggregateMode)
         {
             PlayableOption = option;
             Scores = scores.ToList();
+            AggregateMode = aggregateMode;
 
             option.MonteCarloStatus = MonteCarloSelectionStatus.NOT_ANALYSED;
 
-            AverageScore = Scores.Average();
+            FinalScore = AggregateMode switch
+            {
+                AggregateMode.MAX => Scores.Max(),
+                AggregateMode.AVERAGE => Scores.Average(),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
 
             if (Scores.Count <= 1)
             {
@@ -41,7 +60,7 @@ namespace UnderdarkAI.AI
             else
             {
                 StandardDeviationScore = Math.Sqrt(
-                    Scores.Sum(v => Math.Pow(v - AverageScore, 2)) 
+                    Scores.Sum(v => Math.Pow(v - FinalScore, 2)) 
                     / Scores.Count / (Scores.Count - 1)
                     );
             }
@@ -50,35 +69,64 @@ namespace UnderdarkAI.AI
         }
     }
 
+    public enum SelectBestMode
+    {
+        /// <summary>
+        /// Выбирается рандомный вариант из стандартного отклонения от лучшего
+        /// </summary>
+        RETURN_ANY_IN_STD = 0,
+        /// <summary>
+        /// Выбираются только лучшие
+        /// </summary>
+        RETURN_ONLY_BEST,
+    }
+
     internal class MonteCarloSelectionInfoAnalyzer
     {
         public static double TOLERANCE = 0.1d;
         public List<MonteCarloSelectionInfo> SelectionInfos { get; }
-        public MonteCarloSelectionInfoAnalyzer(List<MonteCarloSelectionInfo> selectionInfos)
+        public SelectBestMode SelectionMode { get; }
+        public MonteCarloSelectionInfoAnalyzer(List<MonteCarloSelectionInfo> selectionInfos, 
+            SelectBestMode selectionMode)
         {
             SelectionInfos = selectionInfos;
+            SelectionMode = selectionMode;
         }
         public MonteCarloSelectionInfo SelectBest(Random random)
         {
-            var maxAverage = SelectionInfos.Max(i => i.AverageScore);
+            var selectedOption = SelectionMode switch
+            {
+                SelectBestMode.RETURN_ANY_IN_STD => SelectInSTD(random),
+                SelectBestMode.RETURN_ONLY_BEST => SelectOnlyInBest(random),
+                _ => throw new ArgumentOutOfRangeException(),
+            };
 
-            //var goodOptions = SelectionInfos
-            //    .Where(i => i.AverageScore >= maxAverage - TOLERANCE)
-            //    .ToList();
+            return selectedOption;
+        }
 
-            MonteCarloSelectionInfo bestOption = SelectionInfos
-                .First(o => o.AverageScore == maxAverage);
 
-            //if (goodOptions.Count == 1)
-            //{
-            //    bestOption = goodOptions[0];
-            //}
-            //else
-            //{
-            //    bestOption = RandomSelector.SelectRandom(goodOptions, random);
-            //}
+        private MonteCarloSelectionInfo SelectOnlyInBest(Random random)
+        {
+            var bestScore = SelectionInfos.Max(i => i.FinalScore);
 
-            //double distanceToOthers = double.PositiveInfinity;
+            var bestOptions = SelectionInfos
+                .Where(i => i.FinalScore >= bestScore - 1e-6)
+                .ToList();
+
+            if (bestOptions.Count == 1)
+            {
+                return bestOptions.Single();
+            }
+
+            var bestOption = RandomSelector.SelectRandom(bestOptions, random);
+            bestOption.PlayableOption.MonteCarloStatus = MonteCarloSelectionStatus.NORMAL;
+
+            return bestOption;
+        }
+
+        private MonteCarloSelectionInfo SelectInSTD(Random random)
+        {
+            var bestOption = SelectionInfos.ArgMax(i => i.FinalScore);
 
             foreach (var info in SelectionInfos)
             {
@@ -89,7 +137,7 @@ namespace UnderdarkAI.AI
 
                 if (bestOption.StandardDeviationScore + info.StandardDeviationScore == 0.0d)
                 {
-                    if (Math.Abs(bestOption.AverageScore - info.AverageScore) < 1e-4)
+                    if (Math.Abs(bestOption.FinalScore - info.FinalScore) < 1e-4)
                     {
                         info.DistanceToBest = 0.0d;
                     }
@@ -102,14 +150,11 @@ namespace UnderdarkAI.AI
                 else if (double.IsPositiveInfinity(bestOption.StandardDeviationScore + info.StandardDeviationScore))
                 {
                     info.DistanceToBest = 0.0d;
-                    //distanceToOthers = Math.Min(distanceToOthers, 0);
                 }
                 else
                 {
-                    info.DistanceToBest = (bestOption.AverageScore - info.AverageScore) /
+                    info.DistanceToBest = (bestOption.FinalScore - info.FinalScore) /
                         (bestOption.StandardDeviationScore + info.StandardDeviationScore);
-                    //distanceToOthers = Math.Min(distanceToOthers, (bestOption.AverageScore - info.AverageScore) /
-                    //    (bestOption.StandardDeviationScore + info.StandardDeviationScore));
                 }
             }
 
@@ -145,37 +190,6 @@ namespace UnderdarkAI.AI
                 bestOption = RandomSelector.SelectRandom(goodOptions, random);
                 bestOption.PlayableOption.MonteCarloStatus = MonteCarloSelectionStatus.NORMAL;
             }
-
-            //var distanceToOthers = SelectionInfos
-            //    .Where(e => e != bestOption)
-            //    .Min(e => (bestOption.AverageScore - e.AverageScore) /
-            //        (bestOption.StandardDeviationScore + e.StandardDeviationScore));
-
-            //if (distanceToOthers > 3.0d)
-            //{
-            //    bestOption.Status = MonteCarloSelectionStatus.BEST;
-            //}
-            //else if (distanceToOthers > 2.0d)
-            //{
-            //    bestOption.Status = MonteCarloSelectionStatus.GREAT;
-            //}
-            //else if (distanceToOthers > 1.0d)
-            //{
-            //    bestOption.Status = MonteCarloSelectionStatus.GOOD;
-            //}
-            //else if (distanceToOthers > -TOLERANCE)
-            //{
-            //    bestOption.Status = MonteCarloSelectionStatus.NORMAL;
-            //}
-            //else
-            //{
-            //    bestOption.Status = MonteCarloSelectionStatus.BAD;
-            //}
-
-            //if (bestOption.Status == MonteCarloSelectionStatus.BAD)
-            //{
-            //    int e = 1;
-            //}
 
             return bestOption;
         }

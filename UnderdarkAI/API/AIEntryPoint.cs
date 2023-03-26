@@ -54,6 +54,8 @@ namespace UnderdarkAI.API
                 context: context)
             {
                 RestartLimit = parsedArgs.Iterations,
+                MonteCarloAggregateMode = AggregateMode.MAX,
+                SelectBestMode = SelectBestMode.RETURN_ONLY_BEST,
             };
 
             if (parsedArgs.DiscardFromColor.HasValue)

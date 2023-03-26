@@ -43,6 +43,8 @@ namespace UnderdarkAI.AI
         internal Dictionary<SelectionState, OptionGenerator> StateSelectors { get; private set; }
         internal ITargetFunction TargetFunction { get; private set; }
         public int Seed { get; }
+        public AggregateMode MonteCarloAggregateMode { get; init; }
+        public SelectBestMode SelectBestMode { get; init; }
 
         internal TurnMaker(Board board, Color color, int currentRound, ModelContext context, int? seed = null)
         {
@@ -65,7 +67,7 @@ namespace UnderdarkAI.AI
             FixedBoard = InitialBoard.Clone();
             FixedTurn = InitializeNewTurn(FixedBoard, random, currentRound);
 
-
+            MonteCarloAggregateMode = AggregateMode.AVERAGE;
 
             StateSelectors = new Dictionary<SelectionState, OptionGenerator>()
             {
@@ -283,7 +285,8 @@ namespace UnderdarkAI.AI
                 );
 
             var monteCarloChoices = scoresOfFirstChoiseIndexes
-                .Select(kv => new MonteCarloSelectionInfo(kv.Key, kv.Value))
+                .Select(kv => new MonteCarloSelectionInfo(kv.Key, kv.Value,
+                    MonteCarloAggregateMode))
                 .ToList();
 
             //if (FixedTurn.State == SelectionState.BUY_CARD_BY_MANA)
@@ -291,7 +294,7 @@ namespace UnderdarkAI.AI
             //    int y = 1;
             //}
 
-            var analyzer = new MonteCarloSelectionInfoAnalyzer(monteCarloChoices);
+            var analyzer = new MonteCarloSelectionInfoAnalyzer(monteCarloChoices, SelectBestMode);
 
             var bestOption = analyzer.SelectBest(random);
 

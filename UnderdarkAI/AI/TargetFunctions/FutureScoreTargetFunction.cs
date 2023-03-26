@@ -201,6 +201,11 @@ namespace UnderdarkAI.AI.TargetFunctions
                 IsControlUsed = false;
                 IsFullControlUsed = false;
             }
+
+            public override string ToString()
+            {
+                return $"{Location.Id} distances ({RoundsToControl}/{RoundsToFullControl})";
+            }
         }
 
         private Dictionary<Color, double> TownFutureScoreEstimate(Board board, Turn turn, BaseRotationEstimator estimator)
@@ -225,7 +230,7 @@ namespace UnderdarkAI.AI.TargetFunctions
             {
                 var player = board.Players[color];
 
-                if (color == Color.YELLOW)
+                if (color == Color.RED)
                 {
                     int y = 1;
                 }
@@ -379,7 +384,7 @@ namespace UnderdarkAI.AI.TargetFunctions
                         .Where(kv => kv.Key != color && kv.Key != Color.WHITE)
                         .Sum(kv => kv.Value);
                     int spiesToDispForFull = location.Spies
-                        .Count(kv => kv.Key != color);
+                        .Count(kv => kv.Key != color && kv.Value);
                     int troopsDeployForFull = location.Size - location.Troops[color];
 
                     var times = new List<double>(4)
