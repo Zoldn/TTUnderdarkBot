@@ -20,12 +20,12 @@ namespace UnderdarkAI.AI.TargetFunctions
         }
         public double Evaluate(Board board, Turn turn)
         {
-            //double rotations = turn.RotationsLeft;
             var estimator = new BaseRotationEstimator();
 
-            var basicScoreFunction = new VPScoreTargetFunction();
+            var basicScoreFunction = new VPScoreTargetFunction(estimator);  
 
-            var currentResults = basicScoreFunction.GetScores(board, turn)
+            var currentResults = basicScoreFunction
+                .GetScores(board, turn)
                 .ToDictionary(kv => kv.Color, kv => kv.Score);
 
             Dictionary<Color, double> futureScore = DeckFutureScoreEstimate(board, turn, estimator);

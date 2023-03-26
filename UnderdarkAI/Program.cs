@@ -42,9 +42,9 @@ namespace UnderdarkAI
             //    CardMapper.SpecificTypeCardMakers[CardSpecificType.GRIMLOCK].Clone()
             //    );
 
-            var turnMaker = new TurnMaker(board, Color.GREEN, currentRound: 2, context: context) //, seed: 8984314
+            var turnMaker = new TurnMaker(board, Color.GREEN, currentRound: 4, context: context) //, seed: 8984314
             {
-                RestartLimit = 400,
+                RestartLimit = 300,
             };
 
             // turnMaker.AddForcedDiscardForCurrentPlayer(sourcePlayer: Color.RED);
