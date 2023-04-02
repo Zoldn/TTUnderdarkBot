@@ -189,7 +189,15 @@ namespace UnderdarkAI.AI.TargetFunctions
                 {
                     if ((RoundsToFullControl - RoundsToControl) < turnLeft)
                     {
-                        return (turnLeft - (RoundsToFullControl - RoundsToControl)) * Location.BonusVP;
+                        if (Location.BonusVP > 1)
+                        {
+                            return Math.Max(0, Math.Min(turnLeft - (RoundsToFullControl - RoundsToControl), 3)) 
+                                * Location.BonusVP;
+                        }
+                        else
+                        {
+                            return Math.Max(0, turnLeft - (RoundsToFullControl - RoundsToControl)) * Location.BonusVP;
+                        }
                     }
                     else
                     {

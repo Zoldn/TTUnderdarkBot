@@ -56,7 +56,7 @@ namespace UnderdarkAI.AI.TargetFunctions
 
             if (turnLeft < 10.0d)
             {
-                return (turnLeft - 10.0d) / (2.0d - 10.0d) * 0.9d + 0.1d;
+                return (turnLeft - 10.0d) / (2.0d - 10.0d) * 0.98d + 0.02d;
             }
 
             return 0.1d;
