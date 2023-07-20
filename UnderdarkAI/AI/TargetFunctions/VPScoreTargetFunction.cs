@@ -9,7 +9,8 @@ using UnderdarkAI.AI.RotationEstimator;
 
 namespace UnderdarkAI.AI.TargetFunctions
 {
-    internal class VPScoreTargetFunction : ITargetFunction
+    internal class VPScoreTargetFunction : ITargetFunction,
+        IMapScoreCalculator, IPlayerZoneScoreCalculator
     {
         public BaseRotationEstimator? RotationEstimator { get; init; }
         public AgainstHumanStrategy AgainstHumanStrategy { get; init; }
@@ -17,6 +18,49 @@ namespace UnderdarkAI.AI.TargetFunctions
         {
             RotationEstimator = null;
             AgainstHumanStrategy = AgainstHumanStrategy.DEFAULT;
+        }
+
+        public Dictionary<Color, double> CalculateMapScore(Board board, Turn turn)
+        {
+            var (controlVPs, totalControlVPs) = board.GetControlVPs();
+
+            var controlPenaltyCoef = PenaltyCoefForControl(board, turn);
+
+            var results = turn.AllPlayers
+                .ToDictionary(
+                    c => c,
+                    c => 0.0d
+                );
+
+            foreach (var (color, player) in board.Players)
+            {
+                double result = controlPenaltyCoef * controlVPs[color]
+                    + controlPenaltyCoef * totalControlVPs[color];
+
+                results[color] = result;
+            }
+
+            return results;
+        }
+
+        public Dictionary<Color, double> CalculatePlayerZoneScore(Board board, Turn turn)
+        {
+            var (controlVPs, totalControlVPs) = board.GetControlVPs();
+
+            var controlPenaltyCoef = PenaltyCoefForControl(board, turn);
+
+            var results = turn.AllPlayers
+                .ToDictionary(
+                    c => c,
+                    c => 0.0d
+                );
+
+            foreach (var (color, player) in board.Players)
+            {
+                results[color] = player.TrophyHallVP + player.DeckVP + player.PromoteVP;
+            }
+
+            return results;
         }
 
         public List<(Color Color, double Score)> GetScores(Board board, Turn turn)

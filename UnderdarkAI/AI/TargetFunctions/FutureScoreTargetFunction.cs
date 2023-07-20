@@ -11,30 +11,40 @@ using TUnderdark.Utils;
 
 namespace UnderdarkAI.AI.TargetFunctions
 {
-    internal class FutureScoreTargetFunction : ITargetFunction
+    internal class FutureScoreTargetFunction : ITargetFunction,
+        IMapScoreCalculator, IPlayerZoneScoreCalculator
     {
-        private ModelContext context;
+        private readonly ModelContext context;
         public AgainstHumanStrategy AgainstHumanStrategy { get; init; }
+        private BaseRotationEstimator rotationEstimator;
+        private VPScoreTargetFunction baseTargetFunction;
         public FutureScoreTargetFunction(ModelContext context) 
         {
             this.context = context;
             AgainstHumanStrategy = AgainstHumanStrategy.DEFAULT;
+
+            rotationEstimator = new BaseRotationEstimator();
+            baseTargetFunction = new VPScoreTargetFunction()
+            {
+                RotationEstimator = rotationEstimator,
+                AgainstHumanStrategy = AgainstHumanStrategy,
+            };
         }
         public double Evaluate(Board board, Turn turn)
         {
-            var estimator = new BaseRotationEstimator();
+            //var estimator = new BaseRotationEstimator();
 
-            var basicScoreFunction = new VPScoreTargetFunction()
-            {
-                RotationEstimator = estimator,
-                AgainstHumanStrategy = AgainstHumanStrategy,
-            };  
+            //var basicScoreFunction = new VPScoreTargetFunction()
+            //{
+            //    RotationEstimator = estimator,
+            //    AgainstHumanStrategy = AgainstHumanStrategy,
+            //};  
 
-            var currentResults = basicScoreFunction
+            var currentResults = baseTargetFunction
                 .GetScores(board, turn)
                 .ToDictionary(kv => kv.Color, kv => kv.Score);
 
-            Dictionary<Color, double> futureScore = DeckFutureScoreEstimate(board, turn, estimator);
+            Dictionary<Color, double> futureScore = DeckFutureScoreEstimate(board, turn, rotationEstimator);
 
             foreach (var (color, value) in futureScore)
             {
@@ -48,14 +58,14 @@ namespace UnderdarkAI.AI.TargetFunctions
             //    currentResults[color] += value;
             //}
 
-            Dictionary<Color, double> townFutureScore = TownFutureScoreEstimate(board, turn, estimator);
+            Dictionary<Color, double> townFutureScore = TownFutureScoreEstimate(board, turn, rotationEstimator);
 
             foreach (var (color, value) in townFutureScore)
             {
                 currentResults[color] += value;
             }
 
-            return basicScoreFunction.GetDifferenceWithClosestOpponent(currentResults, board, turn);
+            return baseTargetFunction.GetDifferenceWithClosestOpponent(currentResults, board, turn);
         }
 
         private Dictionary<Color, double> DeckFutureScoreEstimate(Board board, Turn turn, BaseRotationEstimator estimator)
@@ -482,6 +492,28 @@ namespace UnderdarkAI.AI.TargetFunctions
             }
 
             return townFutureScore;
+        }
+
+        public Dictionary<Color, double> CalculateMapScore(Board board, Turn turn)
+        {
+            var presentMapScore = baseTargetFunction.CalculateMapScore(board, turn);
+
+            var futureMapScore = TownFutureScoreEstimate(board, turn, rotationEstimator);
+
+            CashedTargetFunction.AddToThis(presentMapScore, futureMapScore);
+
+            return presentMapScore;
+        }
+
+        public Dictionary<Color, double> CalculatePlayerZoneScore(Board board, Turn turn)
+        {
+            var presentPlayerZoneScore = baseTargetFunction.CalculatePlayerZoneScore(board, turn);
+
+            var futurePlayerZoneScore = DeckFutureScoreEstimate(board, turn, rotationEstimator);
+
+            CashedTargetFunction.AddToThis(presentPlayerZoneScore, futurePlayerZoneScore);
+
+            return presentPlayerZoneScore;
         }
     }
 }

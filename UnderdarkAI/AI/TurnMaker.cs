@@ -105,10 +105,14 @@ namespace UnderdarkAI.AI
 
             //TargetFunction = new VPScoreTargetFunction();
 
-            TargetFunction = new FutureScoreTargetFunction(context)
+            var futureTargetFunction = new FutureScoreTargetFunction(context)
             {
                 AgainstHumanStrategy = AgainstHumanStrategy,
             };
+
+            TargetFunction = new CashedTargetFunction(
+                futureTargetFunction, futureTargetFunction
+                );
         }
 
         public TurnMakerResult MakeTurn()

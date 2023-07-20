@@ -794,7 +794,11 @@ namespace TUnderdark.Model
                 LocationId.Ruins, LocationId.ChedNasad)
                 );
 
-            board.LocationIds = board
+            //board.LocationIds = board
+            //    .Locations
+            //    .ToDictionary(l => l.Id);
+
+            board.MapState.LocationIds = board
                 .Locations
                 .ToDictionary(l => l.Id);
 

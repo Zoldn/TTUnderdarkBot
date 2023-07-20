@@ -10,8 +10,9 @@ namespace TUnderdark.Model
     public class Board 
     {
         public Dictionary<Color, Player> Players { get; set; }
-        public List<Location> Locations { get; init; }
-        public Dictionary<LocationId, Location> LocationIds { get; set; }
+        public MapState MapState { get; set; }
+        public List<Location> Locations => MapState.Locations;
+        public Dictionary<LocationId, Location> LocationIds => MapState.LocationIds; //{ get; set; }
         public List<Card> Deck { get; set; }
         public List<Card> Market { get; set; }
         public List<Card> Devoured { get; set; }
@@ -29,7 +30,9 @@ namespace TUnderdark.Model
                     c => new Player(c)
                 );
 
-            Locations = new();
+            MapState = new();
+
+            //Locations = new();
             Deck = new();
             Market = new();
             Devoured = new();
@@ -332,9 +335,9 @@ namespace TUnderdark.Model
                     TimeStamp = timeStamp,
                     Turn = turn,
                     Statictic = ResultRecordStatictic.DECK_COUNT,
-                    Value = player.Deck.Count() +
-                        player.Hand.Count() +
-                        player.Discard.Count(),
+                    Value = player.Deck.Count +
+                        player.Hand.Count +
+                        player.Discard.Count,
                 });
 
                 results.Add(new ResultRecord()
@@ -379,12 +382,13 @@ namespace TUnderdark.Model
                 InsaneOutcasts = InsaneOutcasts,
                 Market = Market.Select(e => e.Clone()).ToList(),
                 Players = Players.ToDictionary(kv => kv.Key, kv => kv.Value.Clone()),
-                Locations = Locations.Select(l => l.Clone()).ToList(),
+                //Locations = Locations.Select(l => l.Clone()).ToList(),
+                MapState = MapState.Clone(),
             };
 
-            copyBoard.LocationIds = copyBoard
-                .Locations
-                .ToDictionary(l => l.Id, l => l);
+            //copyBoard.LocationIds = copyBoard
+            //    .Locations
+            //    .ToDictionary(l => l.Id, l => l);
 
             var locationDict = copyBoard
                 .Locations

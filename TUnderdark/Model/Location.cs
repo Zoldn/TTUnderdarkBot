@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TUnderdark.Model
 {
-    public class Location
+    public class Location : IEquatable<Location>
     {
         public static Location MakeTunnel(LocationId id, string name, LocationId from, LocationId to)
         {
@@ -263,6 +263,61 @@ namespace TUnderdark.Model
             };
 
             return location;
+        }
+
+        public bool Equals(Location other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+
+            if (other.Id != Id)
+            {
+                return false;
+            }
+
+            if (other.Troops.Any(kv => kv.Value != Troops[kv.Key]))
+            {
+                return false;
+            }
+
+            if (other.Spies.Any(kv => kv.Value != Spies[kv.Key]))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is null)
+            {
+                return false;
+            }
+
+            if (obj is not Location other)
+            {
+                return false;
+            }
+
+            return Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return (int)Id
+                + 100 * Troops[Color.WHITE]
+                + 1000 * Troops[Color.RED]
+                + 10000 * Troops[Color.YELLOW]
+                + 100000 * Troops[Color.GREEN]
+                + 1000000 * Troops[Color.BLUE]
+                + 100000000 * (Spies[Color.RED] ? 1 : 0)
+                + 200000000 * (Spies[Color.YELLOW] ? 1 : 0)
+                + 400000000 * (Spies[Color.GREEN] ? 1 : 0)
+                + 800000000 * (Spies[Color.BLUE] ? 1 : 0)
+                ;
         }
     }
 }
